@@ -1,9 +1,89 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TopNav from "./components/TopNav";
 import { Link, Pagination } from "@mui/material";
 import { MdSearch } from "react-icons/md";
+import axios from "axios";
+import { useRouter } from "next/router";
 
-export default function searchProgrammes() {
+export default function searchProgrammes({ institutionsAndProgrammes }) {
+  console.log(institutionsAndProgrammes);
+
+  const arrayInstitutionsAndProgrammes = Object.entries(
+    institutionsAndProgrammes
+  );
+  const router = useRouter();
+  const { query } = router;
+
+  const [searchTerm, setSearchTerm] = useState("");
+  const [accreditationStatus, setAccreditationStatus] = useState("all");
+  const [startsWithString, setStartsWithString] = useState("none");
+  const [selectedStream, setSelectedStream] = useState("any");
+  //    const itemsPerPage = 20;
+  //   const [currentPage, setCurrentPage] = useState(1);
+
+  //   const handlePageChange = (event, value) => {
+  //     setCurrentPage(value);
+  //   };
+
+  const handleSearch = () => {
+    router.push({
+      pathname: "/searchProgrammes",
+      query: {
+        programme_name_contains: searchTerm,
+        programme_name_starts_with: startsWithString,
+        accreditation_status: accreditationStatus,
+        streams: selectedStream,
+      },
+    });
+  };
+  //   console.log(filteredProgrammes);
+  let totalPrograms = 0;
+  arrayInstitutionsAndProgrammes[0][1].forEach((institution) => {
+    // Access the array of programs for each institution
+    const programs = institution.programmes;
+
+    // Add the number of programs in the current institution to the total
+    totalPrograms += programs.length;
+  });
+
+  console.log("Total number of all programs in institutions:", totalPrograms);
+  console.log(arrayInstitutionsAndProgrammes[0][1].length);
+
+  const itemsPerPage = 20; // Adjust the number of items per page
+  const [currentPage, setCurrentPage] = useState(1);
+  //   var accumulator = 0;
+  //   const pageCount = Math.ceil(totalPrograms / itemsPerPage);
+  //   const pageCount = arrayInstitutionsAndProgrammes[0][1].length;
+  const handlePageChange = (event, value) => {
+    setCurrentPage(value);
+  };
+  var lastIndices = [];
+  const allPrograms = arrayInstitutionsAndProgrammes[0][1].reduce(
+    (acc, institution) => {
+      const institutionPrograms = institution.programmes.map(
+        (program, index) => ({
+          institutionName: institution.institution_name,
+          programNumber: index + 1,
+          ...program,
+        })
+      );
+      const lastProgramIndex = acc.length + institutionPrograms.length - 1;
+      lastIndices.push(lastProgramIndex);
+      institution.lastProgramIndex = lastProgramIndex;
+      console.log(institution.lastProgramIndex);
+      return acc.concat(institutionPrograms);
+    },
+    []
+  );
+  //   setFilteredProgrammes(allPrograms);
+
+  // Calculate the total number of pages based on the number of programs
+  const pageCount = Math.ceil(allPrograms.length / itemsPerPage);
+  var startIndex = (currentPage - 1) * itemsPerPage;
+  //   const currentItems = arrayInstitutionsAndProgrammes[0][1].slice(
+  //     startIndex,
+  //     endIndex
+  //   );
   const [sideBarVisible, setSideBarVisible] = useState(false);
   const sidebarOpenHandler = () => {
     setSideBarVisible(true);
@@ -11,6 +91,53 @@ export default function searchProgrammes() {
   const sideBarCloseBarHandler = () => {
     setSideBarVisible(false);
   };
+  const [filteredProgrammes, setFilteredProgrammes] = useState(allPrograms);
+  useEffect(() => {
+    filterAllPrograms();
+  }, [query]);
+  const filterAllPrograms = () => {
+    let filteredData = allPrograms; // Reset to original data
+    console.log(filteredData);
+    const {
+      programme_name_contains,
+      programme_name_starts_with,
+      accreditation_status,
+      streams,
+    } = query;
+    if (programme_name_contains) {
+      filteredData = filteredData.filter((program) =>
+        program.name
+          .toLowerCase()
+          .includes(programme_name_contains.toLowerCase())
+      );
+    }
+
+    if (programme_name_starts_with && programme_name_starts_with !== "none") {
+      filteredData = filteredData.filter((program) =>
+        program.name.startsWith(programme_name_starts_with)
+      );
+    }
+
+    if (accreditation_status && accreditation_status !== "all") {
+      filteredData = filteredData.filter(
+        (program) => program.accreditationStatus === accreditation_status
+      );
+    }
+
+    if (streams && streams !== "any") {
+      filteredData = filteredData.filter(
+        (program) => program.approvedStream === parseInt(streams)
+      );
+    }
+
+    setFilteredProgrammes(filteredData);
+    console.log(filteredProgrammes);
+  };
+  //   console.log(arrayInstitutionsAndProgrammes[0][1][1]);
+  //   console.log(
+  //     groupProgrammesByFaculty(arrayInstitutionsAndProgrammes[0][1][0])
+  //   );
+  console.log(filteredProgrammes);
   return (
     <div className="flex flex-col">
       <div className="flex items-center relative">
@@ -42,6 +169,10 @@ export default function searchProgrammes() {
           <div className="md:flex  items-center mr-auto ml-auto">
             <form
               //   onSubmit={submitHandler}
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleSearch();
+              }}
               className="border border-white bg-white rounded-md"
             >
               <div className="p-4 bg-white border-b flex items-center">
@@ -50,6 +181,8 @@ export default function searchProgrammes() {
                   placeholder="Search Programme"
                   className="border rounded p-2"
                   style={{ width: "40rem" }}
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
                 />
 
                 <button
@@ -63,208 +196,98 @@ export default function searchProgrammes() {
             </form>
           </div>
           <div className="absolute left-0 right-0 mt-32 mx-auto">
-            <h2 className="mb-3"> Kaduna Polytechnic</h2>
+            <h2 className="mb-3 font-bold">
+              {" "}
+              Directory of Accredited Programmes
+            </h2>
             <div className="overflow-x-auto">
               <table className="min-w-full bg-white border border-gray-300">
-                <thead>
+                <thead className="bg-green-600">
                   <tr>
-                    <th className="py-2 px-4 text-center">S/N</th>
-                    <th className="py-2 px-4">Programme Name</th>
-                    <th className="py-2 px-4">Year Granted</th>
-                    <th className="py-2 px-4 text-right">
+                    <th className="py-2 px-4 text-center border">S/N</th>
+                    <th className="py-2 px-4 border">Programme Name</th>
+                    <th className="py-2 px-4 border">Year Granted</th>
+                    <th className="py-2 px-4 text-right border">
                       Accreditation Status
                     </th>
-                    <th className="py-2 px-4 text-right">Approved Streams</th>
-                    <th className="py-2 px-4 text-right">Expiration Date</th>
+                    <th className="py-2 px-4 text-right border">
+                      Approved Streams
+                    </th>
+                    <th className="py-2 px-4 text-right border">
+                      Expiration Date
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td className="py-2 px-4">
-                      <a>
-                        <img
-                          //   src={item.image}
-                          //   alt={item.name}
-                          width={50}
-                          height={50}
-                          className="cursor-pointer"
-                        />
-                      </a>
-                    </td>
-                    <td className="py-2 px-4">
-                      <a className="text-blue-500">Link </a>
-                    </td>
-                    <td className="py-2 px-4 text-right">
-                      <select
-                        // value={item.quantity}
-                        // onChange={(e) =>
-                        //   updateCartHandler(item, e.target.value)
-                        // }
-                        className="border p-1"
-                      >
-                        {Array.from(
-                          { length: 100 },
-                          (_, index) => index + 1
-                        ).map((x) => (
-                          <option key={x + 1} value={x + 1}>
-                            {x + 1}
-                          </option>
-                        ))}
-                      </select>
-                    </td>
-                    <td className="py-2 px-4 text-right">${4}</td>
-                    <td className="py-2 px-4 text-right">
-                      <button
-                        //   onClick={() => removeItemHandler(item)}
-                        className="bg-red-500 text-white py-1 px-2 rounded"
-                      >
-                        X
-                      </button>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td className="py-2 px-4">
-                      <a>
-                        <img
-                          //   src={item.image}
-                          //   alt={item.name}
-                          width={50}
-                          height={50}
-                          className="cursor-pointer"
-                        />
-                      </a>
-                    </td>
-                    <td className="py-2 px-4">
-                      <a className="text-blue-500">Link </a>
-                    </td>
-                    <td className="py-2 px-4 text-right">
-                      <select
-                        // value={item.quantity}
-                        // onChange={(e) =>
-                        //   updateCartHandler(item, e.target.value)
-                        // }
-                        className="border p-1"
-                      >
-                        {Array.from(
-                          { length: 100 },
-                          (_, index) => index + 1
-                        ).map((x) => (
-                          <option key={x + 1} value={x + 1}>
-                            {x + 1}
-                          </option>
-                        ))}
-                      </select>
-                    </td>
-                    <td className="py-2 px-4 text-right">${4}</td>
-                    <td className="py-2 px-4 text-right">
-                      <button
-                        //   onClick={() => removeItemHandler(item)}
-                        className="bg-red-500 text-white py-1 px-2 rounded"
-                      >
-                        X
-                      </button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="py-2 px-4">
-                      <a>
-                        <img
-                          //   src={item.image}
-                          //   alt={item.name}
-                          width={50}
-                          height={50}
-                          className="cursor-pointer"
-                        />
-                      </a>
-                    </td>
-                    <td className="py-2 px-4">
-                      <a className="text-blue-500">Link </a>
-                    </td>
-                    <td className="py-2 px-4 text-right">
-                      <select
-                        // value={item.quantity}
-                        // onChange={(e) =>
-                        //   updateCartHandler(item, e.target.value)
-                        // }
-                        className="border p-1"
-                      >
-                        {Array.from(
-                          { length: 100 },
-                          (_, index) => index + 1
-                        ).map((x) => (
-                          <option key={x + 1} value={x + 1}>
-                            {x + 1}
-                          </option>
-                        ))}
-                      </select>
-                    </td>
-                    <td className="py-2 px-4 text-right">${4}</td>
-                    <td className="py-2 px-4 text-right">
-                      <button
-                        //   onClick={() => removeItemHandler(item)}
-                        className="bg-red-500 text-white py-1 px-2 rounded"
-                      >
-                        X
-                      </button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td colSpan="5">
-                      {/* Inserted <p> tag */}
-                      <p className="text-center font-bold text-lg">Science</p>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="py-2 px-4">
-                      <a>
-                        <img
-                          //   src={item.image}
-                          //   alt={item.name}
-                          width={50}
-                          height={50}
-                          className="cursor-pointer"
-                        />
-                      </a>
-                    </td>
-                    <td className="py-2 px-4">
-                      <a className="text-blue-500">Link </a>
-                    </td>
-                    <td className="py-2 px-4 text-right">
-                      <select
-                        // value={item.quantity}
-                        // onChange={(e) =>
-                        //   updateCartHandler(item, e.target.value)
-                        // }
-                        className="border p-1"
-                      >
-                        {Array.from(
-                          { length: 100 },
-                          (_, index) => index + 1
-                        ).map((x) => (
-                          <option key={x + 1} value={x + 1}>
-                            {x + 1}
-                          </option>
-                        ))}
-                      </select>
-                    </td>
-                    <td className="py-2 px-4 text-right">${4}</td>
-                    <td className="py-2 px-4 text-right">
-                      <button
-                        //   onClick={() => removeItemHandler(item)}
-                        className="bg-red-500 text-white py-1 px-2 rounded"
-                      >
-                        X
-                      </button>
-                    </td>
-                  </tr>
+                  {" "}
+                  {filteredProgrammes
+                    .slice(
+                      (currentPage - 1) * itemsPerPage,
+                      currentPage * itemsPerPage
+                    )
+                    .map((program, programIndex, programsArray) => (
+                      <React.Fragment key={programIndex}>
+                        {programIndex === 0 && (
+                          <tr className="bg-gray-500 border-b border-gray-300">
+                            <td
+                              className="py-2 px-4 text-center font-bold"
+                              colSpan="6"
+                            >
+                              {program.institutionName}
+                            </td>
+                          </tr>
+                        )}
+                        <tr
+                          className={`border-b border-gray-300 ${
+                            program.accreditationStatus === "Expired"
+                              ? "bg-red-500"
+                              : ""
+                          }`}
+                        >
+                          <td className="py-2 px-4 text-center border">
+                            {program.programNumber}
+                          </td>
+                          <td className="py-2 px-4 border">{program.name}</td>
+                          <td className="py-2 px-4 border">
+                            {program.yearGrantedInterimOrAccredition}
+                          </td>
+                          <td className="py-2 px-4 text-right border">
+                            {program.accreditationStatus}
+                          </td>
+                          <td className="py-2 px-4 text-right border">
+                            {program.approvedStream}
+                          </td>
+                          <td className="py-2 px-4 text-right w-1/6 whitespace-nowrap border">
+                            {program.expirationDate}
+                          </td>
+                        </tr>
+                        {programIndex < programsArray.length - 1 &&
+                          program.institutionName !==
+                            programsArray[programIndex + 1].institutionName && (
+                            <tr className="bg-gray-500 border-b border-gray-300">
+                              <td
+                                className="py-2 px-4 text-center font-bold"
+                                colSpan="6"
+                              >
+                                {
+                                  programsArray[programIndex + 1]
+                                    .institutionName
+                                }{" "}
+                                {/* Next institution's name */}
+                              </td>
+                            </tr>
+                          )}
+                      </React.Fragment>
+                    ))}
                 </tbody>
               </table>
               <Pagination
                 className="mt-10"
-                defaultPage={1}
-                count={5}
-                // onChange={pageHandler}
+                // defaultPage={1}
+                // count={5}
+                count={pageCount}
+                page={currentPage}
+                onChange={handlePageChange}
               ></Pagination>
             </div>
           </div>
@@ -329,8 +352,8 @@ export default function searchProgrammes() {
             <div className="w-full">
               <p className="font-bold">Level</p>
               <select
-                // value={category}
-                // onChange={categoryHandler}
+                value={startsWithString}
+                onChange={(e) => setStartsWithString(e.target.value)}
                 className="w-full border rounded p-2"
               >
                 <option value="none">None</option>
@@ -343,14 +366,14 @@ export default function searchProgrammes() {
             <div className="w-full">
               <p className="font-bold">Accreditation Status</p>
               <select
-                // value={brand}
-                // onChange={brandHandler}
+                value={accreditationStatus}
+                onChange={(e) => setAccreditationStatus(e.target.value)}
                 className="w-full border rounded p-2"
               >
                 <option value="all">All</option>
-                <option value="accredited">Accredited</option>
-                <option value="interim">Interim</option>
-                <option value="expired">Expired</option>
+                <option value="Accredited">Accredited</option>
+                <option value="Interim">Interim</option>
+                <option value="Expired">Expired</option>
               </select>
             </div>
           </li>
@@ -358,8 +381,8 @@ export default function searchProgrammes() {
             <div className="w-full">
               <p className="font-bold">Number of Streams</p>
               <select
-                // value={price}
-                // onChange={priceHandler}
+                value={selectedStream}
+                onChange={(e) => setSelectedStream(e.target.value)}
                 className="w-full border rounded p-2"
               >
                 <option value="any">Any</option>
@@ -390,6 +413,33 @@ export default function searchProgrammes() {
       </div>
     </div>
   );
+}
+
+export async function getServerSideProps(context) {
+  try {
+    // const { query } = context;
+    // Fetch data from Laravel API endpoint using Axios
+    const response = await axios.get(
+      "http://localhost:8000/api/all-institutions-and-programmes"
+    );
+
+    // Return data to the component;
+    const institutionsAndProgrammes = response.data;
+
+    return {
+      props: {
+        institutionsAndProgrammes,
+      },
+    };
+  } catch (error) {
+    console.error("Error fetching data:", error.message);
+
+    return {
+      props: {
+        institutionsAndProgrammes: [],
+      },
+    };
+  }
 }
 
 {

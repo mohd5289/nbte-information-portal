@@ -6,9 +6,8 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
 
-  experimental: {
-    optimizeFonts: true,
-  },
+  experimental: {},
+  optimizeFonts: true,
   optimizeFonts: {
     fonts: [
       {
