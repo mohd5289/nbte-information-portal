@@ -11,6 +11,7 @@ export default function addProgrammes() {
   const [numberOfStreams, setNumberOfStreams] = useState("");
   const [accreditationStatus, setAccreditationStatus] = useState("");
   const [faculty, setFaculty] = useState("");
+  const [yearApproved, setYearApproved] = useState("");
   const [yearGranted, setYearGranted] = useState("");
   const [expirationDate, setExpirationDate] = useState("");
   const [programs, setPrograms] = useState([]);
@@ -81,6 +82,7 @@ export default function addProgrammes() {
       approvedStream: parseInt(numberOfStreams),
       accreditationStatus,
       faculty,
+      yearApproved,
       yearGrantedInterimOrAccredition: yearGranted,
       expirationDate,
     };
@@ -227,7 +229,7 @@ export default function addProgrammes() {
             onChange={(e) => setNumberOfStreams(e.target.value)}
           />
           <select
-            className="w-1/3 px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent m-2"
+            className="w-1/4 px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent m-2"
             value={accreditationStatus}
             onChange={(e) => setAccreditationStatus(e.target.value)}
           >
@@ -241,12 +243,18 @@ export default function addProgrammes() {
 
           <input
             type="number"
-            className="w-64 px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-40 my-2 px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            placeholder="Year Approved"
+            value={yearApproved}
+            onChange={(e) => setYearApproved(e.target.value)}
+          />
+          <input
+            type="number"
+            className="w-40 px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             placeholder="Year Granted"
             value={yearGranted}
             onChange={(e) => setYearGranted(e.target.value)}
           />
-
           <div className="relative">
             <input
               type="date"

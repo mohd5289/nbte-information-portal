@@ -6,7 +6,9 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
 
-  experimental: {},
+  experimental: {
+    largePageDataBytes: 128 * 100000,
+  },
   optimizeFonts: true,
   optimizeFonts: {
     fonts: [

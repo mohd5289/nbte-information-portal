@@ -18,6 +18,7 @@ export default function searchProgrammes({ institutionsAndProgrammes }) {
   const [accreditationStatus, setAccreditationStatus] = useState("all");
   const [startsWithString, setStartsWithString] = useState("none");
   const [selectedStream, setSelectedStream] = useState("any");
+  const [searchByInstitution, setSearchByInstitution] = useState(false);
   //    const itemsPerPage = 20;
   //   const [currentPage, setCurrentPage] = useState(1);
 
@@ -106,9 +107,13 @@ export default function searchProgrammes({ institutionsAndProgrammes }) {
     } = query;
     if (programme_name_contains) {
       filteredData = filteredData.filter((program) =>
-        program.name
-          .toLowerCase()
-          .includes(programme_name_contains.toLowerCase())
+        searchByInstitution
+          ? program.institutionName
+              .toLowerCase()
+              .includes(programme_name_contains.toLowerCase())
+          : program.name
+              .toLowerCase()
+              .includes(programme_name_contains.toLowerCase())
       );
     }
 
@@ -138,6 +143,7 @@ export default function searchProgrammes({ institutionsAndProgrammes }) {
   //     groupProgrammesByFaculty(arrayInstitutionsAndProgrammes[0][1][0])
   //   );
   console.log(filteredProgrammes);
+  console.log(searchByInstitution);
   return (
     <div className="flex flex-col">
       <div className="flex items-center relative">
@@ -178,7 +184,11 @@ export default function searchProgrammes({ institutionsAndProgrammes }) {
               <div className="p-4 bg-white border-b flex items-center">
                 <input
                   type="text"
-                  placeholder="Search Programme"
+                  placeholder={
+                    searchByInstitution
+                      ? "Search Institution"
+                      : "Search Programme"
+                  }
                   className="border rounded p-2"
                   style={{ width: "40rem" }}
                   value={searchTerm}
@@ -225,60 +235,65 @@ export default function searchProgrammes({ institutionsAndProgrammes }) {
                       (currentPage - 1) * itemsPerPage,
                       currentPage * itemsPerPage
                     )
-                    .map((program, programIndex, programsArray) => (
-                      <React.Fragment key={programIndex}>
-                        {programIndex === 0 && (
-                          <tr className="bg-gray-500 border-b border-gray-300">
-                            <td
-                              className="py-2 px-4 text-center font-bold"
-                              colSpan="6"
-                            >
-                              {program.institutionName}
-                            </td>
-                          </tr>
-                        )}
-                        <tr
-                          className={`border-b border-gray-300 ${
-                            program.accreditationStatus === "Expired"
-                              ? "bg-red-500"
-                              : ""
-                          }`}
-                        >
-                          <td className="py-2 px-4 text-center border">
-                            {program.programNumber}
-                          </td>
-                          <td className="py-2 px-4 border">{program.name}</td>
-                          <td className="py-2 px-4 border">
-                            {program.yearGrantedInterimOrAccredition}
-                          </td>
-                          <td className="py-2 px-4 text-right border">
-                            {program.accreditationStatus}
-                          </td>
-                          <td className="py-2 px-4 text-right border">
-                            {program.approvedStream}
-                          </td>
-                          <td className="py-2 px-4 text-right w-1/6 whitespace-nowrap border">
-                            {program.expirationDate}
-                          </td>
-                        </tr>
-                        {programIndex < programsArray.length - 1 &&
-                          program.institutionName !==
-                            programsArray[programIndex + 1].institutionName && (
+                    .map((program, programIndex, programsArray) => {
+                      const programNumber =
+                        (currentPage - 1) * itemsPerPage + programIndex + 1;
+                      return (
+                        <React.Fragment key={programIndex}>
+                          {programIndex === 0 && (
                             <tr className="bg-gray-500 border-b border-gray-300">
                               <td
                                 className="py-2 px-4 text-center font-bold"
                                 colSpan="6"
                               >
-                                {
-                                  programsArray[programIndex + 1]
-                                    .institutionName
-                                }{" "}
-                                {/* Next institution's name */}
+                                {program.institutionName}
                               </td>
                             </tr>
                           )}
-                      </React.Fragment>
-                    ))}
+                          <tr
+                            className={`border-b border-gray-300 ${
+                              program.accreditationStatus === "Expired"
+                                ? "bg-red-500"
+                                : ""
+                            }`}
+                          >
+                            <td className="py-2 px-4 text-center border">
+                              {programNumber}
+                            </td>
+                            <td className="py-2 px-4 border">{program.name}</td>
+                            <td className="py-2 px-4 border">
+                              {program.yearGrantedInterimOrAccredition}
+                            </td>
+                            <td className="py-2 px-4 text-right border">
+                              {program.accreditationStatus}
+                            </td>
+                            <td className="py-2 px-4 text-right border">
+                              {program.approvedStream}
+                            </td>
+                            <td className="py-2 px-4 text-right w-1/6 whitespace-nowrap border">
+                              {program.expirationDate}
+                            </td>
+                          </tr>
+                          {programIndex < programsArray.length - 1 &&
+                            program.institutionName !==
+                              programsArray[programIndex + 1]
+                                .institutionName && (
+                              <tr className="bg-gray-500 border-b border-gray-300">
+                                <td
+                                  className="py-2 px-4 text-center font-bold"
+                                  colSpan="6"
+                                >
+                                  {
+                                    programsArray[programIndex + 1]
+                                      .institutionName
+                                  }{" "}
+                                  {/* Next institution's name */}
+                                </td>
+                              </tr>
+                            )}
+                        </React.Fragment>
+                      );
+                    })}
                 </tbody>
               </table>
               <Pagination
@@ -326,7 +341,7 @@ export default function searchProgrammes({ institutionsAndProgrammes }) {
 
           <div className="border-b">
             <a
-              href={`/searchProgramme`}
+              href={`/searchProgrammes`}
               className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
               onClick={sideBarCloseBarHandler}
             >
@@ -374,6 +389,7 @@ export default function searchProgrammes({ institutionsAndProgrammes }) {
                 <option value="Accredited">Accredited</option>
                 <option value="Interim">Interim</option>
                 <option value="Expired">Expired</option>
+                <option value="Approved">Approved</option>
               </select>
             </div>
           </li>
@@ -398,9 +414,13 @@ export default function searchProgrammes({ institutionsAndProgrammes }) {
           </li>
           <li>
             <div className="w-full">
-              <p className="font-bold">Show only Institutions</p>
+              <p className="font-bold">Search by Institutions</p>
               <select
                 // value={rating}
+                value={searchByInstitution ? "yes" : "no"}
+                onChange={(e) =>
+                  setSearchByInstitution(e.target.value === "yes")
+                }
                 // onChange={ratingHandler}
                 className="w-full border rounded p-2"
               >
@@ -420,7 +440,7 @@ export async function getServerSideProps(context) {
     // const { query } = context;
     // Fetch data from Laravel API endpoint using Axios
     const response = await axios.get(
-      "http://localhost:8000/api/all-institutions-and-programmes"
+      "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/all-institutions-and-programmes"
     );
 
     // Return data to the component;
