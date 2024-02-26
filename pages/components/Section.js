@@ -27,7 +27,7 @@ const Section = () => {
   return (
     <main className=" border border-gray-300 shadow-md p-4 pt-0 ml-4 mr-4 text-center w-95  m-auto mb-2.5">
       <h2 className="font-roboto text-3xl font-bold m-4">
-        Gateway to TVET in Nigeria
+        GATEWAY TO TVET IN NIGERIA
       </h2>
       <div className="flex sm:flex-col l:flex-row justify-between">
         <div className="space y-4 m-1">
