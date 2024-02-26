@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import TopNav from "./components/TopNav";
-import { Link, Pagination } from "@mui/material";
+import { Pagination } from "@mui/material";
 import { MdSearch } from "react-icons/md";
 import axios from "axios";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
-export default function searchProgrammes({ institutionsAndProgrammes }) {
+export default function SearchProgrammes({ institutionsAndProgrammes }) {
   console.log(institutionsAndProgrammes);
 
   const arrayInstitutionsAndProgrammes = Object.entries(
@@ -166,10 +167,11 @@ export default function searchProgrammes({ institutionsAndProgrammes }) {
             />
           </svg>
         </button>
-
-        <a href="/" className="text-xl font-bold text-gray-800 ml-4 ">
-          Polytechnic Programmes
-        </a>
+        <Link href="/">
+          <a className="text-xl font-bold text-gray-800 ml-4 ">
+            Polytechnic Programmes
+          </a>
+        </Link>
 
         <div className="flex flex-col mr-auto ml-auto relative">
           <div className="md:flex  items-center mr-auto ml-auto">
@@ -340,23 +342,25 @@ export default function searchProgrammes({ institutionsAndProgrammes }) {
           </div>
 
           <div className="border-b">
-            <a
-              href={`/searchProgrammes`}
-              className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
-              onClick={sideBarCloseBarHandler}
-            >
-              Search Programme
-            </a>
+            <Link href={`/searchProgrammes`}>
+              <a
+                className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+                onClick={sideBarCloseBarHandler}
+              >
+                Search Programme
+              </a>
+            </Link>
           </div>
 
           <div className="border-b">
-            <a
-              href={`/addProgrammes`}
-              className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
-              onClick={sideBarCloseBarHandler}
-            >
-              Add Programme
-            </a>
+            <Link href="/addProgrammes">
+              <a
+                className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+                onClick={sideBarCloseBarHandler}
+              >
+                Add Programme
+              </a>
+            </Link>
           </div>
         </div>
       </div>

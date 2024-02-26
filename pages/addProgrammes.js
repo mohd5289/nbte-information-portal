@@ -4,7 +4,8 @@ import React, { useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
 
 import { ToastContainer, toast } from "react-toastify";
-export default function addProgrammes() {
+import Link from "next/link";
+export default function AddProgrammes() {
   const [institutionName, setInstitutionName] = useState("");
   const [programName, setProgramName] = useState("");
   const [isTechnologyBased, setIsTechnologyBased] = useState("");
@@ -152,23 +153,25 @@ export default function addProgrammes() {
         </div>
 
         <div className="border-b">
-          <a
-            href={`/searchProgrammes`}
-            className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
-            onClick={sideBarCloseBarHandler}
-          >
-            Search Programme
-          </a>
+          <Link href={`/searchProgrammes`}>
+            <a
+              className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+              onClick={sideBarCloseBarHandler}
+            >
+              Search Programme
+            </a>
+          </Link>
         </div>
 
         <div className="border-b">
-          <a
-            href={`/addProgrammes`}
-            className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
-            onClick={sideBarCloseBarHandler}
-          >
-            Add Programme
-          </a>
+          <Link href={`/addProgrammes`}>
+            <a
+              className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+              onClick={sideBarCloseBarHandler}
+            >
+              Add Programme
+            </a>
+          </Link>
         </div>
       </div>
       <div className="flex  relative z-0">
@@ -191,10 +194,11 @@ export default function addProgrammes() {
             />
           </svg>
         </button>
-
-        <a href="/" className="text-xl font-bold text-gray-800 ml-12 ">
-          Polytechnic Programmes
-        </a>
+        <Link href="/">
+          <a className="text-xl font-bold text-gray-800 ml-12 ">
+            Polytechnic Programmes
+          </a>
+        </Link>
         <div className="flex flex-wrap w-3/4 border border-gray-300 shadow-md ml-auto p-1">
           <input
             type="text"
