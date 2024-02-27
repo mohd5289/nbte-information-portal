@@ -362,6 +362,26 @@ export default function SearchProgrammes({ institutionsAndProgrammes }) {
               </a>
             </Link>
           </div>
+          <div className="border-b">
+            <Link href="/AddAllProgrammes">
+              <a
+                className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+                onClick={sideBarCloseBarHandler}
+              >
+                Add All Programmes Under NBTE
+              </a>
+            </Link>
+          </div>
+          <div className="border-b">
+            <Link href="/AddAllInstitution">
+              <a
+                className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+                onClick={sideBarCloseBarHandler}
+              >
+                Add All Institutions Under NBTE
+              </a>
+            </Link>
+          </div>
         </div>
       </div>
 

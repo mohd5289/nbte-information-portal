@@ -287,7 +287,9 @@ export default function AddProgrammes() {
             <option value="" disabled selected>
               Select Faculty
             </option>
-            <option value="AGRICULTURE AND RELATED TECHNOLOGY">AGRIC</option>
+            <option value="AGRICULTURE AND RELATED TECHNOLOGY">
+              AGRICULTURE
+            </option>
             <option value="ART, PRINTING AND RELATED TECHNOLOGY">ART</option>
             <option value="BUSINESS, MANAGEMENT AND RELATED TECHNOLOGY">
               BUSINESS
