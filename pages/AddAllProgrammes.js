@@ -40,7 +40,7 @@ export default function AddAllProgrammes() {
       console.log(programs);
       try {
         const response = await axios.post(
-          "http://localhost:8000/api/all-programmes",
+          "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/all-programmes",
           {
             programs,
           },
@@ -66,7 +66,7 @@ export default function AddAllProgrammes() {
       } catch (error) {
         // Handle error
         console.log(error.message);
-        toast.error("Failed to add institutions", {
+        toast.error("Failed to add programmes", {
           position: "top-center",
           autoClose: 5000,
           hideProgressBar: false,
