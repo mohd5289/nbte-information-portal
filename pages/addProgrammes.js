@@ -214,17 +214,7 @@ export default function AddProgrammes() {
             value={programName}
             onChange={(e) => setProgramName(e.target.value)}
           />
-          <select
-            className="w-1/3 px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent m-2 ml-1"
-            value={isTechnologyBased}
-            onChange={(e) => setIsTechnologyBased(e.target.value)}
-          >
-            <option value="" disabled selected>
-              Select if Programme is Technology based
-            </option>
-            <option value="true">True</option>
-            <option value="false">False</option>
-          </select>
+
           <input
             type="number"
             className="w-64 px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent  m-2"
@@ -242,78 +232,49 @@ export default function AddProgrammes() {
             </option>
             <option value="Accredited">Accredited</option>
             <option value="Interim">Interim</option>
-            <option value="Expired">Expired</option>
+            <option value="Approved">Approved</option>
           </select>
 
-          <input
-            type="number"
-            className="w-40 my-2 px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            placeholder="Year Approved"
+          <select
+            className="w-60 my-2 px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent m-2"
             value={yearApproved}
             onChange={(e) => setYearApproved(e.target.value)}
-          />
-          <input
-            type="number"
-            className="w-40 px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            placeholder="Year Granted"
+          >
+            <option value="" disabled selected>
+              Select Year Approved
+            </option>
+            {Array.from(
+              { length: new Date().getFullYear() - 1899 },
+              (_, i) => 1900 + i
+            )
+              .reverse() // Reverse the array to have the latest year first
+              .map((year) => (
+                <option key={year} value={year}>
+                  {year}
+                </option>
+              ))}
+          </select>
+          <select
+            className="w-60 px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent m-2"
             value={yearGranted}
             onChange={(e) => setYearGranted(e.target.value)}
-          />
-          <div className="relative">
-            <input
-              type="date"
-              className="w-64 px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent mx-2"
-              name="expirationDate"
-              value={expirationDate}
-              onChange={(e) => setExpirationDate(e.target.value)}
-            />
-            <span
-              className={`absolute top-0 left-4 ${"block"}`}
-              style={{ pointerEvents: "none", color: "#999" }}
-              //   value={expirationDate}
-              //   onChange={(e) => setExpirationDate(e.target.value)}
-            >
-              Select Expiration Date
-            </span>
-          </div>
-          <select
-            type="number"
-            className="w-64 px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent mx-2"
-            placeholder="Year Granted"
-            value={faculty}
-            onChange={(e) => setFaculty(e.target.value)}
           >
-            {" "}
             <option value="" disabled selected>
-              Select Faculty
+              Select Year Granted
             </option>
-            <option value="AGRICULTURE AND RELATED TECHNOLOGY">
-              AGRICULTURE
-            </option>
-            <option value="ART, PRINTING AND RELATED TECHNOLOGY">ART</option>
-            <option value="BUSINESS, MANAGEMENT AND RELATED TECHNOLOGY">
-              BUSINESS
-            </option>
-            <option value="ENGINEERING AND RELATED TECHNOLOGY">
-              ENGINEERING
-            </option>
-            <option value="ENVIRONMENTAL DESIGN AND RELATED STUDIES">
-              ENVIRONMENTAL
-            </option>
-            <option value="FINANCE AND RELATED STUDIES">FINANCE</option>
-            <option value="INFORMATION AND RELATED STUDIES">
-              INFORMATION{" "}
-            </option>
-            <option value="HOSPITALITY AND RELATED TECHNOLOGY">
-              HOSPITALITY{" "}
-            </option>
-            <option value="SCIENCE, COMPUTING AND RELATED TECHNOLOGY">
-              SCIENCE{" "}
-            </option>
-            <option value="INSTITUTIONAL ADMIN">INSTITUTIONAL </option>
+            {Array.from(
+              { length: new Date().getFullYear() - 1899 },
+              (_, i) => 1900 + i
+            )
+              .reverse() // Reverse the array to have the latest year first
+              .map((year) => (
+                <option key={year} value={year}>
+                  {year}
+                </option>
+              ))}
           </select>
           <button
-            className="w-1/4 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 ml-30"
+            className="w-1/4 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 ml-30 "
             onClick={handleAddProgram}
           >
             Add programme
@@ -391,4 +352,78 @@ export default function AddProgrammes() {
       <ToastContainer position="top-center" />
     </div>
   );
+}
+{
+  /* <select
+className="w-1/3 px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent m-2 ml-1"
+value={isTechnologyBased}
+onChange={(e) => setIsTechnologyBased(e.target.value)}
+>
+<option value="" disabled selected>
+  Select if Programme is Technology based
+</option>
+<option value="true">True</option>
+<option value="false">False</option>
+</select> */
+}
+{
+  /* <div className="relative">
+<input
+  type="date"
+  className="w-64 px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent mx-2"
+  name="expirationDate"
+  value={expirationDate}
+  onChange={(e) => setExpirationDate(e.target.value)}
+/>
+<span
+  className={`absolute top-0 left-4 ${"block"}`}
+  style={{ pointerEvents: "none", color: "#999" }}
+  //   value={expirationDate}
+  //   onChange={(e) => setExpirationDate(e.target.value)}
+>
+  Select Expiration Date
+</span>
+</div> */
+}
+{
+  /* <select
+type="number"
+className="w-64 px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent mx-2"
+placeholder="Year Granted"
+value={faculty}
+onChange={(e) => setFaculty(e.target.value)}
+> */
+}
+{
+  (" ");
+}
+{
+  /* <option value="" disabled selected>
+  Select Faculty
+</option>
+<option value="AGRICULTURE AND RELATED TECHNOLOGY">
+  AGRICULTURE
+</option>
+<option value="ART, PRINTING AND RELATED TECHNOLOGY">ART</option>
+<option value="BUSINESS, MANAGEMENT AND RELATED TECHNOLOGY">
+  BUSINESS
+</option>
+<option value="ENGINEERING AND RELATED TECHNOLOGY">
+  ENGINEERING
+</option>
+<option value="ENVIRONMENTAL DESIGN AND RELATED STUDIES">
+  ENVIRONMENTAL
+</option>
+<option value="FINANCE AND RELATED STUDIES">FINANCE</option>
+<option value="INFORMATION AND RELATED STUDIES">
+  INFORMATION{" "}
+</option>
+<option value="HOSPITALITY AND RELATED TECHNOLOGY">
+  HOSPITALITY{" "}
+</option>
+<option value="SCIENCE, COMPUTING AND RELATED TECHNOLOGY">
+  SCIENCE{" "}
+</option>
+<option value="INSTITUTIONAL ADMIN">INSTITUTIONAL </option>
+</select> */
 }

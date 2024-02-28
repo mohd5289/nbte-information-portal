@@ -146,7 +146,7 @@ export default function SearchProgrammes({ institutionsAndProgrammes }) {
   console.log(filteredProgrammes);
   console.log(searchByInstitution);
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col ">
       <div className="flex items-center relative">
         <button
           className="p-2 text-gray-500 focus:outline-none"
@@ -385,7 +385,7 @@ export default function SearchProgrammes({ institutionsAndProgrammes }) {
         </div>
       </div>
 
-      <div className="w-1/4 ml-12 ">
+      <div className="md:w-1/4 ml-12 ">
         <ul>
           <li>
             <div className="w-full">
