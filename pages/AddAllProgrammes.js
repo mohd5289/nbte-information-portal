@@ -134,6 +134,7 @@ export default function AddAllProgrammes() {
           <option value="SCIENCE, COMPUTING AND RELATED TECHNOLOGY">
             SCIENCE{" "}
           </option>
+          <option value="HEALTH AND RELATED TECHNOLOGY">HEALTH </option>
           <option value="INSTITUTIONAL ADMIN">INSTITUTIONAL</option>
         </select>
         <button
