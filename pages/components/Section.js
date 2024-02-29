@@ -55,7 +55,7 @@ const Section = () => {
             <h2 className="font-roboto text-xl">NSQF</h2>
           </div>
         </div>
-        <div className="relative xl:absolute xl:flex w-80 h-80 xl:w-[800px] xl:h-[330px]  right-10 ">
+        <div className="relative xl:absolute xl:flex w-80 h-80 xl:w-[800px] l:w-[400px] xl:h-[330px]  right-10 hidden sm:block md:w-64 md:h-64">
           <Image
             src={Illustration}
             className="rounded-md"

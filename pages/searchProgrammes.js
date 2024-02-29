@@ -27,6 +27,14 @@ export default function SearchProgrammes({ institutionsAndProgrammes }) {
   //     setCurrentPage(value);
   //   };
 
+  const formatDate = (expirationDate) => {
+    const date = new Date(expirationDate);
+    const day = String(date.getDate()).padStart(2, "0"); // Ensure two digits
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Month is zero-based
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+  };
+
   const handleSearch = () => {
     router.push({
       pathname: "/searchProgrammes",
@@ -215,6 +223,29 @@ export default function SearchProgrammes({ institutionsAndProgrammes }) {
             <div className="overflow-x-auto">
               <table className="min-w-full bg-white border border-gray-300">
                 <thead className="bg-green-600">
+                  {filteredProgrammes
+                    .slice(
+                      (currentPage - 1) * itemsPerPage,
+                      currentPage * itemsPerPage
+                    )
+                    .map((program, programIndex, programsArray) => {
+                      const isFirstProgramOfInstitution = programIndex === 0;
+                      return (
+                        <React.Fragment key={programIndex}>
+                          {isFirstProgramOfInstitution && (
+                            <tr className="bg-gray-500 border-b border-gray-300 text-2xl">
+                              <td
+                                className="py-2 px-4 text-center font-bold"
+                                colSpan="6"
+                              >
+                                {program.institutionName}
+                              </td>
+                            </tr>
+                          )}
+                          {/* Render other program data */}
+                        </React.Fragment>
+                      );
+                    })}
                   <tr>
                     <th className="py-2 px-4 text-center border">S/N</th>
                     <th className="py-2 px-4 border">Programme Name</th>
@@ -242,16 +273,6 @@ export default function SearchProgrammes({ institutionsAndProgrammes }) {
                         (currentPage - 1) * itemsPerPage + programIndex + 1;
                       return (
                         <React.Fragment key={programIndex}>
-                          {programIndex === 0 && (
-                            <tr className="bg-gray-500 border-b border-gray-300">
-                              <td
-                                className="py-2 px-4 text-center font-bold"
-                                colSpan="6"
-                              >
-                                {program.institutionName}
-                              </td>
-                            </tr>
-                          )}
                           <tr
                             className={`border-b border-gray-300 ${
                               program.accreditationStatus === "Expired"
@@ -273,7 +294,7 @@ export default function SearchProgrammes({ institutionsAndProgrammes }) {
                               {program.approvedStream}
                             </td>
                             <td className="py-2 px-4 text-right w-1/6 whitespace-nowrap border">
-                              {program.expirationDate}
+                              {formatDate(program.expirationDate)}
                             </td>
                           </tr>
                           {programIndex < programsArray.length - 1 &&
@@ -282,7 +303,7 @@ export default function SearchProgrammes({ institutionsAndProgrammes }) {
                                 .institutionName && (
                               <tr className="bg-gray-500 border-b border-gray-300">
                                 <td
-                                  className="py-2 px-4 text-center font-bold"
+                                  className="py-2 px-4 text-center text-2xl font-bold"
                                   colSpan="6"
                                 >
                                   {
@@ -495,3 +516,18 @@ export async function getServerSideProps(context) {
         />
       </div> */
 }
+// {filteredProgrammes
+//   .slice(
+//     (currentPage - 1) * itemsPerPage,
+//     currentPage * itemsPerPage
+//   )
+//   .map((program, programIndex, programsArray) => (
+//     <tr className="bg-gray-500 border-b border-gray-300">
+//       <td
+//         className="py-2 px-4 text-center font-bold"
+//         colSpan="6"
+//       >
+//         {program.institutionName}
+//       </td>
+//     </tr>
+//   ))}

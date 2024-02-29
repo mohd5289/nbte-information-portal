@@ -1,11 +1,11 @@
-import { Button, Snackbar } from "@mui/material";
+import { Autocomplete, Button, Snackbar, TextField } from "@mui/material";
 import axios from "axios";
 import React, { useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
-
+import Autosuggest from "react-autosuggest";
 import { ToastContainer, toast } from "react-toastify";
 import Link from "next/link";
-export default function AddProgrammes() {
+export default function AddProgrammes({ institutions, programmes }) {
   const [institutionName, setInstitutionName] = useState("");
   const [programName, setProgramName] = useState("");
   const [isTechnologyBased, setIsTechnologyBased] = useState("");
@@ -21,9 +21,51 @@ export default function AddProgrammes() {
   const sidebarOpenHandler = () => {
     setSideBarVisible(true);
   };
+  const [institution1Suggestions, setInstitutionSuggestions] = useState([]);
+  const [program1Suggestions, setProgramSuggestions] = useState([]);
+
+  const institutionNames = institutions.map((institution) => institution.name);
+  const programmeNames = programmes.map((programme) => programme.name);
+
+  const uniqueInstitutionNamesSet = new Set();
+  const uniqueProgrammeNamesSet = new Set();
+
+  const uniqueNames = institutionNames.filter((name) => {
+    if (uniqueInstitutionNamesSet.has(name)) {
+      // If the name already exists in the set, it's a duplicate, so return false
+      return false;
+    } else {
+      // If the name doesn't exist in the set, add it and return true
+      uniqueInstitutionNamesSet.add(name);
+      return true;
+    }
+  });
+  console.log(uniqueNames);
+
+  const uniqueProgrammes = programmeNames.filter((name) => {
+    if (uniqueProgrammeNamesSet.has(name)) {
+      return false;
+    } else {
+      uniqueProgrammeNamesSet.add(name);
+      return true;
+    }
+  });
+
+  const institutionSuggestions = [...uniqueInstitutionNamesSet];
+
+  // Suggestions for Programme Name
+  const programSuggestions = [...uniqueProgrammeNamesSet];
 
   const sideBarCloseBarHandler = () => {
     setSideBarVisible(false);
+  };
+
+  const onInstitutionChange = (event, { newValue }) => {
+    setInstitutionName(newValue);
+  };
+
+  const onProgramChange = (event, { newValue }) => {
+    setProgramName(newValue);
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -99,7 +141,21 @@ export default function AddProgrammes() {
     setExpirationDate("");
     setFaculty("");
   };
+  const institutionInputProps = {
+    placeholder: "Enter Institution name",
+    value: institutionName,
+    onChange: onInstitutionChange,
+    className:
+      "w-50% mt-2 px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent",
+  };
 
+  const programInputProps = {
+    placeholder: "Enter Programme name",
+    value: programName,
+    onChange: onProgramChange,
+    className:
+      "!w-50% mt-2 px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ml-2",
+  };
   //   const handleSnackbarOpen = (message, severity) => {
   //     setSnackbarMessage(message);
   //     setSnackbarSeverity(severity);
@@ -114,9 +170,34 @@ export default function AddProgrammes() {
     // Update the programs state with the filtered array
     setPrograms(updatedPrograms);
   };
+  const renderSuggestion = (suggestion) => <div>{suggestion.name}</div>;
+  const getSuggestionValue = (suggestion) => suggestion.name;
   //   const handleSnackbarClose = () => {
   //     setOpenSnackbar(false);
   //   };
+  const onInstitutionSuggestionsFetchRequested = ({ value }) => {
+    const inputValue = value.trim().toLowerCase();
+    const filteredSuggestions = institutionSuggestions.filter((suggestion) =>
+      suggestion.name.toLowerCase().startsWith(inputValue)
+    );
+    setInstitutionSuggestions(filteredSuggestions);
+  };
+
+  const onInstitutionSuggestionsClearRequested = () => {
+    setInstitutionSuggestions([]);
+  };
+
+  const onProgramSuggestionsFetchRequested = ({ value }) => {
+    const inputValue = value.trim().toLowerCase();
+    const filteredSuggestions = programSuggestions.filter((suggestion) =>
+      suggestion.name.toLowerCase().startsWith(inputValue)
+    );
+    setProgramSuggestions(filteredSuggestions);
+  };
+
+  const onProgramSuggestionsClearRequested = () => {
+    setProgramSuggestions([]);
+  };
   return (
     <div className="flex flex-col relative">
       <div
@@ -200,19 +281,73 @@ export default function AddProgrammes() {
           </a>
         </Link>
         <div className="flex flex-wrap w-3/4 border border-gray-300 shadow-md ml-auto p-1">
-          <input
-            type="text"
-            className="w-1/2 px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            placeholder="Enter Institution's name"
+          <Autocomplete
+            freeSolo
+            options={institution1Suggestions}
             value={institutionName}
-            onChange={(e) => setInstitutionName(e.target.value)}
+            onChange={(event, newValue) => setInstitutionName(newValue)}
+            onInputChange={(event, newInputValue) => {
+              // Fetch institution suggestions based on new input value
+              // Update institutionSuggestions state
+              const inputValue = newInputValue.trim().toLowerCase();
+              const filteredSuggestions = institutionSuggestions.filter(
+                (suggestion) => suggestion.toLowerCase().startsWith(inputValue)
+              );
+              setInstitutionSuggestions(filteredSuggestions);
+            }}
+            sx={{
+              width: "50%",
+              marginTop: 2,
+              padding: 1,
+              border: "1px solid #ccc",
+              borderRadius: "4px",
+              boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
+              "&:focus": {
+                outline: "none",
+                borderColor: "#2196F3",
+                boxShadow: "0 0 0 3px rgba(33, 150, 243, 0.2)",
+              },
+            }}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label="Institution Name"
+                variant="outlined"
+              />
+            )}
           />
-          <input
-            type="text"
-            className="w-1/3 px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ml-2"
-            placeholder="Enter Programme's name"
+
+          <Autocomplete
+            freeSolo
+            options={program1Suggestions}
             value={programName}
-            onChange={(e) => setProgramName(e.target.value)}
+            onChange={(event, newValue) => setProgramName(newValue)}
+            onInputChange={(event, newInputValue) => {
+              // Fetch program suggestions based on new input value
+              // Update programSuggestions state
+              const inputValue = newInputValue.trim().toLowerCase();
+              const filteredSuggestions = programSuggestions.filter(
+                (suggestion) => suggestion.toLowerCase().startsWith(inputValue)
+              );
+              setProgramSuggestions(filteredSuggestions);
+            }}
+            sx={{
+              width: "30%",
+              marginTop: 2,
+              marginLeft: 2,
+              padding: 1,
+              border: "1px solid #ccc",
+              borderRadius: "4px",
+              boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
+              "&:focus": {
+                outline: "none",
+                borderColor: "#2196F3",
+                boxShadow: "0 0 0 3px rgba(33, 150, 243, 0.2)",
+              },
+            }}
+            renderInput={(params) => (
+              <TextField {...params} label="Program Name" variant="outlined" />
+            )}
           />
 
           <input
@@ -234,7 +369,6 @@ export default function AddProgrammes() {
             <option value="Interim">Interim</option>
             <option value="Approved">Approved</option>
           </select>
-
           <select
             className="w-60 my-2 px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent m-2"
             value={yearApproved}
@@ -353,6 +487,41 @@ export default function AddProgrammes() {
     </div>
   );
 }
+
+export async function getServerSideProps(context) {
+  try {
+    // Fetch data from the first URL
+    const response1 = await axios.get(
+      "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/all-Institutions"
+    );
+    const institutions = response1.data.institutions;
+
+    // Fetch data from the second URL
+    const response2 = await axios.get(
+      "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/all-Programmes"
+    );
+    const programmes = response2.data.programs;
+
+    // Return the fetched data to the component
+    return {
+      props: {
+        institutions,
+        programmes,
+      },
+    };
+  } catch (error) {
+    console.error("Error fetching data:", error.message);
+
+    // Return empty props or handle the error as needed
+    return {
+      props: {
+        institutions: null,
+        programmes: null,
+      },
+    };
+  }
+}
+
 {
   /* <select
 className="w-1/3 px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent m-2 ml-1"
