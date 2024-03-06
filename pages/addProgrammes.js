@@ -439,10 +439,10 @@ export default function AddProgrammes({ institutions, programmes }) {
         {/* Table head and body */}
 
         <table className="min-w-full bg-white border border-gray-300 w-full">
-          <Backdrop show={false} clicked={false} />
+          <Backdrop show={loading} clicked={false} />
           <FadeLoader
             color="#36d7b7"
-            loading={false}
+            loading={loading}
             cssOverride={{
               position: "absolute",
               top: "50%",
