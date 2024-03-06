@@ -20,6 +20,7 @@ export default function SearchProgrammes({ institutionsAndProgrammes }) {
   const [startsWithString, setStartsWithString] = useState("none");
   const [selectedStream, setSelectedStream] = useState("any");
   const [searchByInstitution, setSearchByInstitution] = useState(false);
+  const [pageCount, setPageCount] = useState(0);
   //    const itemsPerPage = 20;
   //   const [currentPage, setCurrentPage] = useState(1);
 
@@ -48,13 +49,22 @@ export default function SearchProgrammes({ institutionsAndProgrammes }) {
   };
   //   console.log(filteredProgrammes);
   let totalPrograms = 0;
-  arrayInstitutionsAndProgrammes[0][1].forEach((institution) => {
-    // Access the array of programs for each institution
-    const programs = institution.programmes;
+  if (arrayInstitutionsAndProgrammes[0]?.[1]) {
+    arrayInstitutionsAndProgrammes[0][1].forEach((institution) => {
+      // Access the array of programs for each institution
+      const programs = institution.programmes;
 
-    // Add the number of programs in the current institution to the total
-    totalPrograms += programs.length;
-  });
+      // Add the number of programs in the current institution to the total
+      totalPrograms += programs.length;
+    });
+  }
+  // arrayInstitutionsAndProgrammes[0][1].forEach((institution) => {
+  //   // Access the array of programs for each institution
+  //   const programs = institution.programmes;
+
+  //   // Add the number of programs in the current institution to the total
+  //   totalPrograms += programs.length;
+  // });
 
   console.log("Total number of all programs in institutions:", totalPrograms);
   console.log(arrayInstitutionsAndProgrammes[0][1].length);
@@ -68,7 +78,7 @@ export default function SearchProgrammes({ institutionsAndProgrammes }) {
     setCurrentPage(value);
   };
   var lastIndices = [];
-  const allPrograms = arrayInstitutionsAndProgrammes[0][1].reduce(
+  const allPrograms = arrayInstitutionsAndProgrammes[0]?.[1]?.reduce(
     (acc, institution) => {
       const institutionPrograms = institution.programmes.map(
         (program, index) => ({
@@ -88,7 +98,7 @@ export default function SearchProgrammes({ institutionsAndProgrammes }) {
   //   setFilteredProgrammes(allPrograms);
 
   // Calculate the total number of pages based on the number of programs
-  const pageCount = Math.ceil(allPrograms.length / itemsPerPage);
+
   var startIndex = (currentPage - 1) * itemsPerPage;
   //   const currentItems = arrayInstitutionsAndProgrammes[0][1].slice(
   //     startIndex,
@@ -104,7 +114,7 @@ export default function SearchProgrammes({ institutionsAndProgrammes }) {
   const [filteredProgrammes, setFilteredProgrammes] = useState(allPrograms);
   useEffect(() => {
     filterAllPrograms();
-  }, [query]);
+  }, [query, filteredProgrammes]);
   const filterAllPrograms = () => {
     let filteredData = allPrograms; // Reset to original data
     console.log(filteredData);
@@ -146,6 +156,7 @@ export default function SearchProgrammes({ institutionsAndProgrammes }) {
 
     setFilteredProgrammes(filteredData);
     console.log(filteredProgrammes);
+    setPageCount(Math.ceil(filteredData.length / itemsPerPage));
   };
   //   console.log(arrayInstitutionsAndProgrammes[0][1][1]);
   //   console.log(
@@ -263,60 +274,70 @@ export default function SearchProgrammes({ institutionsAndProgrammes }) {
                 </thead>
                 <tbody>
                   {" "}
-                  {filteredProgrammes
-                    .slice(
-                      (currentPage - 1) * itemsPerPage,
-                      currentPage * itemsPerPage
-                    )
-                    .map((program, programIndex, programsArray) => {
-                      const programNumber =
-                        (currentPage - 1) * itemsPerPage + programIndex + 1;
-                      return (
-                        <React.Fragment key={programIndex}>
-                          <tr
-                            className={`border-b border-gray-300 ${
-                              program.accreditationStatus === "Expired"
-                                ? "bg-red-500"
-                                : ""
-                            }`}
-                          >
-                            <td className="py-2 px-4 text-center border">
-                              {programNumber}
-                            </td>
-                            <td className="py-2 px-4 border">{program.name}</td>
-                            <td className="py-2 px-4 border">
-                              {program.yearGrantedInterimOrAccredition}
-                            </td>
-                            <td className="py-2 px-4 text-right border">
-                              {program.accreditationStatus}
-                            </td>
-                            <td className="py-2 px-4 text-right border">
-                              {program.approvedStream}
-                            </td>
-                            <td className="py-2 px-4 text-right w-1/6 whitespace-nowrap border">
-                              {formatDate(program.expirationDate)}
-                            </td>
-                          </tr>
-                          {programIndex < programsArray.length - 1 &&
-                            program.institutionName !==
-                              programsArray[programIndex + 1]
-                                .institutionName && (
-                              <tr className="bg-gray-500 border-b border-gray-300">
-                                <td
-                                  className="py-2 px-4 text-center text-2xl font-bold"
-                                  colSpan="6"
-                                >
-                                  {
-                                    programsArray[programIndex + 1]
-                                      .institutionName
-                                  }{" "}
-                                  {/* Next institution's name */}
-                                </td>
-                              </tr>
-                            )}
-                        </React.Fragment>
-                      );
-                    })}
+                  {filteredProgrammes.length === 0 ? (
+                    <tr>
+                      <td colSpan="6" className="text-center">
+                        There are no programmes here.
+                      </td>
+                    </tr>
+                  ) : (
+                    filteredProgrammes
+                      .slice(
+                        (currentPage - 1) * itemsPerPage,
+                        currentPage * itemsPerPage
+                      )
+                      .map((program, programIndex, programsArray) => {
+                        const programNumber =
+                          (currentPage - 1) * itemsPerPage + programIndex + 1;
+                        return (
+                          <React.Fragment key={programIndex}>
+                            <tr
+                              className={`border-b border-gray-300 ${
+                                program.accreditationStatus === "Expired"
+                                  ? "bg-red-500"
+                                  : ""
+                              }`}
+                            >
+                              <td className="py-2 px-4 text-center border">
+                                {programNumber}
+                              </td>
+                              <td className="py-2 px-4 border">
+                                {program.name}
+                              </td>
+                              <td className="py-2 px-4 border">
+                                {program.yearGrantedInterimOrAccredition}
+                              </td>
+                              <td className="py-2 px-4 text-right border">
+                                {program.accreditationStatus}
+                              </td>
+                              <td className="py-2 px-4 text-right border">
+                                {program.approvedStream}
+                              </td>
+                              <td className="py-2 px-4 text-right w-1/6 whitespace-nowrap border">
+                                {formatDate(program.expirationDate)}
+                              </td>
+                            </tr>
+                            {programIndex < programsArray.length - 1 &&
+                              program.institutionName !==
+                                programsArray[programIndex + 1]
+                                  .institutionName && (
+                                <tr className="bg-gray-500 border-b border-gray-300">
+                                  <td
+                                    className="py-2 px-4 text-center text-2xl font-bold"
+                                    colSpan="6"
+                                  >
+                                    {
+                                      programsArray[programIndex + 1]
+                                        .institutionName
+                                    }{" "}
+                                    {/* Next institution's name */}
+                                  </td>
+                                </tr>
+                              )}
+                          </React.Fragment>
+                        );
+                      })
+                  )}
                 </tbody>
               </table>
               <Pagination

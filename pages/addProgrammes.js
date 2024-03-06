@@ -1,10 +1,13 @@
 import { Autocomplete, Button, Snackbar, TextField } from "@mui/material";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
-import Autosuggest from "react-autosuggest";
+// import Autosuggest from "react-autosuggest";
 import { ToastContainer, toast } from "react-toastify";
 import Link from "next/link";
+import Modal from "./components/Modal";
+import FadeLoader from "react-spinners/FadeLoader";
+import Backdrop from "./components/Backdrop";
 export default function AddProgrammes({ institutions, programmes }) {
   const [institutionName, setInstitutionName] = useState("");
   const [programName, setProgramName] = useState("");
@@ -16,6 +19,7 @@ export default function AddProgrammes({ institutions, programmes }) {
   const [yearGranted, setYearGranted] = useState("");
   const [expirationDate, setExpirationDate] = useState("");
   const [programs, setPrograms] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const [sideBarVisible, setSideBarVisible] = useState(false);
   const sidebarOpenHandler = () => {
@@ -51,8 +55,19 @@ export default function AddProgrammes({ institutions, programmes }) {
     }
   });
 
-  const institutionSuggestions = [...uniqueInstitutionNamesSet];
+  let institutionSuggestions = [...uniqueInstitutionNamesSet];
+  institutionSuggestions = institutionSuggestions.map((name) => {
+    // Split the name into words
+    const words = name.toLowerCase().split(" ");
 
+    // Capitalize the first letter of each word
+    const capitalizedWords = words.map(
+      (word) => word.charAt(0).toUpperCase() + word.slice(1)
+    );
+
+    // Join the words back together to form the sentence case name
+    return capitalizedWords.join(" ");
+  });
   // Suggestions for Programme Name
   const programSuggestions = [...uniqueProgrammeNamesSet];
 
@@ -69,13 +84,14 @@ export default function AddProgrammes({ institutions, programmes }) {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     const confirmed = window.confirm(
       `Are you sure you want to submit all ${programs.length} programmes ?`
     );
     if (confirmed) {
       try {
         const response = await axios.post(
-          "http://localhost:8000/api/create-institution-with-programmes",
+          "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/create-institution-with-programmes",
           {
             institution_name: institutionName,
             programmes: programs,
@@ -100,11 +116,14 @@ export default function AddProgrammes({ institutions, programmes }) {
           }
         );
         // Handle successful response
+        setLoading(false);
         setInstitutionName("");
         setPrograms([]);
       } catch (error) {
         // Handle error
-        toast.error("Failed to add institution and programs", {
+        setLoading(false);
+        console.log(error);
+        toast.error(`${error.message} Failed to add institution and programs`, {
           position: "top-center",
           autoClose: 5000,
           hideProgressBar: false,
@@ -138,6 +157,7 @@ export default function AddProgrammes({ institutions, programmes }) {
     setNumberOfStreams("");
     setAccreditationStatus("");
     setYearGranted("");
+    setYearApproved("");
     setExpirationDate("");
     setFaculty("");
   };
@@ -417,7 +437,22 @@ export default function AddProgrammes({ institutions, programmes }) {
       </div>
       <div className="overflow-x-auto mt-4 w-3/4 ml-auto">
         {/* Table head and body */}
+
         <table className="min-w-full bg-white border border-gray-300 w-full">
+          <Backdrop show={false} clicked={false} />
+          <FadeLoader
+            color="#36d7b7"
+            loading={false}
+            cssOverride={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+            }}
+            size={150}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+          />
           {/* Table head */}
           <thead className="bg-green-600">
             <tr>
