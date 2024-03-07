@@ -145,7 +145,7 @@ export default function AddProgrammes({ institutions, programmes }) {
       accreditationStatus,
       faculty,
       yearApproved,
-      yearGrantedInterimOrAccredition: yearGranted,
+      yearGrantedInterimOrAccreditation: yearGranted,
       expirationDate,
     };
 
