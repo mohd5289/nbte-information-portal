@@ -8,6 +8,7 @@ import Link from "next/link";
 import Modal from "./components/Modal";
 import FadeLoader from "react-spinners/FadeLoader";
 import Backdrop from "./components/Backdrop";
+import { useRouter } from "next/router";
 export default function AddProgrammes({ institutions, programmes }) {
   const [institutionName, setInstitutionName] = useState("");
   const [programName, setProgramName] = useState("");
@@ -20,6 +21,9 @@ export default function AddProgrammes({ institutions, programmes }) {
   const [expirationDate, setExpirationDate] = useState("");
   const [programs, setPrograms] = useState([]);
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
+  const { query } = router;
+  const { department } = query;
 
   const [sideBarVisible, setSideBarVisible] = useState(false);
   const sidebarOpenHandler = () => {
@@ -89,9 +93,35 @@ export default function AddProgrammes({ institutions, programmes }) {
       `Are you sure you want to submit all ${programs.length} programmes ?`
     );
     if (confirmed) {
+      let apiUrl = "";
       try {
+        switch (query.department) {
+          case "Monotechnic":
+            apiUrl =
+              "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/create-monotechnic-institution-with-programmes";
+            break;
+          case "Technical":
+            apiUrl =
+              "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/create-technical-colleges-institution-with-programmes";
+            break;
+          case "IEI":
+            apiUrl =
+              "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/create-iei-institution-with-programmes";
+            break;
+          case "VEI":
+            apiUrl =
+              "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/create-vei-institution-with-programmes";
+            break;
+          case "Polytechnic":
+            apiUrl =
+              "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/create-institution-with-programmes";
+          default:
+            apiUrl =
+              "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/create-institution-with-programmes";
+            break;
+        }
         const response = await axios.post(
-          "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/create-institution-with-programmes",
+          apiUrl,
           {
             institution_name: institutionName,
             programmes: programs,
@@ -102,6 +132,7 @@ export default function AddProgrammes({ institutions, programmes }) {
             },
           }
         );
+
         toast.success(
           `${institutionName} ${programs.length} programmes added successfully`,
           {
@@ -297,7 +328,7 @@ export default function AddProgrammes({ institutions, programmes }) {
         </button>
         <Link href="/">
           <a className="text-xl font-bold text-gray-800 ml-12 ">
-            Polytechnic Programmes
+            {department} Programmes
           </a>
         </Link>
         <div className="flex flex-wrap w-3/4 border border-gray-300 shadow-md ml-auto p-1">

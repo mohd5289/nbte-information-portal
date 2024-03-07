@@ -17,10 +17,15 @@ const Section = () => {
   const handleMouseLeave = () => {
     setIsMenuOpen(false);
   };
-  const moveToSearchPage = () => {
-    router.push("/searchProgrammes");
+  // const moveToSearchPage = () => {
+  //   router.push("/searchProgrammes");
+  // };
+  const moveToSearchPage = (department) => {
+    router.push({
+      pathname: "/searchProgrammes",
+      query: { department },
+    });
   };
-
   const moveToInstitutionsPage = () => {
     router.push("/Institutions");
   };
@@ -35,23 +40,38 @@ const Section = () => {
             className="intent relative transition-transform transform hover:translate-x-4"
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            onClick={moveToSearchPage}
+            onClick={() => moveToSearchPage("Polytechnic")}
           >
             <h2 className="font-roboto text-xl relative">Polytechnics</h2>
           </div>
-          <div className="intent transition-transform transform hover:translate-x-4">
+          <div
+            className="intent transition-transform transform hover:translate-x-4"
+            onClick={() => moveToSearchPage("Monotechnic")}
+          >
             <h2 className="font-roboto text-xl">Monotechnics</h2>
           </div>
-          <div className="intent transition-transform transform hover:translate-x-4">
+          <div
+            className="intent transition-transform transform hover:translate-x-4"
+            onClick={() => moveToSearchPage("Technical College")}
+          >
             <h2 className="font-roboto text-xl">Technical Colleges</h2>
           </div>
-          <div className="intent transition-transform transform hover:translate-x-4">
+          <div
+            className="intent transition-transform transform hover:translate-x-4"
+            onClick={() => moveToSearchPage("IEI")}
+          >
             <h2 className="font-roboto text-xl">IEIs</h2>
           </div>
-          <div className="intent transition-transform transform hover:translate-x-4">
+          <div
+            className="intent transition-transform transform hover:translate-x-4"
+            onClick={() => moveToSearchPage("VEI")}
+          >
             <h2 className="font-roboto text-xl">VEIs</h2>
           </div>
-          <div className="intent transition-transform transform hover:translate-x-4">
+          <div
+            className="intent transition-transform transform hover:translate-x-4"
+            // onClick={() => moveToSearchPage("NSQF")}
+          >
             <h2 className="font-roboto text-xl">NSQF</h2>
           </div>
         </div>

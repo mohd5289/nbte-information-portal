@@ -12,9 +12,10 @@ export default function SearchProgrammes({ institutionsAndProgrammes }) {
   const arrayInstitutionsAndProgrammes = Object.entries(
     institutionsAndProgrammes
   );
+
   const router = useRouter();
   const { query } = router;
-
+  const { department } = query;
   const [searchTerm, setSearchTerm] = useState("");
   const [accreditationStatus, setAccreditationStatus] = useState("all");
   const [startsWithString, setStartsWithString] = useState("none");
@@ -188,7 +189,7 @@ export default function SearchProgrammes({ institutionsAndProgrammes }) {
         </button>
         <Link href="/">
           <a className="text-xl font-bold text-gray-800 ml-4 ">
-            Polytechnic Programmes
+            {department} Programmes
           </a>
         </Link>
 
@@ -395,7 +396,7 @@ export default function SearchProgrammes({ institutionsAndProgrammes }) {
           </div>
 
           <div className="border-b">
-            <Link href="/addProgrammes">
+            <Link href={`/addProgrammes?department=${department}`} passHref>
               <a
                 className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
                 onClick={sideBarCloseBarHandler}
@@ -503,11 +504,49 @@ export default function SearchProgrammes({ institutionsAndProgrammes }) {
 
 export async function getServerSideProps(context) {
   try {
-    // const { query } = context;
-    // Fetch data from Laravel API endpoint using Axios
-    const response = await axios.get(
-      "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/all-institutions-and-programmes"
+    const { query } = context;
+    let apiUrl = "";
+
+    const response1 = await axios.get(
+      "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/all-Institutions"
     );
+    const institutions = response1.data.institutions;
+
+    // Fetch data from the second URL
+    const response2 = await axios.get(
+      "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/all-Programmes"
+    );
+    const programmes = response2.data.programs;
+    // Fetch data from Laravel API endpoint using Axios
+    switch (query.department) {
+      case "Monotechnic":
+        apiUrl =
+          "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/all-monotechnic-institutions-and-programmes";
+        break;
+      case "Technical":
+        apiUrl =
+          "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/all-technical-colleges-institutions-and-programmes";
+        break;
+      case "IEI":
+        apiUrl =
+          "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/all-iei-institutions-and-programmes";
+        break;
+      case "VEI":
+        apiUrl =
+          "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/all-vei-institutions-and-programmes";
+        break;
+      case "Polytechnic":
+        apiUrl =
+          "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/all-institutions-and-programmes";
+      default:
+        apiUrl =
+          "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/all-institutions-and-programmes";
+        break;
+    }
+    const response = await axios.get(apiUrl);
+    // const response = await axios.get(
+    //   "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/all-institutions-and-programmes"
+    // );
 
     // Return data to the component;
     const institutionsAndProgrammes = response.data;
@@ -515,6 +554,8 @@ export async function getServerSideProps(context) {
     return {
       props: {
         institutionsAndProgrammes,
+        institutions,
+        programmes,
       },
     };
   } catch (error) {
