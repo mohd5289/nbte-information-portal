@@ -168,6 +168,26 @@ export default function AddProgrammes({ institutions, programmes }) {
     }
   };
   const handleAddProgram = () => {
+    // console.log(yearGranted);
+    let expirationDate = null;
+    switch (accreditationStatus) {
+      case "Accredited":
+        expirationDate = new Date(yearGranted);
+        expirationDate.setFullYear(expirationDate.getFullYear() + 5, 9, 1); // October is month 9 (zero-based index)
+        break;
+      case "Interim":
+        expirationDate = new Date(yearGranted);
+        expirationDate.setFullYear(expirationDate.getFullYear() + 1, 9, 1);
+        break;
+      case "Approved":
+        expirationDate = new Date(yearGranted);
+        expirationDate.setFullYear(expirationDate.getFullYear() + 2, 9, 1);
+        break;
+      // Add more cases if needed for other accreditation statuses
+    }
+    // expirationDate = expirationDate.toLocaleDateString("en-GB");
+    setExpirationDate(expirationDate.toLocaleDateString("en-GB"));
+    const formattedExpirationDate = expirationDate.toLocaleDateString("en-GB");
     const newProgram = {
       institutionName,
       name: programName,
@@ -177,7 +197,7 @@ export default function AddProgrammes({ institutions, programmes }) {
       faculty,
       yearApproved,
       yearGrantedInterimOrAccreditation: yearGranted,
-      expirationDate,
+      expirationDate: formattedExpirationDate,
     };
 
     setPrograms([...programs, newProgram]);
@@ -510,9 +530,11 @@ export default function AddProgrammes({ institutions, programmes }) {
             {programs.map((program, index) => (
               <tr key={index} className="border-b border-gray-300">
                 <td className="py-2 px-4 text-center border">{index + 1}</td>
-                <td className="py-2 px-4 border">{program.name}</td>
+                <td className="py-2 px-4 border whitespace-nowrap">
+                  {program.name}
+                </td>
                 <td className="py-2 px-4 border">
-                  {program.yearGrantedInterimOrAccredition}
+                  {program.yearGrantedInterimOrAccreditation}
                 </td>
                 <td className="py-2 px-4 text-right border">
                   {program.accreditationStatus}
