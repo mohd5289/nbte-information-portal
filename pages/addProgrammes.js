@@ -88,11 +88,12 @@ export default function AddProgrammes({ institutions, programmes }) {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
+
     const confirmed = window.confirm(
       `Are you sure you want to submit all ${programs.length} programmes ?`
     );
     if (confirmed) {
+      setLoading(true);
       let apiUrl = "";
       try {
         switch (query.department) {

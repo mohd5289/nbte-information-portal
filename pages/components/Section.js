@@ -49,6 +49,7 @@ const Section = () => {
             onClick={() => moveToSearchPage("Monotechnic")}
           >
             <h2 className="font-roboto text-xl">Monotechnics</h2>
+            {/* <ArrowForwardIosOutlined className="text-gray-700" /> */}
           </div>
           <div
             className="intent transition-transform transform hover:translate-x-4"
