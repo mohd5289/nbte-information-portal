@@ -19,11 +19,12 @@ export default function AddProgrammes({ institutions, programmes }) {
   const [yearApproved, setYearApproved] = useState("");
   const [yearGranted, setYearGranted] = useState("");
   const [expirationDate, setExpirationDate] = useState("");
+  const [yearOfExpiration, setYearOfExpiration] = useState("");
   const [programs, setPrograms] = useState([]);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { query } = router;
-  const { department } = query;
+  const { department, subdepartment } = query;
 
   const [sideBarVisible, setSideBarVisible] = useState(false);
   const sidebarOpenHandler = () => {
@@ -98,8 +99,23 @@ export default function AddProgrammes({ institutions, programmes }) {
       try {
         switch (query.department) {
           case "Monotechnic":
-            apiUrl =
-              "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/create-monotechnic-institution-with-programmes";
+            switch (query.subdepartment) {
+              case "Colleges of Agriculture":
+                apiUrl =
+                  "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/create-monotechnic-institution-with-college-of-agriculture-programmes";
+                break;
+              case "Colleges of Health Sciences":
+                apiUrl =
+                  "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/create-monotechnic-institution-with-college-of-health-sciences-programmes";
+                break;
+              case "Specialized Institutions":
+                apiUrl =
+                  "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/create-monotechnic-institution-with-specialized-institution-programmes";
+                break;
+            }
+            break;
+            // apiUrl =
+            //   "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/create-monotechnic-institution-with-programmes";
             break;
           case "Technical":
             apiUrl =
@@ -168,33 +184,43 @@ export default function AddProgrammes({ institutions, programmes }) {
       }
     }
   };
+
   const handleAddProgram = () => {
     // console.log(yearGranted);
-    let expirationDate = null;
-    switch (accreditationStatus) {
-      case "Accredited":
-        expirationDate = new Date(yearGranted);
-        expirationDate.setFullYear(expirationDate.getFullYear() + 5, 9, 1); // October is month 9 (zero-based index)
-        break;
-      case "Interim":
-        expirationDate = new Date(yearGranted);
-        expirationDate.setFullYear(expirationDate.getFullYear() + 1, 9, 1);
-        break;
-      case "Approved":
-        expirationDate = new Date(yearGranted);
-        expirationDate.setFullYear(expirationDate.getFullYear() + 2, 9, 1);
-        break;
-      // Add more cases if needed for other accreditation statuses
+    let expDate = null;
+    // Check if the expiration date has passed
+    const currentYear = new Date().getFullYear();
+    const hasExpired = yearOfExpiration < currentYear;
+    console.log(yearOfExpiration);
+    console.log(currentYear);
+    // Calculate the difference in years between expirationDate and yearGrantedInterimOrAccreditation
+    const diffYears = yearOfExpiration - new Date(yearGranted).getFullYear();
+
+    // Determine accreditation status based on conditions
+    let newAccreditationStatus = "";
+    console.log(hasExpired);
+
+    if (hasExpired) {
+      newAccreditationStatus = "Expired";
+    } else if (diffYears === 5) {
+      newAccreditationStatus = "Accredited";
+    } else if (diffYears === 2) {
+      newAccreditationStatus = "Approved";
+    } else if (diffYears === 1) {
+      newAccreditationStatus = "Interim";
     }
+    console.log(newAccreditationStatus);
+
+    expDate = new Date(yearOfExpiration, 9, 1);
     // expirationDate = expirationDate.toLocaleDateString("en-GB");
-    setExpirationDate(expirationDate.toLocaleDateString("en-GB"));
-    const formattedExpirationDate = expirationDate.toLocaleDateString("en-GB");
+    setExpirationDate(expDate.toLocaleDateString("en-GB"));
+    const formattedExpirationDate = expDate.toLocaleDateString("en-GB");
     const newProgram = {
       institutionName,
       name: programName,
       isTechnologyBased: isTechnologyBased === "true",
       approvedStream: parseInt(numberOfStreams),
-      accreditationStatus,
+      accreditationStatus: newAccreditationStatus,
       faculty,
       yearApproved,
       yearGrantedInterimOrAccreditation: yearGranted,
@@ -210,6 +236,7 @@ export default function AddProgrammes({ institutions, programmes }) {
     setAccreditationStatus("");
     setYearGranted("");
     setYearApproved("");
+    setYearOfExpiration("");
     setExpirationDate("");
     setFaculty("");
   };
@@ -306,7 +333,11 @@ export default function AddProgrammes({ institutions, programmes }) {
         </div>
 
         <div className="border-b">
-          <Link href={`/searchProgrammes`}>
+          <Link
+            href={`/searchProgrammes?department=${department}${
+              query.subdepartment ? `&subdepartment=${query.subdepartment}` : ""
+            }`}
+          >
             <a
               className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
               onClick={sideBarCloseBarHandler}
@@ -317,7 +348,11 @@ export default function AddProgrammes({ institutions, programmes }) {
         </div>
 
         <div className="border-b">
-          <Link href={`/addProgrammes`}>
+          <Link
+            href={`/addProgrammes?department=${department}${
+              query.subdepartment ? `&subdepartment=${query.subdepartment}` : ""
+            }`}
+          >
             <a
               className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
               onClick={sideBarCloseBarHandler}
@@ -350,6 +385,8 @@ export default function AddProgrammes({ institutions, programmes }) {
         <Link href="/">
           <a className="text-xl font-bold text-gray-800 ml-12 ">
             {department} Programmes
+            <br />
+            {query.subdepartment && ` (${query.subdepartment})`}
           </a>
         </Link>
         <div className="flex flex-wrap w-3/4 border border-gray-300 shadow-md ml-auto p-1">
@@ -429,18 +466,7 @@ export default function AddProgrammes({ institutions, programmes }) {
             value={numberOfStreams}
             onChange={(e) => setNumberOfStreams(e.target.value)}
           />
-          <select
-            className="w-1/4 px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent m-2"
-            value={accreditationStatus}
-            onChange={(e) => setAccreditationStatus(e.target.value)}
-          >
-            <option value="" disabled selected>
-              Select Accreditation Status
-            </option>
-            <option value="Accredited">Accredited</option>
-            <option value="Interim">Interim</option>
-            <option value="Approved">Approved</option>
-          </select>
+
           <select
             className="w-60 my-2 px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent m-2"
             value={yearApproved}
@@ -472,6 +498,22 @@ export default function AddProgrammes({ institutions, programmes }) {
               { length: new Date().getFullYear() - 1899 },
               (_, i) => 1900 + i
             )
+              .reverse() // Reverse the array to have the latest year first
+              .map((year) => (
+                <option key={year} value={year}>
+                  {year}
+                </option>
+              ))}
+          </select>
+          <select
+            className="w-60 my-2 px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent m-2"
+            value={yearOfExpiration}
+            onChange={(e) => setYearOfExpiration(e.target.value)}
+          >
+            <option value="" disabled selected>
+              Select Year Of Expiration
+            </option>
+            {Array.from({ length: 2100 - 1899 }, (_, i) => 1900 + i)
               .reverse() // Reverse the array to have the latest year first
               .map((year) => (
                 <option key={year} value={year}>

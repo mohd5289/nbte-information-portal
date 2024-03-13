@@ -15,7 +15,7 @@ export default function SearchProgrammes({ institutionsAndProgrammes }) {
 
   const router = useRouter();
   const { query } = router;
-  const { department } = query;
+  const { department, subdepartment } = query;
   const [searchTerm, setSearchTerm] = useState("");
   const [accreditationStatus, setAccreditationStatus] = useState("all");
   const [startsWithString, setStartsWithString] = useState("none");
@@ -189,7 +189,8 @@ export default function SearchProgrammes({ institutionsAndProgrammes }) {
         </button>
         <Link href="/">
           <a className="text-xl font-bold text-gray-800 ml-4 ">
-            {department} Programmes
+            {department} Programmes <br />
+            {query.subdepartment && ` (${query.subdepartment})`}
           </a>
         </Link>
 
@@ -385,7 +386,13 @@ export default function SearchProgrammes({ institutionsAndProgrammes }) {
           </div>
 
           <div className="border-b">
-            <Link href={`/searchProgrammes`}>
+            <Link
+              href={`/searchProgrammes?department=${department}${
+                query.subdepartment
+                  ? `&subdepartment=${query.subdepartment}`
+                  : ""
+              }`}
+            >
               <a
                 className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
                 onClick={sideBarCloseBarHandler}
@@ -396,7 +403,14 @@ export default function SearchProgrammes({ institutionsAndProgrammes }) {
           </div>
 
           <div className="border-b">
-            <Link href={`/addProgrammes?department=${department}`} passHref>
+            <Link
+              href={`/addProgrammes?department=${department}${
+                query.subdepartment
+                  ? `&subdepartment=${query.subdepartment}`
+                  : ""
+              }`}
+              passHref
+            >
               <a
                 className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
                 onClick={sideBarCloseBarHandler}
@@ -520,8 +534,20 @@ export async function getServerSideProps(context) {
     // Fetch data from Laravel API endpoint using Axios
     switch (query.department) {
       case "Monotechnic":
-        apiUrl =
-          "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/all-monotechnic-institutions-and-programmes";
+        switch (query.subdepartment) {
+          case "Colleges of Agriculture":
+            apiUrl =
+              "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/all-monotechnic-institutions-and-college-of-agriculture-programmes";
+            break;
+          case "Colleges of Health Sciences":
+            apiUrl =
+              "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/all-monotechnic-institutions-and-college-of-health-sciences-programmes";
+            break;
+          case "Specialized Institutions":
+            apiUrl =
+              "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/all-monotechnic-institutions-and-specialized-institution-programmes";
+            break;
+        }
         break;
       case "Technical":
         apiUrl =

@@ -20,10 +20,10 @@ const Section = () => {
   // const moveToSearchPage = () => {
   //   router.push("/searchProgrammes");
   // };
-  const moveToSearchPage = (department) => {
+  const moveToSearchPage = (department, subdepartment) => {
     router.push({
       pathname: "/searchProgrammes",
-      query: { department },
+      query: { department, subdepartment },
     });
   };
   const moveToInstitutionsPage = () => {
@@ -38,34 +38,74 @@ const Section = () => {
         <div className="space y-4 m-1">
           <div
             className="intent relative transition-transform transform hover:translate-x-4"
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-            onClick={() => moveToSearchPage("Polytechnic")}
+            // onMouseEnter={handleMouseEnter}
+            // onMouseLeave={handleMouseLeave}
+            onClick={() => moveToSearchPage("Polytechnic", "")}
           >
             <h2 className="font-roboto text-xl relative">Polytechnics</h2>
           </div>
           <div
-            className="intent transition-transform transform hover:translate-x-4"
-            onClick={() => moveToSearchPage("Monotechnic")}
+            className="intent relative transition-transform transform hover:translate-x-4"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            // onClick={() => moveToSearchPage("Monotechnic")}
           >
             <h2 className="font-roboto text-xl">Monotechnics</h2>
-            {/* <ArrowForwardIosOutlined className="text-gray-700" /> */}
+            <ArrowForwardIosOutlined className="text-gray-700" />
+            {isMenuOpen && (
+              <div
+                className={`intent  ${isMenuOpen ? "block " : "hidden"}`}
+                style={{ top: "100%", right: 0, zIndex: 10 }}
+              >
+                <>
+                  {" "}
+                  <MenuItem
+                    onClick={() =>
+                      moveToSearchPage("Monotechnic", "Colleges of Agriculture")
+                    }
+                  >
+                    {" "}
+                    Colleges of Agriculture
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() =>
+                      moveToSearchPage(
+                        "Monotechnic",
+                        "Colleges of Health Sciences"
+                      )
+                    }
+                  >
+                    Colleges of Health Sciences
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() =>
+                      moveToSearchPage(
+                        "Monotechnic",
+                        "Specialized Institutions"
+                      )
+                    }
+                  >
+                    Specialized Institutions
+                  </MenuItem>
+                </>
+              </div>
+            )}
           </div>
           <div
             className="intent transition-transform transform hover:translate-x-4"
-            onClick={() => moveToSearchPage("Technical College")}
+            onClick={() => moveToSearchPage("Technical College", "")}
           >
             <h2 className="font-roboto text-xl">Technical Colleges</h2>
           </div>
           <div
             className="intent transition-transform transform hover:translate-x-4"
-            onClick={() => moveToSearchPage("IEI")}
+            onClick={() => moveToSearchPage("IEI", "")}
           >
             <h2 className="font-roboto text-xl">IEIs</h2>
           </div>
           <div
             className="intent transition-transform transform hover:translate-x-4"
-            onClick={() => moveToSearchPage("VEI")}
+            onClick={() => moveToSearchPage("VEI", "")}
           >
             <h2 className="font-roboto text-xl">VEIs</h2>
           </div>
