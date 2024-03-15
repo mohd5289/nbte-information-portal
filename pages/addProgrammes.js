@@ -194,7 +194,7 @@ export default function AddProgrammes({ institutions, programmes }) {
     console.log(yearOfExpiration);
     console.log(currentYear);
     // Calculate the difference in years between expirationDate and yearGrantedInterimOrAccreditation
-    const diffYears = yearOfExpiration - new Date(yearGranted).getFullYear();
+    const diffYears = yearOfExpiration - yearGranted;
 
     // Determine accreditation status based on conditions
     let newAccreditationStatus = "";
