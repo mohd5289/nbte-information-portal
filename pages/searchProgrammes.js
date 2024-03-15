@@ -307,7 +307,7 @@ export default function SearchProgrammes({ institutionsAndProgrammes }) {
                                 {program.name}
                               </td>
                               <td className="py-2 px-4 border">
-                                {program.yearGrantedInterimOrAccredition}
+                                {program.yearGrantedInterimOrAccreditation}
                               </td>
                               <td className="py-2 px-4 text-right border">
                                 {program.accreditationStatus}
