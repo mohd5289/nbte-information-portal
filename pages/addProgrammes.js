@@ -168,6 +168,10 @@ export default function AddProgrammes({ institutions, programmes }) {
         setLoading(false);
         setInstitutionName("");
         setPrograms([]);
+        Cookies.set("savedProgrammes", JSON.stringify([])); // Convert programs array to JSON and save to cookie
+        // Optionally, you can add an alert or toast to inform the user that programs are saved
+
+        Cookies.set("savedInstitution", "");
       } catch (error) {
         // Handle error
         setLoading(false);
@@ -301,9 +305,9 @@ export default function AddProgrammes({ institutions, programmes }) {
   const saveProgrammesToCookie = () => {
     Cookies.set("savedProgrammes", JSON.stringify(programs)); // Convert programs array to JSON and save to cookie
     // Optionally, you can add an alert or toast to inform the user that programs are saved
-    if (institutionName) {
-      Cookies.set("savedInstitution", institutionName);
-    }
+
+    Cookies.set("savedInstitution", institutionName);
+
     Cookies.set;
     alert("Programmes saved successfully!");
   };
