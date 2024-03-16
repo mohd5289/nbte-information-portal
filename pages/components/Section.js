@@ -4,6 +4,7 @@ import Illustration from "./illustration2.jpg";
 import Image from "next/image";
 import { Menu, MenuItem } from "@mui/material";
 import { useRouter } from "next/router";
+import NBTE from "./NBTE HQ 3.jpg";
 
 const Section = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -118,7 +119,7 @@ const Section = () => {
         </div>
         <div className="relative xl:absolute xl:flex w-80 h-80 xl:w-[800px] l:w-[400px] xl:h-[330px]  right-10 hidden sm:block md:w-64 md:h-64">
           <Image
-            src={Illustration}
+            src={NBTE}
             className="rounded-md"
             layout="fill"
             objectFit="cover"
