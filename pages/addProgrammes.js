@@ -9,6 +9,7 @@ import Modal from "./components/Modal";
 import FadeLoader from "react-spinners/FadeLoader";
 import Backdrop from "./components/Backdrop";
 import { useRouter } from "next/router";
+import Cookies from "js-cookie";
 export default function AddProgrammes({ institutions, programmes }) {
   const [institutionName, setInstitutionName] = useState("");
   const [programName, setProgramName] = useState("");
@@ -297,6 +298,36 @@ export default function AddProgrammes({ institutions, programmes }) {
   const onProgramSuggestionsClearRequested = () => {
     setProgramSuggestions([]);
   };
+  const saveProgrammesToCookie = () => {
+    Cookies.set("savedProgrammes", JSON.stringify(programs)); // Convert programs array to JSON and save to cookie
+    // Optionally, you can add an alert or toast to inform the user that programs are saved
+    if (institutionName) {
+      Cookies.set("savedInstitution", institutionName);
+    }
+    Cookies.set;
+    alert("Programmes saved successfully!");
+  };
+
+  // Function to load programs from the cookie
+  const loadProgramsFromCookie = () => {
+    const savedProgrammes = Cookies.get("savedProgrammes");
+    console.log(savedProgrammes);
+    const savedInstitution = Cookies.get("savedInstitution");
+    console.log(savedInstitution);
+    if (savedProgrammes) {
+      setPrograms(JSON.parse(savedProgrammes)); // Parse JSON string from cookie and set programs state
+      if (savedInstitution) {
+        setInstitutionName(savedInstitution);
+        // setInstitutionName(savedProgrammes.institutionName); // Set institutionName from saved data if it's empty
+        // console.log(institutionName);
+      }
+    }
+  };
+
+  // Load programs from cookie when component mounts
+  useEffect(() => {
+    loadProgramsFromCookie();
+  }, []);
   return (
     <div className="flex flex-col relative">
       <div
@@ -603,6 +634,12 @@ export default function AddProgrammes({ institutions, programmes }) {
             onClick={handleSubmit}
           >
             Submit All programmes
+          </button>
+          <button
+            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 my-2 mx-auto ml-2"
+            onClick={saveProgrammesToCookie}
+          >
+            Save Programmes in Browser
           </button>
         </div>
 
