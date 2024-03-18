@@ -8,19 +8,34 @@ import NBTE from "./NBTE HQ 3.jpg";
 
 const Section = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMenuInfoOpen, setIsMenuInfoOpen] = useState(false);
 
   const router = useRouter();
 
   const handleMouseEnter = () => {
     setIsMenuOpen(true);
   };
-
+  const handleGeneralIntroMouseEnter = () => {
+    setIsMenuInfoOpen(true);
+  };
+  const handleGeneralIntroMouseLeave = () => {
+    setIsMenuInfoOpen(false);
+  };
   const handleMouseLeave = () => {
     setIsMenuOpen(false);
   };
   // const moveToSearchPage = () => {
   //   router.push("/searchProgrammes");
   // };
+  const moveToIntroductionsPage = () => {
+    router.push("/Introduction");
+  };
+  const moveToAbbreviationsPage = () => {
+    router.push("/Abbreviations");
+  };
+  const moveToAdmissionsPage = () => {
+    router.push("/Admissions");
+  };
   const moveToSearchPage = (department, subdepartment) => {
     router.push({
       pathname: "/searchProgrammes",
@@ -37,6 +52,34 @@ const Section = () => {
       </h2>
       <div className="flex sm:flex-col l:flex-row justify-between">
         <div className="space y-4 m-1">
+          <div
+            className="intent relative transition-transform transform hover:translate-x-4"
+            onMouseEnter={handleGeneralIntroMouseEnter}
+            onMouseLeave={handleGeneralIntroMouseLeave}
+          >
+            <h2 className="font-roboto text-xl">General Information</h2>
+            <ArrowForwardIosOutlined className="text-gray-700" />
+            {isMenuInfoOpen && (
+              <div
+                className={`intent  ${isMenuInfoOpen ? "block " : "hidden"}`}
+                style={{ top: "100%", right: 0, zIndex: 100 }}
+              >
+                <>
+                  {" "}
+                  <MenuItem onClick={() => moveToIntroductionsPage()}>
+                    {" "}
+                    Introduction
+                  </MenuItem>
+                  <MenuItem onClick={() => moveToAbbreviationsPage()}>
+                    Abbreviations
+                  </MenuItem>
+                  <MenuItem onClick={() => moveToAdmissionsPage()}>
+                    How to Apply for Admissions
+                  </MenuItem>
+                </>
+              </div>
+            )}
+          </div>
           <div
             className="intent relative transition-transform transform hover:translate-x-4"
             // onMouseEnter={handleMouseEnter}
