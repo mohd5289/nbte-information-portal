@@ -549,7 +549,7 @@ export async function getServerSideProps(context) {
             break;
         }
         break;
-      case "Technical":
+      case "Technical College":
         apiUrl =
           "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/all-technical-colleges-institutions-and-programmes";
         break;
