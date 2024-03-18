@@ -24,7 +24,7 @@ export default function Introduction() {
             following categories of institutions:
           </p>
           <div class="text-lg">
-            <ul class="list-disc ml-6">
+            <ul class="list-none ml-6">
               <li>Polytechnics;</li>
               <li>Colleges of Agriculture;</li>
               <li>Colleges of Health Sciences;</li>
@@ -50,7 +50,7 @@ export default function Introduction() {
             graduates of the programmes:
           </p>
           <div class="text-lg">
-            <ul class="list-disc ml-6">
+            <ul class="list-none ml-6">
               <li>Post Higher National Diploma (Post-HND);</li>
               <li>Higher National Diploma (HND);</li>
               <li>Higher National Innovation Diploma (HNID);</li>

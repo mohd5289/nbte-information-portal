@@ -34,7 +34,7 @@ export default function Admissions() {
               the following procedure may apply:
             </p>
             <div class="text-lg mt-8">
-              <ul class="list-disc ml-6">
+              <ul class="list-none ml-6">
                 <li>
                   All applicants should apply through this link:{" "}
                   <a href="https://hnd.nbte.gov.ng/">hnd.nbte.gov.ng.</a>{" "}
@@ -65,7 +65,7 @@ export default function Admissions() {
               follows:
             </p>
             <div class="text-lg">
-              <ul class="list-disc ml-6">
+              <ul class="list-none ml-6">
                 <li>
                   WASC/SSCE/GCE Ordinary Level or its equivalent with credit
                   level passes in five subjects relevant to the programme at not

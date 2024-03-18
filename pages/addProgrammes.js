@@ -118,7 +118,7 @@ export default function AddProgrammes({ institutions, programmes }) {
             // apiUrl =
             //   "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/create-monotechnic-institution-with-programmes";
             break;
-          case "Technical":
+          case "Technical College":
             apiUrl =
               "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/create-technical-colleges-institution-with-programmes";
             break;
