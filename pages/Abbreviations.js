@@ -80,7 +80,7 @@ export default function Abbreviations() {
             </td>
           </tr>
           <tr>
-            <td class="border border-gray-300 p-2">GCE 'O' Level</td>
+            <td class="border border-gray-300 p-2">GCE &apos;O&apos; Level</td>
             <td class="border border-gray-300 p-2">
               General Certificate of Education Ordinary Level
             </td>
