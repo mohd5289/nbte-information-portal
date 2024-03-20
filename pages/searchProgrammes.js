@@ -208,7 +208,7 @@ export default function SearchProgrammes({ institutionsAndProgrammes }) {
               }}
               className="border border-white bg-white rounded-md"
             >
-              <div className="p-4 bg-white border-b flex items-center">
+              <div className="p-4 bg-white border-b flex items-center ">
                 <input
                   type="text"
                   placeholder={
@@ -232,7 +232,16 @@ export default function SearchProgrammes({ institutionsAndProgrammes }) {
               </div>
             </form>
           </div>
-          <div className="absolute left-0 right-0 mt-32 mx-auto  ">
+          <div
+            className="absolute left-0 right-0 mt-32  lg:mx-auto  "
+            // style={{
+            //   marginTop: "400px",
+            //   "@media (min-width: 640px)": {},
+            //   "@media (min-width: 1024px)": {
+            //     marginTop: "120px", // For large screens
+            //   },
+            // }}
+          >
             <h2 className="mb-3 font-bold">
               {" "}
               Directory of Accredited Programmes
@@ -446,7 +455,7 @@ export default function SearchProgrammes({ institutionsAndProgrammes }) {
         </div>
       </div>
 
-      <div className="md:w-1/4 ml-12 ">
+      <div className="w-1/4 ml-12 ">
         <ul>
           <li>
             <div className="w-full">
