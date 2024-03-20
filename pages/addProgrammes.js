@@ -283,7 +283,7 @@ export default function AddProgrammes({ institutions, programmes }) {
     const savedInstitution = Cookies.get("savedInstitution");
     // Update the programs state with the filtered array
 
-    saveProgrammesToCookie(updatedPrograms, savedInstitution);
+    saveProgrammesToLocalStorage(updatedPrograms, savedInstitution);
   };
   const renderSuggestion = (suggestion) => <div>{suggestion.name}</div>;
   const getSuggestionValue = (suggestion) => suggestion.name;
