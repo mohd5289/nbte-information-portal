@@ -232,7 +232,7 @@ export default function SearchProgrammes({ institutionsAndProgrammes }) {
               </div>
             </form>
           </div>
-          <div className="absolute left-0 right-0 lg:mt-32 mx-auto md:mt-80 sm:mt-80 xs:mt-80">
+          <div className="absolute left-0 right-0 mt-32 mx-auto  ">
             <h2 className="mb-3 font-bold">
               {" "}
               Directory of Accredited Programmes
