@@ -187,7 +187,27 @@ export default function AddProgrammes({ institutions, programmes }) {
       }
     }
   };
+  const saveProgrammesToLocalStorage = (updatedPrograms, institutionName) => {
+    // localStorage.se
+    localStorage.setItem(
+      "savedProgrammes",
+      JSON.stringify({ institutionName, programs: updatedPrograms })
+    );
+    localStorage.setItem("savedInstitution", institutionName);
+  };
 
+  // Function to load programs from the cookie
+  const loadProgramsFromLocalStorage = () => {
+    const savedProgrammes = localStorage.getItem("savedProgrammes");
+    const savedInstitution = localStorage.getItem("savedInstitution");
+    if (savedProgrammes) {
+      const { programs: savedPrograms } = JSON.parse(savedProgrammes);
+      setPrograms(savedPrograms);
+      if (savedInstitution) {
+        setInstitutionName(savedInstitution);
+      }
+    }
+  };
   const handleAddProgram = () => {
     // console.log(yearGranted);
     let expDate = null;
@@ -233,13 +253,12 @@ export default function AddProgrammes({ institutions, programmes }) {
       localStorage.getItem("savedInstitution") || institutionName;
 
     // Retrieve programs array from localStorage
-    const savedPrograms =
-      JSON.parse(localStorage.getItem("savedPrograms")) || [];
-    const updatedPrograms = [...savedPrograms, newProgram];
+    // const savedPrograms =
+    //   JSON.parse(localStorage.getItem("savedPrograms")) || [];
+    const updatedPrograms = [...programs, newProgram];
 
     // Save updated programs array and institution name to localStorage
-    localStorage.setItem("savedPrograms", JSON.stringify(updatedPrograms));
-    localStorage.setItem("savedInstitution", savedInstitution);
+    saveProgrammesToLocalStorage(updatedPrograms, institutionName);
 
     setPrograms([...programs, newProgram], savedInstitution);
 
@@ -312,26 +331,6 @@ export default function AddProgrammes({ institutions, programmes }) {
 
   const onProgramSuggestionsClearRequested = () => {
     setProgramSuggestions([]);
-  };
-  const saveProgrammesToLocalStorage = (updatedPrograms, institutionName) => {
-    // localStorage.se
-    localStorage.setItem(
-      "savedProgrammes",
-      JSON.stringify({ institutionName, programs: updatedPrograms })
-    );
-    localStorage.setItem("savedInstitution", institutionName);
-  };
-
-  // Function to load programs from the cookie
-  const loadProgramsFromLocalStorage = () => {
-    const savedProgrammes = localStorage.getItem("savedProgrammes");
-    const savedInstitution = localStorage.getItem("savedInstitution");
-    if (savedProgrammes) {
-      setPrograms(JSON.parse(savedProgrammes));
-      if (savedInstitution) {
-        setInstitutionName(savedInstitution);
-      }
-    }
   };
 
   // Load programs from cookie when component mounts
