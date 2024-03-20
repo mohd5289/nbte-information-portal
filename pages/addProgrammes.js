@@ -231,8 +231,9 @@ export default function AddProgrammes({ institutions, programmes }) {
       yearGrantedInterimOrAccreditation: yearGranted,
       expirationDate: formattedExpirationDate,
     };
-    saveProgrammesToCookie([...programs, newProgram]);
-    setPrograms([...programs, newProgram]);
+    const savedInstitution = Cookies.get("savedInstitution") || institutionName;
+    saveProgrammesToCookie([...programs, newProgram], savedInstitution);
+    setPrograms([...programs, newProgram], savedInstitution);
 
     // Clear input fields after adding the program
     setProgramName("");
@@ -270,10 +271,11 @@ export default function AddProgrammes({ institutions, programmes }) {
     const updatedPrograms = programs.filter(
       (program, index) => index !== rowId
     );
-
-    // Update the programs state with the filtered array
     setPrograms(updatedPrograms);
-    saveProgrammesToCookie(updatedPrograms);
+    const savedInstitution = Cookies.get("savedInstitution");
+    // Update the programs state with the filtered array
+
+    saveProgrammesToCookie(updatedPrograms, savedInstitution);
   };
   const renderSuggestion = (suggestion) => <div>{suggestion.name}</div>;
   const getSuggestionValue = (suggestion) => suggestion.name;
@@ -303,9 +305,10 @@ export default function AddProgrammes({ institutions, programmes }) {
   const onProgramSuggestionsClearRequested = () => {
     setProgramSuggestions([]);
   };
-  const saveProgrammesToCookie = (updatedPrograms) => {
+  const saveProgrammesToCookie = (updatedPrograms, institutionName) => {
     Cookies.set("savedProgrammes", JSON.stringify(updatedPrograms));
     // Optionally, you can add an alert or toast to inform the user that programs are saved
+    Cookies.set("savedInstitution", institutionName);
   };
 
   // Function to load programs from the cookie
