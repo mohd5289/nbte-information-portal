@@ -187,15 +187,19 @@ export default function SearchProgrammes({ institutionsAndProgrammes }) {
             />
           </svg>
         </button>
-        <Link href="/">
-          <a className="text-xl font-bold text-gray-800 ml-4 ">
+        <Link href="/" title="Go to Home">
+          <a
+            className="text-xl font-bold text-gray-800 ml-4 "
+            aria-label="Go to Home"
+            title="Go to Home"
+          >
             {department} Programmes <br />
             {query.subdepartment && ` (${query.subdepartment})`}
           </a>
         </Link>
 
-        <div className="flex flex-col mr-auto ml-auto relative">
-          <div className="md:flex  items-center mr-auto ml-auto">
+        <div className="flex flex-col mr-auto ml-auto relative ">
+          <div className="md:flex  items-center mr-auto ml-auto ">
             <form
               //   onSubmit={submitHandler}
               onSubmit={(e) => {
@@ -228,7 +232,7 @@ export default function SearchProgrammes({ institutionsAndProgrammes }) {
               </div>
             </form>
           </div>
-          <div className="absolute left-0 right-0 mt-32 mx-auto">
+          <div className="absolute left-0 right-0 lg:mt-32 mx-auto md:mt-80 sm:mt-80 xs:mt-80">
             <h2 className="mb-3 font-bold">
               {" "}
               Directory of Accredited Programmes
