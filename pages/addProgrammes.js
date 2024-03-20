@@ -168,10 +168,8 @@ export default function AddProgrammes({ institutions, programmes }) {
         setLoading(false);
         setInstitutionName("");
         setPrograms([]);
-        Cookies.remove("savedProgrammes");
-
-        // To remove the "savedInstitution" cookie
-        Cookies.remove("savedInstitution");
+        localStorage.removeItem("savedPrograms");
+        localStorage.removeItem("savedInstitution");
       } catch (error) {
         // Handle error
         setLoading(false);
@@ -231,8 +229,18 @@ export default function AddProgrammes({ institutions, programmes }) {
       yearGrantedInterimOrAccreditation: yearGranted,
       expirationDate: formattedExpirationDate,
     };
-    const savedInstitution = Cookies.get("savedInstitution") || institutionName;
-    saveProgrammesToCookie([...programs, newProgram], savedInstitution);
+    const savedInstitution =
+      localStorage.getItem("savedInstitution") || institutionName;
+
+    // Retrieve programs array from localStorage
+    const savedPrograms =
+      JSON.parse(localStorage.getItem("savedPrograms")) || [];
+    const updatedPrograms = [...savedPrograms, newProgram];
+
+    // Save updated programs array and institution name to localStorage
+    localStorage.setItem("savedPrograms", JSON.stringify(updatedPrograms));
+    localStorage.setItem("savedInstitution", savedInstitution);
+
     setPrograms([...programs, newProgram], savedInstitution);
 
     // Clear input fields after adding the program
@@ -305,31 +313,30 @@ export default function AddProgrammes({ institutions, programmes }) {
   const onProgramSuggestionsClearRequested = () => {
     setProgramSuggestions([]);
   };
-  const saveProgrammesToCookie = (updatedPrograms, institutionName) => {
-    Cookies.set("savedProgrammes", JSON.stringify(updatedPrograms));
-    // Optionally, you can add an alert or toast to inform the user that programs are saved
-    Cookies.set("savedInstitution", institutionName);
+  const saveProgrammesToLocalStorage = (updatedPrograms, institutionName) => {
+    // localStorage.se
+    localStorage.setItem(
+      "savedProgrammes",
+      JSON.stringify({ institutionName, programs: updatedPrograms })
+    );
+    localStorage.setItem("savedInstitution", institutionName);
   };
 
   // Function to load programs from the cookie
-  const loadProgramsFromCookie = () => {
-    const savedProgrammes = Cookies.get("savedProgrammes");
-    console.log(savedProgrammes);
-    const savedInstitution = Cookies.get("savedInstitution");
-    console.log(savedInstitution);
+  const loadProgramsFromLocalStorage = () => {
+    const savedProgrammes = localStorage.getItem("savedProgrammes");
+    const savedInstitution = localStorage.getItem("savedInstitution");
     if (savedProgrammes) {
-      setPrograms(JSON.parse(savedProgrammes)); // Parse JSON string from cookie and set programs state
+      setPrograms(JSON.parse(savedProgrammes));
       if (savedInstitution) {
         setInstitutionName(savedInstitution);
-        // setInstitutionName(savedProgrammes.institutionName); // Set institutionName from saved data if it's empty
-        // console.log(institutionName);
       }
     }
   };
 
   // Load programs from cookie when component mounts
   useEffect(() => {
-    loadProgramsFromCookie();
+    loadProgramsFromLocalStorage();
   }, []);
   return (
     <div className="flex flex-col relative">
