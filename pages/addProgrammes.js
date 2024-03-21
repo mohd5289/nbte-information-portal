@@ -168,7 +168,7 @@ export default function AddProgrammes({ institutions, programmes }) {
         setLoading(false);
         setInstitutionName("");
         setPrograms([]);
-        localStorage.removeItem("savedPrograms");
+        localStorage.removeItem("savedProgrammes");
         localStorage.removeItem("savedInstitution");
       } catch (error) {
         // Handle error
