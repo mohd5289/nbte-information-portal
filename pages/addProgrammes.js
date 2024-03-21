@@ -25,7 +25,7 @@ export default function AddProgrammes({ institutions, programmes }) {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { query } = router;
-  const { department, subdepartment } = query;
+  const { department, subdepartment } = query ?? props;
 
   const [sideBarVisible, setSideBarVisible] = useState(false);
   const sidebarOpenHandler = () => {
@@ -390,7 +390,7 @@ export default function AddProgrammes({ institutions, programmes }) {
         <div className="border-b">
           <Link
             href={`/addProgrammes?department=${department}${
-              query.subdepartment ? `&subdepartment=${query.subdepartment}` : ""
+              subdepartment ? `&subdepartment=${subdepartment}` : ""
             }`}
           >
             <a
@@ -666,6 +666,7 @@ export default function AddProgrammes({ institutions, programmes }) {
 }
 
 export async function getServerSideProps(context) {
+  const { query } = context;
   try {
     // Fetch data from the first URL
     const response1 = await axios.get(
@@ -684,6 +685,8 @@ export async function getServerSideProps(context) {
       props: {
         institutions,
         programmes,
+        department: query.department,
+        subdepartment: query.subdepartment,
       },
     };
   } catch (error) {
@@ -694,6 +697,8 @@ export async function getServerSideProps(context) {
       props: {
         institutions: null,
         programmes: null,
+        department: query.department,
+        subdepartment: query.subdepartment,
       },
     };
   }

@@ -15,7 +15,7 @@ export default function SearchProgrammes({ institutionsAndProgrammes }) {
 
   const router = useRouter();
   const { query } = router;
-  const { department, subdepartment } = query;
+  const { department, subdepartment } = query ?? props;
   const [searchTerm, setSearchTerm] = useState("");
   const [accreditationStatus, setAccreditationStatus] = useState("all");
   const [startsWithString, setStartsWithString] = useState("none");
@@ -194,7 +194,7 @@ export default function SearchProgrammes({ institutionsAndProgrammes }) {
             title="Go to Home"
           >
             {department} Programmes <br />
-            {query.subdepartment && ` (${query.subdepartment})`}
+            {subdepartment && ` (${subdepartment})`}
           </a>
         </Link>
 
@@ -530,6 +530,7 @@ export default function SearchProgrammes({ institutionsAndProgrammes }) {
 }
 
 export async function getServerSideProps(context) {
+  const { query } = context;
   try {
     const { query } = context;
     let apiUrl = "";
@@ -595,6 +596,8 @@ export async function getServerSideProps(context) {
         institutionsAndProgrammes,
         institutions,
         programmes,
+        department: query.department,
+        subdepartment: query.subdepartment,
       },
     };
   } catch (error) {
@@ -603,6 +606,8 @@ export async function getServerSideProps(context) {
     return {
       props: {
         institutionsAndProgrammes: [],
+        department: query.department,
+        subdepartment: query.subdepartment,
       },
     };
   }
