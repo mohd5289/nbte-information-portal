@@ -5,7 +5,7 @@ import { MdSearch } from "react-icons/md";
 import axios from "axios";
 import { useRouter } from "next/router";
 import Link from "next/link";
-
+import RingLoader from "react-spinners/RingLoader";
 export default function SearchProgrammes({ institutionsAndProgrammes }) {
   console.log(institutionsAndProgrammes);
 
@@ -22,6 +22,7 @@ export default function SearchProgrammes({ institutionsAndProgrammes }) {
   const [selectedStream, setSelectedStream] = useState("any");
   const [searchByInstitution, setSearchByInstitution] = useState(false);
   const [pageCount, setPageCount] = useState(0);
+  const [loading, setLoading] = useState(false);
   //    const itemsPerPage = 20;
   //   const [currentPage, setCurrentPage] = useState(1);
 
@@ -38,17 +39,23 @@ export default function SearchProgrammes({ institutionsAndProgrammes }) {
   };
 
   const handleSearch = () => {
-    router.push({
-      pathname: "/searchProgrammes",
-      query: {
-        programme_name_contains: searchTerm,
-        programme_name_starts_with: startsWithString,
-        accreditation_status: accreditationStatus,
-        streams: selectedStream,
-        department: department,
-        subdepartment: subdepartment,
-      },
-    });
+    setLoading(true);
+
+    router
+      .push({
+        pathname: "/searchProgrammes",
+        query: {
+          programme_name_contains: searchTerm,
+          programme_name_starts_with: startsWithString,
+          accreditation_status: accreditationStatus,
+          streams: selectedStream,
+          department: department,
+          subdepartment: subdepartment,
+        },
+      })
+      .then(() => {
+        setLoading(false); // Set loading to false after navigation is complete
+      });
   };
   //   console.log(filteredProgrammes);
   let totalPrograms = 0;
@@ -251,6 +258,19 @@ export default function SearchProgrammes({ institutionsAndProgrammes }) {
               Directory of Accredited Programmes
             </h2>
             <div className="overflow-x-auto">
+              <RingLoader
+                color="#36d7b7"
+                loading={loading}
+                cssOverride={{
+                  position: "absolute",
+                  top: "20%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                }}
+                size={150}
+                aria-label="Loading Spinner"
+                data-testid="loader"
+              />
               <table className="min-w-full bg-white border border-gray-300">
                 <thead className="bg-green-600">
                   {filteredProgrammes
