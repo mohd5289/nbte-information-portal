@@ -45,6 +45,8 @@ export default function SearchProgrammes({ institutionsAndProgrammes }) {
         programme_name_starts_with: startsWithString,
         accreditation_status: accreditationStatus,
         streams: selectedStream,
+        department: department,
+        subdepartment: subdepartment,
       },
     });
   };
@@ -598,8 +600,8 @@ export async function getServerSideProps(context) {
         institutionsAndProgrammes,
         institutions,
         programmes,
-        department: query.department,
-        subdepartment: query.subdepartment,
+        department: query.department || "",
+        subdepartment: query.subdepartment || "",
       },
     };
   } catch (error) {
@@ -608,8 +610,8 @@ export async function getServerSideProps(context) {
     return {
       props: {
         institutionsAndProgrammes: [],
-        department: query.department,
-        subdepartment: query.subdepartment,
+        department: query.department || "",
+        subdepartment: query.subdepartment || "",
       },
     };
   }
