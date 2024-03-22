@@ -154,7 +154,9 @@ export default function SearchProgrammes({ institutionsAndProgrammes }) {
         (program) => program.approvedStream === parseInt(streams)
       );
     }
-
+    filteredData.sort((a, b) =>
+      a.institutionName.localeCompare(b.institutionName)
+    );
     setFilteredProgrammes(filteredData);
     console.log(filteredProgrammes);
     setPageCount(Math.ceil(filteredData.length / itemsPerPage));
