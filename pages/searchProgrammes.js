@@ -117,7 +117,7 @@ export default function SearchProgrammes({ institutionsAndProgrammes }) {
   const [filteredProgrammes, setFilteredProgrammes] = useState(allPrograms);
   useEffect(() => {
     filterAllPrograms();
-  }, [query, filteredProgrammes]);
+  }, [query]);
   const filterAllPrograms = () => {
     let filteredData = allPrograms; // Reset to original data
     console.log(filteredData);
