@@ -257,20 +257,8 @@ export default function SearchProgrammes({ institutionsAndProgrammes }) {
               {" "}
               Directory of Accredited Programmes
             </h2>
+
             <div className="overflow-x-auto">
-              <RingLoader
-                color="#36d7b7"
-                loading={loading}
-                cssOverride={{
-                  position: "absolute",
-                  top: "20%",
-                  left: "50%",
-                  transform: "translate(-50%, -50%)",
-                }}
-                size={150}
-                aria-label="Loading Spinner"
-                data-testid="loader"
-              />
               <table className="min-w-full bg-white border border-gray-300">
                 <thead className="bg-green-600">
                   {filteredProgrammes
@@ -480,6 +468,19 @@ export default function SearchProgrammes({ institutionsAndProgrammes }) {
       </div>
 
       <div className="w-1/4 ml-12 ">
+        <RingLoader
+          color="#36d7b7"
+          loading={loading}
+          cssOverride={{
+            position: "absolute",
+            top: "20%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+          }}
+          size={150}
+          aria-label="Loading Spinner"
+          data-testid="loader"
+        />
         <ul>
           <li>
             <div className="w-full">
