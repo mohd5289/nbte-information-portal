@@ -227,6 +227,9 @@ export default function AddProgrammes({ institutions, programmes }) {
       newAccreditationStatus = "Expired";
     } else if (diffYears === 5) {
       newAccreditationStatus = "Accredited";
+    } else if (programName.startsWith("NVC") && diffYears === 3) {
+      // Adjust condition here for program name starting with "NVC" and diffYears being 3
+      newAccreditationStatus = "Approved";
     } else if (diffYears === 2) {
       newAccreditationStatus = "Approved";
     } else if (diffYears === 1) {
