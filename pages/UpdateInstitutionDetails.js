@@ -2,7 +2,7 @@ import { Autocomplete, MenuItem, Select, TextField } from "@mui/material";
 import React, { useState } from "react";
 import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import Backdrop from "./Backdrop";
 import FadeLoader from "react-spinners/FadeLoader";
 export default function UpdateInstitutionDetails({ institutions }) {
@@ -203,6 +203,7 @@ export default function UpdateInstitutionDetails({ institutions }) {
         aria-label="Loading Spinner"
         data-testid="loader"
       />
+      <ToastContainer position="top-center" />
       <div className="flex flex-col w-60% border border-gray-300 shadow-md m-64 justify-center items-center">
         <h1 className="text-center font-bold text-xl mt-2">
           {" "}
