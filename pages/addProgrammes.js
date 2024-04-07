@@ -688,8 +688,8 @@ export async function getServerSideProps(context) {
       props: {
         institutions,
         programmes,
-        department: query.department,
-        subdepartment: query.subdepartment,
+        department: query.department || "",
+        subdepartment: query.subdepartment || "",
       },
     };
   } catch (error) {
@@ -700,8 +700,8 @@ export async function getServerSideProps(context) {
       props: {
         institutions: null,
         programmes: null,
-        department: query.department,
-        subdepartment: query.subdepartment,
+        department: query.department || "",
+        subdepartment: query.subdepartment || "",
       },
     };
   }

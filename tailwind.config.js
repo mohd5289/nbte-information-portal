@@ -10,7 +10,11 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      spacing: {
+        table: "16rem", // Define spacing for table container
+      },
+    },
   },
   plugins: [],
   variants: {

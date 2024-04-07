@@ -287,14 +287,16 @@ export default function SearchProgrammes({ institutionsAndProgrammes }) {
                   <tr>
                     <th className="py-2 px-4 text-center border">S/N</th>
                     <th className="py-2 px-4 border">Programme Name</th>
-                    <th className="py-2 px-4 border">Year Granted</th>
+                    <th className="py-2 px-4 border hidden sm:table-cell">
+                      Year Granted
+                    </th>
                     <th className="py-2 px-4 text-right border">
                       Accreditation Status
                     </th>
-                    <th className="py-2 px-4 text-right border">
+                    <th className="py-2 px-4 text-right border hidden sm:table-cell">
                       Approved Streams
                     </th>
-                    <th className="py-2 px-4 text-right border">
+                    <th className="py-2 px-4 text-right border hidden sm:table-cell">
                       Expiration Date
                     </th>
                   </tr>
@@ -331,7 +333,7 @@ export default function SearchProgrammes({ institutionsAndProgrammes }) {
                               <td className="py-2 px-4 border">
                                 {program.name}
                               </td>
-                              <td className="py-2 px-4 border">
+                              <td className="py-2 px-4 border  ">
                                 {program.yearGrantedInterimOrAccreditation}
                               </td>
                               <td className="py-2 px-4 text-right border">
@@ -461,6 +463,16 @@ export default function SearchProgrammes({ institutionsAndProgrammes }) {
                 onClick={sideBarCloseBarHandler}
               >
                 Add All Institutions Under NBTE
+              </a>
+            </Link>
+          </div>
+          <div className="border-b">
+            <Link href="/UpdateInstitutionDetails">
+              <a
+                className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+                onClick={sideBarCloseBarHandler}
+              >
+                Update Institution Details
               </a>
             </Link>
           </div>
