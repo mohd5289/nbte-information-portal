@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
-import Backdrop from "./Backdrop";
+import Backdrop from "./components/Backdrop";
 import FadeLoader from "react-spinners/FadeLoader";
 export default function UpdateInstitutionDetails({ institutions }) {
   console.log(institutions);
