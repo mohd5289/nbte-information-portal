@@ -254,12 +254,16 @@ export default function UpdateInstitutionDetails({ institutions }) {
 
         {/* Dropdown for Ownership */}
         <Select
-          label="Ownership"
+          id="ownership"
           variant="outlined"
           value={ownership}
           onChange={(e) => setOwnership(e.target.value)}
+          displayEmpty
           sx={inputStyles}
         >
+          <MenuItem value="" disabled>
+            Ownership
+          </MenuItem>
           <MenuItem value="Federal">Federal</MenuItem>
           <MenuItem value="Private">Private</MenuItem>
           <MenuItem value="State">State</MenuItem>
