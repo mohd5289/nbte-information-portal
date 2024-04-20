@@ -50,7 +50,7 @@ export default function UpdateInstitutionDetails({ institutions }) {
       try {
         // Send a POST request to the backend endpoint to update institution details
         const response = await axios.post(
-          "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/updateInstitutionDetails",
+          "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/update-institution-details",
           requestData,
           {
             headers: {
