@@ -357,7 +357,7 @@ export default function AddProgrammes({ institutions, programmes }) {
         }`}
         style={{ width: "325px" }}
       >
-        <div className="p-4 border-b">
+        <div className="px-2 py-4  border-b">
           <div className="flex items-center justify-between">
             <Link href="/" passHref>
               <a>
