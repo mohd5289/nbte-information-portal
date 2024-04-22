@@ -391,7 +391,7 @@ export default function SearchProgrammes({ institutionsAndProgrammes }) {
           }`}
           style={{ width: "325px" }}
         >
-          <div className="p-2 border-b">
+          <div className="px-2 py-4 border-b">
             <div className="flex flex-row justify-between items-center ">
               <Link href="/" passHref>
                 <a>
