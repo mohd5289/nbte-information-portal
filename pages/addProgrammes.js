@@ -10,6 +10,13 @@ import FadeLoader from "react-spinners/FadeLoader";
 import Backdrop from "./components/Backdrop";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
+import { FaSearch } from "react-icons/fa";
+import { MdSearch } from "react-icons/md";
+import { MdOutlineUpdate } from "react-icons/md";
+import { MdOutlineAdd } from "react-icons/md";
+import NBTE from "../public/favicon.ico";
+import Image from "next/image";
+
 export default function AddProgrammes({ institutions, programmes }) {
   const [institutionName, setInstitutionName] = useState("");
   const [programName, setProgramName] = useState("");
@@ -348,11 +355,27 @@ export default function AddProgrammes({ institutions, programmes }) {
             ? "translate-x-0 border-r z-20"
             : "-translate-x-full z-10"
         }`}
-        style={{ width: "300px" }}
+        style={{ width: "325px" }}
       >
         <div className="p-4 border-b">
           <div className="flex items-center justify-between">
-            <p className="text-lg font-bold">Options</p>
+            <Link href="/" passHref>
+              <a>
+                <div className="flex items-center">
+                  <Image
+                    src={NBTE}
+                    className="rounded-md"
+                    objectPosition="center"
+                    priority
+                    width={45}
+                    height={45}
+                  />
+                  <p className="text-lg font-bold ml-2">
+                    NBTE Information Portal
+                  </p>
+                </div>
+              </a>
+            </Link>
             <button
               className="text-gray-600 focus:outline-none"
               onClick={sideBarCloseBarHandler}
@@ -376,33 +399,41 @@ export default function AddProgrammes({ institutions, programmes }) {
         </div>
 
         <div className="border-b">
-          <Link
-            href={`/searchProgrammes?department=${department}${
-              query.subdepartment ? `&subdepartment=${query.subdepartment}` : ""
-            }`}
-          >
-            <a
-              className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
-              onClick={sideBarCloseBarHandler}
+          <div className="flex items-center">
+            <FaSearch className="ml-2" />
+            <Link
+              href={`/searchProgrammes?department=${department}${
+                query.subdepartment
+                  ? `&subdepartment=${query.subdepartment}`
+                  : ""
+              }`}
             >
-              Search Programme
-            </a>
-          </Link>
+              <a
+                className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+                onClick={sideBarCloseBarHandler}
+              >
+                Search Programme
+              </a>
+            </Link>
+          </div>
         </div>
 
         <div className="border-b">
-          <Link
-            href={`/addProgrammes?department=${department}${
-              subdepartment ? `&subdepartment=${subdepartment}` : ""
-            }`}
-          >
-            <a
-              className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
-              onClick={sideBarCloseBarHandler}
+          <div className="flex items-center">
+            <MdOutlineAdd className="ml-2" />
+            <Link
+              href={`/addProgrammes?department=${department}${
+                subdepartment ? `&subdepartment=${subdepartment}` : ""
+              }`}
             >
-              Add Programme
-            </a>
-          </Link>
+              <a
+                className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+                onClick={sideBarCloseBarHandler}
+              >
+                Add Programme
+              </a>
+            </Link>
+          </div>
         </div>
       </div>
       <div className="flex  relative z-0">
