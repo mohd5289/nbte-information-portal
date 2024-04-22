@@ -290,7 +290,7 @@ export default function SearchProgrammes({ institutionsAndProgrammes }) {
                     })}
                   <tr>
                     <th className="py-2 px-4 text-center border">S/N</th>
-                    <th className="py-2 px-4 border">Programme Name</th>
+                    <th className="py-2 px-4 border ">Programme Name</th>
                     <th className="py-2 px-4 border hidden sm:table-cell">
                       Year Granted
                     </th>
@@ -334,7 +334,7 @@ export default function SearchProgrammes({ institutionsAndProgrammes }) {
                               <td className="py-2 px-4 text-center border">
                                 {programNumber}
                               </td>
-                              <td className="py-2 px-4 border">
+                              <td className="py-2 px-4 border ">
                                 {program.name}
                               </td>
                               <td className="py-2 px-4 border  ">
@@ -391,11 +391,11 @@ export default function SearchProgrammes({ institutionsAndProgrammes }) {
           }`}
           style={{ width: "325px" }}
         >
-          <div className="p-4 border-b">
+          <div className="p-2 border-b">
             <div className="flex flex-row justify-between items-center ">
               <Link href="/" passHref>
                 <a>
-                  <div className="flex items-center">
+                  <div className="flex items-center ">
                     <Image
                       src={NBTE}
                       className="rounded-md"
