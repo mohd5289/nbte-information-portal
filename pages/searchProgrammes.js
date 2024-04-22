@@ -433,7 +433,7 @@ export default function SearchProgrammes({ institutionsAndProgrammes }) {
           </div>
 
           <div className="border-b">
-            <div className="flex items-center">
+            <div className="flex items-center hover:bg-gray-100">
               <FaSearch className="ml-2" />
               <Link
                 href={`/searchProgrammes?department=${department}${
@@ -453,7 +453,7 @@ export default function SearchProgrammes({ institutionsAndProgrammes }) {
           </div>
 
           <div className="border-b">
-            <div className="flex items-center">
+            <div className="flex items-center hover:bg-gray-100">
               <MdOutlineAdd className="ml-2" />
               <Link
                 href={`/addProgrammes?department=${department}${
@@ -473,7 +473,7 @@ export default function SearchProgrammes({ institutionsAndProgrammes }) {
             </div>
           </div>
           <div className="border-b">
-            <div className="flex items-center">
+            <div className="flex items-center hover:bg-gray-100">
               <MdOutlineAdd className="ml-2" />
               <Link href="/AddAllProgrammes">
                 <a
@@ -486,7 +486,7 @@ export default function SearchProgrammes({ institutionsAndProgrammes }) {
             </div>
           </div>
           <div className="border-b">
-            <div className=" flex items-center">
+            <div className=" flex items-center hover:bg-gray-100">
               <MdOutlineAdd className="ml-2" />
               <Link href="/AddAllInstitution">
                 <a
@@ -499,7 +499,7 @@ export default function SearchProgrammes({ institutionsAndProgrammes }) {
             </div>
           </div>
           <div className="border-b">
-            <div className="flex items-center">
+            <div className="flex items-center hover:bg-gray-100">
               <MdOutlineUpdate className="ml-2" />
               <Link href="/UpdateInstitutionDetails">
                 <a

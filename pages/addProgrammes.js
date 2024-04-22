@@ -399,7 +399,7 @@ export default function AddProgrammes({ institutions, programmes }) {
         </div>
 
         <div className="border-b">
-          <div className="flex items-center">
+          <div className="flex items-center  hover:bg-gray-100">
             <FaSearch className="ml-2" />
             <Link
               href={`/searchProgrammes?department=${department}${
@@ -419,7 +419,7 @@ export default function AddProgrammes({ institutions, programmes }) {
         </div>
 
         <div className="border-b">
-          <div className="flex items-center">
+          <div className="flex items-center  hover:bg-gray-100">
             <MdOutlineAdd className="ml-2" />
             <Link
               href={`/addProgrammes?department=${department}${
