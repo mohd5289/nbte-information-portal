@@ -256,6 +256,7 @@ export default function SearchProgrammes({ institutionsAndProgrammes }) {
             //     marginTop: "120px", // For large screens
             //   },
             // }}
+            style={{ marginLeft: "-200px", marginRight: "200px" }}
           >
             <h2 className="mb-3 font-bold">
               {" "}
