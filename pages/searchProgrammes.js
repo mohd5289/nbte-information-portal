@@ -262,7 +262,10 @@ export default function SearchProgrammes({ institutionsAndProgrammes }) {
               Directory of Accredited Programmes
             </h2>
 
-            <div className="overflow-x-auto">
+            <div
+              className="overflow-x-auto"
+              style={{ width: "calc(100% + 100px)" }}
+            >
               <table className="min-w-full bg-white border border-gray-300">
                 <thead className="bg-green-600">
                   {filteredProgrammes
@@ -331,22 +334,22 @@ export default function SearchProgrammes({ institutionsAndProgrammes }) {
                                   : ""
                               }`}
                             >
-                              <td className="py-2 px-4 text-center border">
+                              <td className="py-2 px-4 text-center border text-xs">
                                 {programNumber}
                               </td>
-                              <td className="py-2 px-4 border ">
+                              <td className="py-2 px-4 border text-xs">
                                 {program.name}
                               </td>
-                              <td className="py-2 px-4 border  ">
+                              <td className="py-2 px-4 border text-xs">
                                 {program.yearGrantedInterimOrAccreditation}
                               </td>
-                              <td className="py-2 px-4 text-right border">
+                              <td className="py-2 px-4 text-right border text-xs">
                                 {program.accreditationStatus}
                               </td>
-                              <td className="py-2 px-4 text-right border">
+                              <td className="py-2 px-4 text-right border text-xs">
                                 {program.approvedStream}
                               </td>
-                              <td className="py-2 px-4 text-right w-1/6 whitespace-nowrap border">
+                              <td className="py-2 px-4 text-right w-1/6 whitespace-nowrap border text-xs">
                                 {formatDate(program.expirationDate)}
                               </td>
                             </tr>

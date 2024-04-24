@@ -11,9 +11,11 @@
   box-sizing: border-box;
   transition: all 0.3s ease-out;
 }
-/* .overflow-x-auto {
-  width: calc(100% + 300px); /* Adjust as needed */
-/* } */
+/* @variants {
+  .overflow-x-auto-wrapper > .overflow-x-auto {
+    width: calc(100% + 100px); /* Adjust as needed */
+/* }
+} */
 
 /* Decrease width of the search filters */
 /* Assuming each filter is inside a div with the class "w-full" */
