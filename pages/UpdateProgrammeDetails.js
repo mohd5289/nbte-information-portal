@@ -477,6 +477,8 @@ export default function UpdateProgrammeDetails({ institutions, programmes }) {
           <a className="text-xl font-bold text-gray-800 ml-12 ">
             {department} Programmes
             <br />
+            (Update programmes)
+            <br />
             {query.subdepartment && ` (${query.subdepartment})`}
           </a>
         </Link>
