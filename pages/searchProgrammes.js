@@ -83,7 +83,7 @@ export default function SearchProgrammes({ institutionsAndProgrammes }) {
   console.log("Total number of all programs in institutions:", totalPrograms);
   console.log(arrayInstitutionsAndProgrammes[0][1].length);
 
-  const itemsPerPage = 20; // Adjust the number of items per page
+  const itemsPerPage = 100; // Adjust the number of items per page
   const [currentPage, setCurrentPage] = useState(1);
   //   var accumulator = 0;
   //   const pageCount = Math.ceil(totalPrograms / itemsPerPage);
@@ -558,6 +558,7 @@ export default function SearchProgrammes({ institutionsAndProgrammes }) {
                 value={startsWithString}
                 onChange={(e) => setStartsWithString(e.target.value)}
                 className="w-full border rounded p-2"
+                style={{ width: "100px" }}
               >
                 <option value="none">None</option>
                 <option value="ND">ND</option>
@@ -572,6 +573,7 @@ export default function SearchProgrammes({ institutionsAndProgrammes }) {
                 value={accreditationStatus}
                 onChange={(e) => setAccreditationStatus(e.target.value)}
                 className="w-full border rounded p-2"
+                style={{ width: "100px" }}
               >
                 <option value="all">All</option>
                 <option value="Accredited">Accredited</option>
@@ -588,6 +590,7 @@ export default function SearchProgrammes({ institutionsAndProgrammes }) {
                 value={selectedStream}
                 onChange={(e) => setSelectedStream(e.target.value)}
                 className="w-full border rounded p-2"
+                style={{ width: "100px" }}
               >
                 <option value="any">Any</option>
                 {Array.from({ length: 100 }, (_, index) => index + 1).map(
@@ -611,6 +614,7 @@ export default function SearchProgrammes({ institutionsAndProgrammes }) {
                 }
                 // onChange={ratingHandler}
                 className="w-full border rounded p-2"
+                style={{ width: "100px" }}
               >
                 <option value="no">No</option>
                 <option value="yes">Yes</option>
