@@ -511,6 +511,25 @@ export default function SearchProgrammes({ institutionsAndProgrammes }) {
               </Link>
             </div>
           </div>
+          <div className="border-b">
+            <div className="flex items-center hover:bg-gray-100">
+              <MdOutlineUpdate className="ml-2" />
+              <Link
+                href={`/UpdateProgrammeDetails?department=${department}${
+                  query.subdepartment
+                    ? `&subdepartment=${query.subdepartment}`
+                    : ""
+                }`}
+              >
+                <a
+                  className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+                  onClick={sideBarCloseBarHandler}
+                >
+                  Update Programmes Details
+                </a>
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
 

@@ -17,7 +17,7 @@ import { MdOutlineAdd } from "react-icons/md";
 import NBTE from "../public/favicon.ico";
 import Image from "next/image";
 
-export default function AddProgrammes({ institutions, programmes }) {
+export default function UpdateProgrammeDetails({ institutions, programmes }) {
   const [institutionName, setInstitutionName] = useState("");
   const [programName, setProgramName] = useState("");
   const [isTechnologyBased, setIsTechnologyBased] = useState("");
@@ -109,16 +109,13 @@ export default function AddProgrammes({ institutions, programmes }) {
           case "Monotechnic":
             switch (query.subdepartment) {
               case "Colleges of Agriculture":
-                apiUrl =
-                  "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/create-monotechnic-institution-with-college-of-agriculture-programmes";
+                apiUrl = "";
                 break;
               case "Colleges of Health Sciences":
-                apiUrl =
-                  "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/create-monotechnic-institution-with-college-of-health-sciences-programmes";
+                apiUrl = "";
                 break;
               case "Specialized Institutions":
-                apiUrl =
-                  "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/create-monotechnic-institution-with-specialized-institution-programmes";
+                apiUrl = "";
                 break;
             }
             break;
@@ -126,26 +123,23 @@ export default function AddProgrammes({ institutions, programmes }) {
             //   "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/create-monotechnic-institution-with-programmes";
             break;
           case "Technical College":
-            apiUrl =
-              "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/create-technical-colleges-institution-with-programmes";
+            apiUrl = "";
             break;
           case "IEI":
-            apiUrl =
-              "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/create-iei-institution-with-programmes";
+            apiUrl = "";
             break;
           case "VEI":
-            apiUrl =
-              "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/create-vei-institution-with-programmes";
+            apiUrl = "";
             break;
           case "Polytechnic":
             apiUrl =
-              "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/create-institution-with-programmes";
+              "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/update-institution-with-programmes";
           default:
             apiUrl =
               "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/create-institution-with-programmes";
             break;
         }
-        const response = await axios.post(
+        const response = await axios.put(
           apiUrl,
           {
             institution_name: institutionName,
@@ -159,7 +153,7 @@ export default function AddProgrammes({ institutions, programmes }) {
         );
 
         toast.success(
-          `${institutionName} ${programs.length} programmes added successfully`,
+          `${institutionName} ${programs.length} programmes updated successfully`,
           {
             position: "top-center",
             autoClose: 5000,
@@ -181,16 +175,19 @@ export default function AddProgrammes({ institutions, programmes }) {
         // Handle error
         setLoading(false);
         console.log(error);
-        toast.error(`${error.message} Failed to add institution and programs`, {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          className: "toast-error",
-        });
+        toast.error(
+          `${error.response.data.message} Failed to add institution and programs`,
+          {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            className: "toast-error",
+          }
+        );
       }
     }
   };
@@ -347,6 +344,7 @@ export default function AddProgrammes({ institutions, programmes }) {
   useEffect(() => {
     loadProgramsFromLocalStorage();
   }, []);
+
   return (
     <div className="flex flex-col relative">
       <div
@@ -698,26 +696,25 @@ export default function AddProgrammes({ institutions, programmes }) {
             Submit All programmes
           </button>
           {/* <button
-            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 my-2 mx-auto ml-2"
-            onClick={saveProgrammesToCookie}
-          >
-            Save Programmes in Browser
-          </button> */}
+          className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 my-2 mx-auto ml-2"
+          onClick={saveProgrammesToCookie}
+        >
+          Save Programmes in Browser
+        </button> */}
         </div>
 
         {/* Pagination component */}
         {/* <Pagination
-          className="mt-10"
-          count={pageCount}
-          page={currentPage}
-          onChange={handlePageChange}
-        /> */}
+        className="mt-10"
+        count={pageCount}
+        page={currentPage}
+        onChange={handlePageChange}
+      /> */}
       </div>
       <ToastContainer position="top-center" />
     </div>
   );
 }
-
 export async function getServerSideProps(context) {
   const { query } = context;
   try {
@@ -755,79 +752,4 @@ export async function getServerSideProps(context) {
       },
     };
   }
-}
-
-{
-  /* <select
-className="w-1/3 px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent m-2 ml-1"
-value={isTechnologyBased}
-onChange={(e) => setIsTechnologyBased(e.target.value)}
->
-<option value="" disabled selected>
-  Select if Programme is Technology based
-</option>
-<option value="true">True</option>
-<option value="false">False</option>
-</select> */
-}
-{
-  /* <div className="relative">
-<input
-  type="date"
-  className="w-64 px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent mx-2"
-  name="expirationDate"
-  value={expirationDate}
-  onChange={(e) => setExpirationDate(e.target.value)}
-/>
-<span
-  className={`absolute top-0 left-4 ${"block"}`}
-  style={{ pointerEvents: "none", color: "#999" }}
-  //   value={expirationDate}
-  //   onChange={(e) => setExpirationDate(e.target.value)}
->
-  Select Expiration Date
-</span>
-</div> */
-}
-{
-  /* <select
-type="number"
-className="w-64 px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent mx-2"
-placeholder="Year Granted"
-value={faculty}
-onChange={(e) => setFaculty(e.target.value)}
-> */
-}
-{
-  (" ");
-}
-{
-  /* <option value="" disabled selected>
-  Select Faculty
-</option>
-<option value="AGRICULTURE AND RELATED TECHNOLOGY">
-  AGRICULTURE
-</option>
-<option value="ART, PRINTING AND RELATED TECHNOLOGY">ART</option>
-<option value="BUSINESS, MANAGEMENT AND RELATED TECHNOLOGY">
-  BUSINESS
-</option>
-<option value="ENGINEERING AND RELATED TECHNOLOGY">
-  ENGINEERING
-</option>
-<option value="ENVIRONMENTAL DESIGN AND RELATED STUDIES">
-  ENVIRONMENTAL
-</option>
-<option value="FINANCE AND RELATED STUDIES">FINANCE</option>
-<option value="INFORMATION AND RELATED STUDIES">
-  INFORMATION{" "}
-</option>
-<option value="HOSPITALITY AND RELATED TECHNOLOGY">
-  HOSPITALITY{" "}
-</option>
-<option value="SCIENCE, COMPUTING AND RELATED TECHNOLOGY">
-  SCIENCE{" "}
-</option>
-<option value="INSTITUTIONAL ADMIN">INSTITUTIONAL </option>
-</select> */
 }
