@@ -136,7 +136,7 @@ export default function UpdateProgrammeDetails({ institutions, programmes }) {
               "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/update-institution-with-programmes";
           default:
             apiUrl =
-              "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/create-institution-with-programmes";
+              "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/update-institution-with-programmes";
             break;
         }
         const response = await axios.put(
