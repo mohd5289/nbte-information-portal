@@ -176,7 +176,7 @@ export default function UpdateProgrammeDetails({ institutions, programmes }) {
         setLoading(false);
         console.log(error);
         toast.error(
-          `${error.response.data.message} Failed to add institution and programs`,
+          `${error.response.data.message} Failed to update institution and programs`,
           {
             position: "top-center",
             autoClose: 5000,
