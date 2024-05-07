@@ -22,6 +22,7 @@ export default function UpdateInstitutionDetails({ institutions }) {
   const [registrarName, setRegistrarName] = useState("");
   const [registrarEmail, setRegistrarEmail] = useState("");
   const [registrarPhone, setRegistrarPhone] = useState("");
+  const [zone, setZone] = useState("");
   const [loading, setLoading] = useState(false);
   //   const programmeNames = programmes.map((programme) => programme.name);
   const handleSubmit = async () => {
@@ -44,6 +45,7 @@ export default function UpdateInstitutionDetails({ institutions }) {
       registrar_name: registrarName,
       registrar_email: registrarEmail,
       registrar_phone: registrarPhone,
+      zone: zone,
     };
     if (confirmed) {
       setLoading(true);
@@ -75,6 +77,7 @@ export default function UpdateInstitutionDetails({ institutions }) {
         setRegistrarName("");
         setRegistrarEmail("");
         setRegistrarPhone("");
+        setZone("");
         setLoading(false);
         toast.success(`Institution  details added successfully`, {
           position: "top-center",
@@ -380,6 +383,24 @@ export default function UpdateInstitutionDetails({ institutions }) {
           sx={inputStyles}
           type="number"
         />
+        <Select
+          id="ownership"
+          variant="outlined"
+          value={ownership}
+          onChange={(e) => setOwnership(e.target.value)}
+          displayEmpty
+          sx={inputStyles}
+        >
+          <MenuItem value="" disabled>
+            Zone
+          </MenuItem>
+          <MenuItem value="South East">SOUTH EAST</MenuItem>
+          <MenuItem value="North East">NORTH EAST</MenuItem>
+          <MenuItem value="North West">NORTH WEST</MenuItem>
+          <MenuItem value="North Central">NORTH CENTRAL</MenuItem>
+          <MenuItem value="South South">SOUTH SOUTH</MenuItem>
+          <MenuItem value="South West">SOUTH WEST</MenuItem>
+        </Select>
         <button
           className="mb-2 bg-green-400 mt-2 w-1/2 mx-auto  hover:bg-green-600 text-white px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
           //   onClick={handleAddInstitution}
