@@ -384,10 +384,10 @@ export default function UpdateInstitutionDetails({ institutions }) {
           type="number"
         />
         <Select
-          id="ownership"
+          id="zone"
           variant="outlined"
-          value={ownership}
-          onChange={(e) => setOwnership(e.target.value)}
+          value={zone}
+          onChange={(e) => setZone(e.target.value)}
           displayEmpty
           sx={inputStyles}
         >
