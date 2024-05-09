@@ -109,13 +109,16 @@ export default function UpdateProgrammeDetails({ institutions, programmes }) {
           case "Monotechnic":
             switch (query.subdepartment) {
               case "Colleges of Agriculture":
-                apiUrl = "";
+                apiUrl =
+                  "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/update-monotechnic-institution-with-programmes";
                 break;
               case "Colleges of Health Sciences":
-                apiUrl = "";
+                apiUrl =
+                  "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/update-monotechnic-institution-with-programmes";
                 break;
               case "Specialized Institutions":
-                apiUrl = "";
+                apiUrl =
+                  "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/update-monotechnic-institution-with-programmes";
                 break;
             }
             break;
@@ -123,13 +126,16 @@ export default function UpdateProgrammeDetails({ institutions, programmes }) {
             //   "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/create-monotechnic-institution-with-programmes";
             break;
           case "Technical College":
-            apiUrl = "";
+            apiUrl =
+              "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/update-technical-college-institution-with-programmes";
             break;
           case "IEI":
-            apiUrl = "";
+            apiUrl =
+              "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/update-iei-institution-with-programmes";
             break;
           case "VEI":
-            apiUrl = "";
+            apiUrl =
+              "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/update-vei-institution-with-programmes";
             break;
           case "Polytechnic":
             apiUrl =
