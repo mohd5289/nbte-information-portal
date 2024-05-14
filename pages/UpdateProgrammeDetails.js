@@ -260,7 +260,7 @@ export default function UpdateProgrammeDetails({ institutions, programmes }) {
       faculty,
       yearApproved,
       yearGrantedInterimOrAccreditation: yearGranted,
-      expirationDate: formattedExpirationDate,
+      expirationDate: expDate,
     };
     const savedInstitution =
       localStorage.getItem("savedInstitution") || institutionName;

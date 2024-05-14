@@ -181,16 +181,19 @@ export default function AddProgrammes({ institutions, programmes }) {
         // Handle error
         setLoading(false);
         console.log(error);
-        toast.error(`${error.message} Failed to add institution and programs`, {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          className: "toast-error",
-        });
+        toast.error(
+          `${error.response.data.errors} Failed to add institution and programs`,
+          {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            className: "toast-error",
+          }
+        );
       }
     }
   };
@@ -257,7 +260,7 @@ export default function AddProgrammes({ institutions, programmes }) {
       faculty,
       yearApproved,
       yearGrantedInterimOrAccreditation: yearGranted,
-      expirationDate: formattedExpirationDate,
+      expirationDate: expDate,
     };
     const savedInstitution =
       localStorage.getItem("savedInstitution") || institutionName;

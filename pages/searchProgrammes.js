@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import NBTE from "../public/favicon.ico";
-import { Pagination } from "@mui/material";
+import { Autocomplete, Pagination, TextField, Box } from "@mui/material";
 import { MdSearch } from "react-icons/md";
 import { MdOutlineUpdate } from "react-icons/md";
 import { MdOutlineAdd } from "react-icons/md";
@@ -10,620 +10,207 @@ import Link from "next/link";
 import RingLoader from "react-spinners/RingLoader";
 import Image from "next/image";
 import { FaSearch } from "react-icons/fa";
-export default function SearchProgrammes({ institutionsAndProgrammes }) {
-  console.log(institutionsAndProgrammes);
+import LIGHT_NBTE from "./light_nbte.png";
+import Backdrop from "./components/Backdrop";
+// import { useHistory } from "react-router-dom";
 
-  const arrayInstitutionsAndProgrammes = Object.entries(
-    institutionsAndProgrammes
-  );
-
+import SearchIcon from "@mui/icons-material/Search";
+import { styled } from "@mui/system";
+export default function SearchProgrammes({ institutions }) {
+  // const institutions = [
+  //   "Auchi Polytechnic, Auchi",
+  //   "Kaduna Polytechnic, Kaduna",
+  // ];
+  console.log(institutions);
+  const [institution1Suggestions, setInstitutionSuggestions] = useState([]);
+  const [institutionName, setInstitutionName] = useState("");
+  const institutionNames = institutions.map((institution) => institution.name);
   const router = useRouter();
   const { query } = router;
   const { department, subdepartment } = query ?? props;
-  const [searchTerm, setSearchTerm] = useState("");
-  const [accreditationStatus, setAccreditationStatus] = useState("all");
-  const [startsWithString, setStartsWithString] = useState("none");
-  const [selectedStream, setSelectedStream] = useState("any");
-  const [searchByInstitution, setSearchByInstitution] = useState(false);
-  const [pageCount, setPageCount] = useState(0);
-  const [loading, setLoading] = useState(false);
-  //    const itemsPerPage = 20;
-  //   const [currentPage, setCurrentPage] = useState(1);
-
-  //   const handlePageChange = (event, value) => {
-  //     setCurrentPage(value);
-  //   };
-
-  const formatDate = (expirationDate) => {
-    const date = new Date(expirationDate);
-    const day = String(date.getDate()).padStart(2, "0"); // Ensure two digits
-    const month = String(date.getMonth() + 1).padStart(2, "0"); // Month is zero-based
-    const year = date.getFullYear();
-    return `${day}-${month}-${year}`;
-  };
-
-  const handleSearch = () => {
-    setLoading(true);
-
-    router
-      .push({
-        pathname: "/searchProgrammes",
-        query: {
-          programme_name_contains: searchTerm,
-          programme_name_starts_with: startsWithString,
-          accreditation_status: accreditationStatus,
-          streams: selectedStream,
-          department: department,
-          subdepartment: subdepartment,
-        },
-      })
-      .then(() => {
-        setLoading(false); // Set loading to false after navigation is complete
-      });
-  };
-  //   console.log(filteredProgrammes);
-  let totalPrograms = 0;
-  if (arrayInstitutionsAndProgrammes[0]?.[1]) {
-    arrayInstitutionsAndProgrammes[0][1].forEach((institution) => {
-      // Access the array of programs for each institution
-      const programs = institution.programmes;
-
-      // Add the number of programs in the current institution to the total
-      totalPrograms += programs.length;
-    });
-  }
-  // arrayInstitutionsAndProgrammes[0][1].forEach((institution) => {
-  //   // Access the array of programs for each institution
-  //   const programs = institution.programmes;
-
-  //   // Add the number of programs in the current institution to the total
-  //   totalPrograms += programs.length;
-  // });
-
-  console.log("Total number of all programs in institutions:", totalPrograms);
-  console.log(arrayInstitutionsAndProgrammes[0][1].length);
-
-  const itemsPerPage = 100; // Adjust the number of items per page
-  const [currentPage, setCurrentPage] = useState(1);
-  //   var accumulator = 0;
-  //   const pageCount = Math.ceil(totalPrograms / itemsPerPage);
-  //   const pageCount = arrayInstitutionsAndProgrammes[0][1].length;
-  const handlePageChange = (event, value) => {
-    setCurrentPage(value);
-  };
-  var lastIndices = [];
-  const allPrograms = arrayInstitutionsAndProgrammes[0]?.[1]?.reduce(
-    (acc, institution) => {
-      const institutionPrograms = institution.programmes.map(
-        (program, index) => ({
-          institutionName: institution.institution_name,
-          programNumber: index + 1,
-          ...program,
-        })
-      );
-      const lastProgramIndex = acc.length + institutionPrograms.length - 1;
-      lastIndices.push(lastProgramIndex);
-      institution.lastProgramIndex = lastProgramIndex;
-      console.log(institution.lastProgramIndex);
-      return acc.concat(institutionPrograms);
+  // const history = useHistory();
+  const inputStyles = {
+    width: "50%",
+    marginTop: 2,
+    padding: 1,
+    border: "1px solid #ccc",
+    borderRadius: "4px",
+    boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
+    "&:focus": {
+      outline: "none",
+      borderColor: "#2196F3",
+      boxShadow: "0 0 0 3px rgba(33, 150, 243, 0.2)",
     },
-    []
-  );
-  //   setFilteredProgrammes(allPrograms);
-
-  // Calculate the total number of pages based on the number of programs
-
-  var startIndex = (currentPage - 1) * itemsPerPage;
-  //   const currentItems = arrayInstitutionsAndProgrammes[0][1].slice(
-  //     startIndex,
-  //     endIndex
-  //   );
-  const [sideBarVisible, setSideBarVisible] = useState(false);
-  const sidebarOpenHandler = () => {
-    setSideBarVisible(true);
   };
-  const sideBarCloseBarHandler = () => {
-    setSideBarVisible(false);
-  };
-  const [filteredProgrammes, setFilteredProgrammes] = useState(allPrograms);
-  useEffect(() => {
-    filterAllPrograms();
-  }, [query]);
-  const filterAllPrograms = () => {
-    let filteredData = allPrograms; // Reset to original data
-    console.log(filteredData);
-    const {
-      programme_name_contains,
-      programme_name_starts_with,
-      accreditation_status,
-      streams,
-    } = query;
-    if (programme_name_contains) {
-      filteredData = filteredData.filter((program) =>
-        searchByInstitution
-          ? program.institutionName
-              .toLowerCase()
-              .includes(programme_name_contains.toLowerCase())
-          : program.name
-              .toLowerCase()
-              .includes(programme_name_contains.toLowerCase())
-      );
-    }
 
-    if (programme_name_starts_with && programme_name_starts_with !== "none") {
-      filteredData = filteredData.filter((program) =>
-        program.name.startsWith(programme_name_starts_with)
-      );
-    }
+  const CustomTextField = styled(TextField)({
+    "& .MuiOutlinedInput-root": {
+      borderRadius: "24px",
+      backgroundColor: "#f1f3f4",
+      "& fieldset": {
+        borderColor: "#f1f3f4",
+      },
+      "&:hover fieldset": {
+        borderColor: "#f1f3f4",
+      },
+      "&.Mui-focused fieldset": {
+        borderColor: "#2196f3",
+      },
+      "& .MuiInputAdornment-root": {
+        backgroundColor: "#4caf50", // Green background for the search icon area
+        borderRadius: "0 24px 24px 0", // Rounded border for the right side
+        color: "#fff", // White color for the search icon
+      },
+    },
+  });
 
-    if (accreditation_status && accreditation_status !== "all") {
-      filteredData = filteredData.filter(
-        (program) => program.accreditationStatus === accreditation_status
-      );
-    }
+  const CustomAutocomplete = styled(Autocomplete)({
+    "& .MuiAutocomplete-inputRoot": {
+      borderRadius: "24px",
+      backgroundColor: "#ffffff",
+      "&:hover": {
+        backgroundColor: "#f1f3f4",
+      },
+      "&.Mui-focused": {
+        backgroundColor: "#f1f3f4",
+      },
+    },
+  });
+  const uniqueInstitutionNamesSet = new Set();
+  //   const uniqueProgrammeNamesSet = new Set();
 
-    if (streams && streams !== "any") {
-      filteredData = filteredData.filter(
-        (program) => program.approvedStream === parseInt(streams)
-      );
+  const uniqueNames = institutionNames.filter((name) => {
+    if (uniqueInstitutionNamesSet.has(name)) {
+      // If the name already exists in the set, it's a duplicate, so return false
+      return false;
+    } else {
+      // If the name doesn't exist in the set, add it and return true
+      uniqueInstitutionNamesSet.add(name);
+      return true;
     }
-    filteredData.sort((a, b) =>
-      a.institutionName.localeCompare(b.institutionName)
+  });
+  console.log(uniqueNames);
+
+  let institutionSuggestions = [...uniqueInstitutionNamesSet];
+  institutionSuggestions = institutionSuggestions.map((name) => {
+    // Split the name into words
+    const words = name.toLowerCase().split(" ");
+
+    // Capitalize the first letter of each word
+    const capitalizedWords = words.map(
+      (word) => word.charAt(0).toUpperCase() + word.slice(1)
     );
-    setFilteredProgrammes(filteredData);
-    console.log(filteredProgrammes);
-    setPageCount(Math.ceil(filteredData.length / itemsPerPage));
+
+    // Join the words back together to form the sentence case name
+    return capitalizedWords.join(" ");
+  });
+
+  // const handleBack = () => {
+  //   router.push("/");
+  // };
+  const handleSearchClick = () => {
+    // Redirect to InstitutionDetails page with institutionName as a query parameter
+    router.push({
+      pathname: `/Institution/${institutionName}`,
+      query: {
+        name: institutionName,
+        department: department, // Assuming department is available in scope
+        subdepartment: subdepartment,
+      },
+    });
   };
-  //   console.log(arrayInstitutionsAndProgrammes[0][1][1]);
-  //   console.log(
-  //     groupProgrammesByFaculty(arrayInstitutionsAndProgrammes[0][1][0])
-  //   );
-  console.log(filteredProgrammes);
-  console.log(searchByInstitution);
   return (
-    <div className="flex flex-col ">
-      <div className="flex items-center relative">
-        <button
-          className="p-2 text-gray-500 focus:outline-none"
-          onClick={sidebarOpenHandler}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M4 6h16M4 12h16M4 18h16"
-            />
-          </svg>
-        </button>
-        <Link href="/" title="Go to Home">
-          <a
-            className="text-xl font-bold text-gray-800 ml-4 "
-            aria-label="Go to Home"
-            title="Go to Home"
-          >
-            {department} Programmes <br />
-            {subdepartment && ` (${subdepartment})`}
-          </a>
-        </Link>
+    <div
+      className="bg-cover bg-center"
+      style={{ backgroundImage: `url(${LIGHT_NBTE})` }}
+    >
+      <Backdrop show={true} clicked={() => {}} />
 
-        <div className="flex flex-col mr-auto ml-auto relative ">
-          <div className="md:flex  items-center mr-auto ml-auto ">
-            <form
-              //   onSubmit={submitHandler}
-              onSubmit={(e) => {
-                e.preventDefault();
-                handleSearch();
+      <Image src={LIGHT_NBTE} priority />
+
+      <Autocomplete
+        freeSolo
+        options={institution1Suggestions}
+        value={institutionName}
+        onChange={(event, newValue) => setInstitutionName(newValue)}
+        onInputChange={(event, newInputValue) => {
+          // Fetch institution suggestions based on new input value
+          // Update institutionSuggestions state
+          const inputValue = newInputValue.trim().toLowerCase();
+          const filteredSuggestions = institutionSuggestions.filter(
+            (suggestion) => suggestion.toLowerCase().startsWith(inputValue)
+          );
+          setInstitutionSuggestions(filteredSuggestions);
+        }}
+        sx={{
+          width: "60vw", // Add this line to make the CustomAutocomplete 60% of the screen width
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          zIndex: 500,
+          backgroundColor: "#ffffff",
+          borderRadius: 24,
+          ":hover": {
+            backgroundColor: "#f1f3f4",
+          },
+          "&.Mui-focused": {
+            backgroundColor: "#f1f3f4",
+          },
+        }}
+        renderInput={(params) => (
+          <Box
+            sx={{
+              position: "relative",
+              borderRadius: "24px",
+              boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
+              "&:focus-within": {
+                outline: "none",
+                borderColor: "#2196F3",
+                boxShadow: "0 0 0 3px rgba(33, 150, 243, 0.2)",
+                zIndex: 600,
+              },
+            }}
+          >
+            <TextField
+              {...params}
+              placeholder={`Search ${
+                subdepartment ? `${department} ${subdepartment}` : department
+              } Institution`}
+              // inputProps={{
+              //   readOnly: false,
+              // }}
+              InputProps={{
+                ...params.InputProps,
+
+                endAdornment: (
+                  <Box
+                    sx={{
+                      backgroundColor: "#4caf50",
+                      borderRadius: "0 24px 24px 0",
+                      color: "#fff",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      padding: "4px",
+                      width: "60px",
+                      cursor: "pointer",
+                      position: "absolute",
+                      right: 0,
+                      top: 0,
+                      bottom: 0,
+                      zIndex: 600,
+                    }}
+                    onClick={handleSearchClick}
+                  >
+                    <SearchIcon sx={{ fontSize: 30 }} />
+                  </Box>
+                ),
               }}
-              className="border border-white bg-white rounded-md"
-            >
-              <div className="p-4 bg-white border-b flex items-center ">
-                <input
-                  type="text"
-                  placeholder={
-                    searchByInstitution
-                      ? "Search Institution"
-                      : "Search Programme"
-                  }
-                  className="border rounded p-2"
-                  style={{ width: "40rem" }}
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
-
-                <button
-                  type="submit"
-                  className="bg-green-400 p-2 rounded-r-md"
-                  aria-label="search"
-                >
-                  <MdSearch size="30" color="white" />
-                </button>
-              </div>
-            </form>
-          </div>
-          <div
-            className="absolute left-0 right-0 mt-32  lg:mx-auto  "
-            // style={{
-            //   marginTop: "400px",
-            //   "@media (min-width: 640px)": {},
-            //   "@media (min-width: 1024px)": {
-            //     marginTop: "120px", // For large screens
-            //   },
-            // }}
-            style={{ marginLeft: "-200px", marginRight: "200px" }}
-          >
-            <h2 className="mb-3 font-bold">
-              {" "}
-              Directory of Accredited Programmes
-            </h2>
-
-            <div
-              className="overflow-x-auto"
-              style={{ width: "calc(100% + 100px)" }}
-            >
-              <table className="min-w-full bg-white border border-gray-300">
-                <thead className="bg-green-600">
-                  {filteredProgrammes
-                    .slice(
-                      (currentPage - 1) * itemsPerPage,
-                      currentPage * itemsPerPage
-                    )
-                    .map((program, programIndex, programsArray) => {
-                      const isFirstProgramOfInstitution = programIndex === 0;
-                      return (
-                        <React.Fragment key={programIndex}>
-                          {isFirstProgramOfInstitution && (
-                            <tr className="bg-gray-500 border-b border-gray-300 text-2xl">
-                              <td
-                                className="py-2 px-4 text-center font-bold"
-                                colSpan="6"
-                              >
-                                {program.institutionName}
-                              </td>
-                            </tr>
-                          )}
-                          {/* Render other program data */}
-                        </React.Fragment>
-                      );
-                    })}
-                  <tr>
-                    <th className="py-2 px-4 text-center border">S/N</th>
-                    <th className="py-2 px-4 border ">Programme Name</th>
-                    <th className="py-2 px-4 border hidden sm:table-cell">
-                      Year Granted
-                    </th>
-                    <th className="py-2 px-4 text-right border">
-                      Accreditation Status
-                    </th>
-                    <th className="py-2 px-4 text-right border hidden sm:table-cell">
-                      Approved Streams
-                    </th>
-                    <th className="py-2 px-4 text-right border hidden sm:table-cell">
-                      Expiration Date
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {" "}
-                  {filteredProgrammes.length === 0 ? (
-                    <tr>
-                      <td colSpan="6" className="text-center">
-                        There are no programmes here.
-                      </td>
-                    </tr>
-                  ) : (
-                    filteredProgrammes
-                      .slice(
-                        (currentPage - 1) * itemsPerPage,
-                        currentPage * itemsPerPage
-                      )
-                      .map((program, programIndex, programsArray) => {
-                        const programNumber =
-                          (currentPage - 1) * itemsPerPage + programIndex + 1;
-                        return (
-                          <React.Fragment key={programIndex}>
-                            <tr
-                              className={`border-b border-gray-300 ${
-                                program.accreditationStatus === "Expired"
-                                  ? "bg-red-500"
-                                  : ""
-                              }`}
-                            >
-                              <td className="py-2 px-4 text-center border text-xs">
-                                {programNumber}
-                              </td>
-                              <td className="py-2 px-4 border text-xs">
-                                {program.name}
-                              </td>
-                              <td className="py-2 px-4 border text-xs">
-                                {program.yearGrantedInterimOrAccreditation}
-                              </td>
-                              <td className="py-2 px-4 text-right border text-xs">
-                                {program.accreditationStatus}
-                              </td>
-                              <td className="py-2 px-4 text-right border text-xs">
-                                {program.approvedStream}
-                              </td>
-                              <td className="py-2 px-4 text-right w-1/6 whitespace-nowrap border text-xs">
-                                {formatDate(program.expirationDate)}
-                              </td>
-                            </tr>
-                            {programIndex < programsArray.length - 1 &&
-                              program.institutionName !==
-                                programsArray[programIndex + 1]
-                                  .institutionName && (
-                                <tr className="bg-gray-500 border-b border-gray-300">
-                                  <td
-                                    className="py-2 px-4 text-center text-2xl font-bold"
-                                    colSpan="6"
-                                  >
-                                    {
-                                      programsArray[programIndex + 1]
-                                        .institutionName
-                                    }{" "}
-                                    {/* Next institution's name */}
-                                  </td>
-                                </tr>
-                              )}
-                          </React.Fragment>
-                        );
-                      })
-                  )}
-                </tbody>
-              </table>
-              <Pagination
-                className="mt-10"
-                // defaultPage={1}
-                // count={5}
-                count={pageCount}
-                page={currentPage}
-                onChange={handlePageChange}
-              ></Pagination>
-            </div>
-          </div>
-        </div>
-
-        <div
-          className={`fixed left-0 top-0 h-full bg-white overflow-y-auto transform transition-transform ease-in-out ${
-            sideBarVisible ? "translate-x-0 border-r" : "-translate-x-full"
-          }`}
-          style={{ width: "325px" }}
-        >
-          <div className="px-2 py-4 border-b">
-            <div className="flex flex-row justify-between items-center ">
-              <Link href="/" passHref>
-                <a>
-                  <div className="flex items-center ">
-                    <Image
-                      src={NBTE}
-                      className="rounded-md"
-                      objectPosition="center"
-                      priority
-                      width={45}
-                      height={45}
-                    />
-                    <p className="text-lg font-bold ml-2">
-                      NBTE Information Portal
-                    </p>
-                  </div>
-                </a>
-              </Link>
-              <button
-                className="text-gray-600 focus:outline-none"
-                onClick={sideBarCloseBarHandler}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </button>
-            </div>
-          </div>
-
-          <div className="border-b">
-            <div className="flex items-center hover:bg-gray-100">
-              <FaSearch className="ml-2" />
-              <Link
-                href={`/searchProgrammes?department=${department}${
-                  query.subdepartment
-                    ? `&subdepartment=${query.subdepartment}`
-                    : ""
-                }`}
-              >
-                <a
-                  className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
-                  onClick={sideBarCloseBarHandler}
-                >
-                  Search Programme
-                </a>
-              </Link>
-            </div>
-          </div>
-
-          <div className="border-b">
-            <div className="flex items-center hover:bg-gray-100">
-              <MdOutlineAdd className="ml-2" />
-              <Link
-                href={`/addProgrammes?department=${department}${
-                  query.subdepartment
-                    ? `&subdepartment=${query.subdepartment}`
-                    : ""
-                }`}
-                passHref
-              >
-                <a
-                  className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
-                  onClick={sideBarCloseBarHandler}
-                >
-                  Add Programme
-                </a>
-              </Link>
-            </div>
-          </div>
-          <div className="border-b">
-            <div className="flex items-center hover:bg-gray-100">
-              <MdOutlineAdd className="ml-2" />
-              <Link href="/AddAllProgrammes">
-                <a
-                  className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
-                  onClick={sideBarCloseBarHandler}
-                >
-                  Add All Programmes Under NBTE
-                </a>
-              </Link>
-            </div>
-          </div>
-          <div className="border-b">
-            <div className=" flex items-center hover:bg-gray-100">
-              <MdOutlineAdd className="ml-2" />
-              <Link href="/AddAllInstitution">
-                <a
-                  className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
-                  onClick={sideBarCloseBarHandler}
-                >
-                  Add All Institutions Under NBTE
-                </a>
-              </Link>
-            </div>
-          </div>
-          <div className="border-b">
-            <div className="flex items-center hover:bg-gray-100">
-              <MdOutlineUpdate className="ml-2" />
-              <Link href="/UpdateInstitutionDetails">
-                <a
-                  className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
-                  onClick={sideBarCloseBarHandler}
-                >
-                  Update Institution Details
-                </a>
-              </Link>
-            </div>
-          </div>
-          <div className="border-b">
-            <div className="flex items-center hover:bg-gray-100">
-              <MdOutlineUpdate className="ml-2" />
-              <Link
-                href={`/UpdateProgrammeDetails?department=${department}${
-                  query.subdepartment
-                    ? `&subdepartment=${query.subdepartment}`
-                    : ""
-                }`}
-              >
-                <a
-                  className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
-                  onClick={sideBarCloseBarHandler}
-                >
-                  Update Programmes Details
-                </a>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="w-1/4 ml-12 ">
-        <RingLoader
-          color="#36d7b7"
-          loading={loading}
-          cssOverride={{
-            position: "absolute",
-            top: "20%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-          }}
-          size={150}
-          aria-label="Loading Spinner"
-          data-testid="loader"
-        />
-        <ul>
-          <li>
-            <div className="w-full">
-              <p className="font-bold">Level</p>
-              <select
-                value={startsWithString}
-                onChange={(e) => setStartsWithString(e.target.value)}
-                className="w-full border rounded p-2"
-                style={{ width: "100px" }}
-              >
-                <option value="none">None</option>
-                <option value="ND">ND</option>
-                <option value="HND">HND</option>
-              </select>
-            </div>
-          </li>
-          <li>
-            <div className="w-full">
-              <p className="font-bold">Accreditation Status</p>
-              <select
-                value={accreditationStatus}
-                onChange={(e) => setAccreditationStatus(e.target.value)}
-                className="w-full border rounded p-2"
-                style={{ width: "100px" }}
-              >
-                <option value="all">All</option>
-                <option value="Accredited">Accredited</option>
-                <option value="Interim">Interim</option>
-                <option value="Expired">Expired</option>
-                <option value="Approved">Approved</option>
-              </select>
-            </div>
-          </li>
-          <li>
-            <div className="w-full">
-              <p className="font-bold">Number of Streams</p>
-              <select
-                value={selectedStream}
-                onChange={(e) => setSelectedStream(e.target.value)}
-                className="w-full border rounded p-2"
-                style={{ width: "100px" }}
-              >
-                <option value="any">Any</option>
-                {Array.from({ length: 100 }, (_, index) => index + 1).map(
-                  (number) => (
-                    <option key={number} value={number}>
-                      {number}
-                    </option>
-                  )
-                )}
-              </select>
-            </div>
-          </li>
-          <li>
-            <div className="w-full">
-              <p className="font-bold">Search by Institutions</p>
-              <select
-                // value={rating}
-                value={searchByInstitution ? "yes" : "no"}
-                onChange={(e) =>
-                  setSearchByInstitution(e.target.value === "yes")
-                }
-                // onChange={ratingHandler}
-                className="w-full border rounded p-2"
-                style={{ width: "100px" }}
-              >
-                <option value="no">No</option>
-                <option value="yes">Yes</option>
-              </select>
-            </div>
-          </li>
-        </ul>
-      </div>
+            />
+          </Box>
+        )}
+      />
     </div>
   );
 }
@@ -631,82 +218,65 @@ export default function SearchProgrammes({ institutionsAndProgrammes }) {
 export async function getServerSideProps(context) {
   const { query } = context;
   try {
-    const { query } = context;
     let apiUrl = "";
 
-    const response1 = await axios.get(
-      "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/all-Institutions"
-    );
-    const institutions = response1.data.institutions;
-
-    // Fetch data from the second URL
-    const response2 = await axios.get(
-      "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/all-Programmes"
-    );
-    const programmes = response2.data.programs;
-    // Fetch data from Laravel API endpoint using Axios
     switch (query.department) {
       case "Monotechnic":
         switch (query.subdepartment) {
           case "Colleges of Agriculture":
             apiUrl =
-              "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/all-monotechnic-institutions-and-college-of-agriculture-programmes";
+              "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/get_monotechnic_institutions";
             break;
           case "Colleges of Health Sciences":
             apiUrl =
-              "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/all-monotechnic-institutions-and-college-of-health-sciences-programmes";
+              "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/get_monotechnic_institutions";
             break;
           case "Specialized Institutions":
             apiUrl =
-              "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/all-monotechnic-institutions-and-specialized-institution-programmes";
+              "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/get_monotechnic_institutions";
             break;
         }
         break;
       case "Technical College":
         apiUrl =
-          "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/all-technical-colleges-institutions-and-programmes";
+          "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/get_technical_college_institutions";
         break;
       case "IEI":
         apiUrl =
-          "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/all-iei-institutions-and-programmes";
+          "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/get_iei_institutions";
         break;
       case "VEI":
         apiUrl =
-          "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/all-vei-institutions-and-programmes";
+          "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/get_vei_institutions";
         break;
       case "Polytechnic":
-        apiUrl =
-          "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/all-institutions-and-programmes";
       default:
         apiUrl =
-          "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/all-institutions-and-programmes";
+          "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/get_polytechnic_institutions";
         break;
     }
-    const response = await axios.get(apiUrl);
-    // const response = await axios.get(
-    //   "https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/all-institutions-and-programmes"
-    // );
+    let response;
+    if (query.department === "Monotechnic") {
+      response = await axios.get(
+        `${apiUrl}?subDepartment=${query.subdepartment}`
+      );
+    } else {
+      response = await axios.get(apiUrl);
+    }
 
-    // Return data to the component;
-    const institutionsAndProgrammes = response.data;
-
+    // console.log(response);
+    const institutions = response.data.institutions;
+    // console.log(response);
     return {
       props: {
-        institutionsAndProgrammes,
         institutions,
-        programmes,
-        department: query.department || "",
-        subdepartment: query.subdepartment || "",
       },
     };
   } catch (error) {
     console.error("Error fetching data:", error.message);
-
     return {
       props: {
-        institutionsAndProgrammes: [],
-        department: query.department || "",
-        subdepartment: query.subdepartment || "",
+        institutions: null,
       },
     };
   }
