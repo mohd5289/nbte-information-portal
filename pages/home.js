@@ -6,22 +6,22 @@ const home = () => {
 
 export default home;
 
-console.log(institutionsAndProgrammes);
+// console.log(institutionsAndProgrammes);
 
-const arrayInstitutionsAndProgrammes = Object.entries(
-  institutionsAndProgrammes
-);
+// const arrayInstitutionsAndProgrammes = Object.entries(
+//   institutionsAndProgrammes
+// );
 
-const router = useRouter();
-const { query } = router;
-const { department, subdepartment } = query ?? props;
-const [searchTerm, setSearchTerm] = useState("");
-const [accreditationStatus, setAccreditationStatus] = useState("all");
-const [startsWithString, setStartsWithString] = useState("none");
-const [selectedStream, setSelectedStream] = useState("any");
-const [searchByInstitution, setSearchByInstitution] = useState(false);
-const [pageCount, setPageCount] = useState(0);
-const [loading, setLoading] = useState(false);
+// const router = useRouter();
+// const { query } = router;
+// const { department, subdepartment } = query ?? props;
+// const [searchTerm, setSearchTerm] = useState("");
+// const [accreditationStatus, setAccreditationStatus] = useState("all");
+// const [startsWithString, setStartsWithString] = useState("none");
+// const [selectedStream, setSelectedStream] = useState("any");
+// const [searchByInstitution, setSearchByInstitution] = useState(false);
+// const [pageCount, setPageCount] = useState(0);
+// const [loading, setLoading] = useState(false);
 //    const itemsPerPage = 20;
 //   const [currentPage, setCurrentPage] = useState(1);
 
