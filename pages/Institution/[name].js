@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import Layout from "../components/Layout";
 import { motion, AnimatePresence } from "framer-motion";
+import { useRouter } from "next/router";
 
 export default function InstitutionDetails({
   institution,
@@ -11,6 +12,10 @@ export default function InstitutionDetails({
   console.log(institution);
   console.log(programmes);
   console.log(allInstitution);
+  const router = useRouter();
+  const { query } = router;
+  const { department, subdepartment } = query ?? props;
+
   const formatDate = (expirationDate) => {
     const date = new Date(expirationDate);
     const day = String(date.getDate()).padStart(2, "0"); // Ensure two digits
@@ -42,7 +47,12 @@ export default function InstitutionDetails({
               {" "}
               <button
                 className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 my-2 mx-auto"
-                // onClick={handleSubmit}
+                onClick={() =>
+                  router.push({
+                    pathname: "/searchProgrammes",
+                    query: { department, subdepartment },
+                  })
+                }
               >
                 Search Another Institution
               </button>{" "}
