@@ -16,7 +16,7 @@ import Backdrop from "./components/Backdrop";
 
 import SearchIcon from "@mui/icons-material/Search";
 import { styled } from "@mui/system";
-export default function SearchProgrammes({ institutions }) {
+export default function Search({ institutions }) {
   // const institutions = [
   //   "Auchi Polytechnic, Auchi",
   //   "Kaduna Polytechnic, Kaduna",
