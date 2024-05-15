@@ -1,3 +1,9 @@
+import React from "react";
+
+export default function searchInstitutionsByProgrammes() {
+  return <div>searchInstitutionsByProgrammes</div>;
+}
+
 // import React, { useEffect, useState } from "react";
 // import NBTE from "../public/favicon.ico";
 // import { Autocomplete, Pagination, TextField, Box } from "@mui/material";
