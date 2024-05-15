@@ -32,7 +32,7 @@ export default function InstitutionDetails({
         transition={{ duration: 0.5 }}
       >
         <Layout>
-          <div className="flex flex-col border-[6px]  border-gray-300  shadow-md mx-40 my-10">
+          <div className="flex flex-col border-[6px]  border-gray-300  shadow-md mx-5 lg:mx-40 md:mx-20 sm:mx-10 my-10 ">
             <h2 className="text-4xl font-bold pl-2">{institution.name}</h2>
             <h2 className="text-2xl m-2 pl-1"> {allInstitution.address}</h2>
             <h2 className="text-2xl pl-3">
