@@ -478,7 +478,7 @@ export default function AddProgrammes({ institutions, programmes }) {
             />
           </svg>
         </button>
-        <Link href="/">
+        <Link href={"/"}>
           <a className="text-xl font-bold text-gray-800 ml-12 ">
             {department} Programmes
             <br />
@@ -503,6 +503,7 @@ export default function AddProgrammes({ institutions, programmes }) {
             sx={{
               width: "50%",
               marginTop: 2,
+              minWidth: 300,
               padding: 1,
               border: "1px solid #ccc",
               borderRadius: "4px",
@@ -538,8 +539,8 @@ export default function AddProgrammes({ institutions, programmes }) {
             }}
             sx={{
               width: "30%",
+              minWidth: 300,
               marginTop: 2,
-              marginLeft: 2,
               padding: 1,
               border: "1px solid #ccc",
               borderRadius: "4px",
@@ -548,6 +549,10 @@ export default function AddProgrammes({ institutions, programmes }) {
                 outline: "none",
                 borderColor: "#2196F3",
                 boxShadow: "0 0 0 3px rgba(33, 150, 243, 0.2)",
+              },
+              "@media (min-width: 600px)": {
+                // Apply styles on medium and large screens
+                marginLeft: 2,
               },
             }}
             renderInput={(params) => (
@@ -618,7 +623,7 @@ export default function AddProgrammes({ institutions, programmes }) {
               ))}
           </select>
           <button
-            className="w-1/4 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 ml-30 "
+            className="w-1/4 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 ml-30 min-w-[250px] "
             onClick={handleAddProgram}
           >
             Add programme
