@@ -11,7 +11,8 @@ import RingLoader from "react-spinners/RingLoader";
 import Image from "next/image";
 import { FaSearch } from "react-icons/fa";
 import LIGHT_NBTE from "./light_nbte.png";
-import Backdrop from "./components/Backdrop";
+// import Backdrop from "./components/Backdrop";
+import Backdrop from "./components/BackdropK";
 // import { useHistory } from "react-router-dom";
 
 import SearchIcon from "@mui/icons-material/Search";
@@ -121,13 +122,20 @@ export default function Search({ institutions }) {
   };
   return (
     <div
-      className="bg-cover bg-center"
+      className="bg-cover bg-center z-6000"
       style={{ backgroundImage: `url(${LIGHT_NBTE})` }}
+      onClick={() => {
+        console.log("Hello");
+      }}
     >
-      <Backdrop show={true} clicked={() => {}} />
-
-      <Image src={LIGHT_NBTE} priority />
-
+      <Backdrop
+        show={true}
+        clicked={() => {}}
+        cancelClicked={() => {
+          router.back();
+        }}
+      />
+      <Image src={LIGHT_NBTE} priority className="h-[100vh]" />
       <Autocomplete
         freeSolo
         options={institution1Suggestions}
