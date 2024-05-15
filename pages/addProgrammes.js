@@ -550,7 +550,7 @@ export default function AddProgrammes({ institutions, programmes }) {
                 borderColor: "#2196F3",
                 boxShadow: "0 0 0 3px rgba(33, 150, 243, 0.2)",
               },
-              "@media (min-width: 600px)": {
+              "@media (min-width: 1200px)": {
                 // Apply styles on medium and large screens
                 marginLeft: 2,
               },
