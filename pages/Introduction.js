@@ -99,12 +99,12 @@ export default function Introduction() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -50 }}
           transition={{ duration: 0.5, delay: 0.6 }}
-          className="border border-gray-300 shadow-md p-4 pt-0 ml-4 mr-4 text-center w-95  m-auto mb-2.5 mt-5"
+          className="border border-gray-300 shadow-md p-4 pt-0 ml-4 mr-4 text-center w-95  m-auto mb-2.5 mt-5 overflow-x-auto"
         >
           <h2 className="text-xl text-center font-bold">
             Summary of Technical Institutions in Nigeria as at Dec. 2023
           </h2>
-          <table class="border-collapse border border-gray-300 m-auto mt-8 overflow-x-auto">
+          <table class="border-collapse border border-gray-300 m-auto mt-8 ">
             <thead class="bg-green-600">
               <tr>
                 <th class="border border-gray-300 p-2">S/No</th>
