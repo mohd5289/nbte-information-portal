@@ -104,7 +104,7 @@ export default function Introduction() {
           <h2 className="text-xl text-center font-bold">
             Summary of Technical Institutions in Nigeria as at Dec. 2023
           </h2>
-          <table class="border-collapse border border-gray-300 m-auto mt-8">
+          <table class="border-collapse border border-gray-300 m-auto mt-8 overflow-x-auto">
             <thead class="bg-green-600">
               <tr>
                 <th class="border border-gray-300 p-2">S/No</th>
