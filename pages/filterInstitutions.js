@@ -6,7 +6,7 @@ import { useSpring, animated } from "@react-spring/web";
 import Layout from "./components/Layout";
 import { Pagination } from "@mui/material";
 
-export default function filterInstitutions({ institutions, allinstitutions }) {
+export default function FilterInstitutions({ institutions, allinstitutions }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageCount, setPageCount] = useState(0);
   const router = useRouter();
@@ -22,6 +22,7 @@ export default function filterInstitutions({ institutions, allinstitutions }) {
   const filledinstitutions = allinstitutions.filter((institution) =>
     institutionNames.includes(institution.name)
   );
+
   const [count, setCount] = useState(0);
   const { number } = useSpring({
     from: { number: 0 },
