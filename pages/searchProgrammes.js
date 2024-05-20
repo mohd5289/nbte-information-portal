@@ -22,6 +22,7 @@ export default function Search({ institutions }) {
   //   "Auchi Polytechnic, Auchi",
   //   "Kaduna Polytechnic, Kaduna",
   // ];
+
   console.log(institutions);
   const [institution1Suggestions, setInstitutionSuggestions] = useState([]);
   const [institutionName, setInstitutionName] = useState("");
@@ -209,7 +210,8 @@ export default function Search({ institutions }) {
                       bottom: 0,
                       zIndex: 600,
                     }}
-                    onClick={handleSearchClick}
+                    // onClick={ handleSearchClick}
+                    onClick={institutionName ? handleSearchClick : undefined}
                   >
                     <SearchIcon sx={{ fontSize: 30 }} />
                   </Box>

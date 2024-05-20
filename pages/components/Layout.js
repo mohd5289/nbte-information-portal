@@ -17,6 +17,7 @@ import { MdOutlineUpdate } from "react-icons/md";
 import { MdOutlineAdd } from "react-icons/md";
 import NBTE from "../../public/favicon.ico";
 import Image from "next/image";
+import { FaFilter } from "react-icons/fa";
 
 export default function Layout({ children }) {
   const [sideBarVisible, setSideBarVisible] = useState(false);
@@ -84,7 +85,7 @@ export default function Layout({ children }) {
           <div className="flex items-center  hover:bg-gray-100">
             <FaSearch className="ml-2" />
             <Link
-              href={`/searchProgrammes?department=${department}${
+              href={`/searchInstitutionsByProgrammes?department=${department}${
                 query.subdepartment
                   ? `&subdepartment=${query.subdepartment}`
                   : ""
@@ -99,7 +100,44 @@ export default function Layout({ children }) {
             </Link>
           </div>
         </div>
-
+        <div className="border-b">
+          <div className="flex items-center  hover:bg-gray-100">
+            <FaSearch className="ml-2" />
+            <Link
+              href={`/searchProgrammes?department=${department}${
+                query.subdepartment
+                  ? `&subdepartment=${query.subdepartment}`
+                  : ""
+              }`}
+            >
+              <a
+                className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+                onClick={sideBarCloseBarHandler}
+              >
+                Search Institution
+              </a>
+            </Link>
+          </div>
+        </div>
+        <div className="border-b">
+          <div className="flex items-center  hover:bg-gray-100">
+            <FaFilter className="ml-2" />
+            <Link
+              href={`/SelectFilterInstitution?department=${department}${
+                query.subdepartment
+                  ? `&subdepartment=${query.subdepartment}`
+                  : ""
+              }`}
+            >
+              <a
+                className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+                onClick={sideBarCloseBarHandler}
+              >
+                Filter Institutions
+              </a>
+            </Link>
+          </div>
+        </div>
         <div className="border-b">
           <div className="flex items-center  hover:bg-gray-100">
             <MdOutlineAdd className="ml-2" />
