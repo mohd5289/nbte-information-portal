@@ -18,7 +18,7 @@ import { styled } from "@mui/system";
 // import Backdrop from "./components/BackdropK";
 // import { useHistory } from "react-router-dom";
 
-export default function SearchInstitutionsByProgrammes({ programmes }) {
+export default function searchInstitutionsByProgrammes({ programmes }) {
   console.log(programmes);
   const [institution1Suggestions, setInstitutionSuggestions] = useState([]);
   //   const [institutionName, setInstitutionName] = useState("");
