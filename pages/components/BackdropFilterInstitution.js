@@ -9,10 +9,10 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 const backdrop = (props) => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [accreditationStatus, setAccreditationStatus] = useState("all");
-  const [startsWithString, setStartsWithString] = useState("none");
-  const [selectedStream, setSelectedStream] = useState("any");
+  // const [searchTerm, setSearchTerm] = useState("");
+  // const [accreditationStatus, setAccreditationStatus] = useState("all");
+  // const [startsWithString, setStartsWithString] = useState("none");
+  // const [selectedStream, setSelectedStream] = useState("any");
 
   return props.show ? (
     <div className="Backdrop" onClick={props.clicked}>
