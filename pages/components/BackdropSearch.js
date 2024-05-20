@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
-const backdrop = (props) => {
+const Backdrop = (props) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [accreditationStatus, setAccreditationStatus] = useState("all");
   const [startsWithString, setStartsWithString] = useState("none");
@@ -101,7 +101,7 @@ const backdrop = (props) => {
     </div>
   ) : null;
 };
-export default backdrop;
+export default Backdrop;
 
 {
   /* Fourth FormControl

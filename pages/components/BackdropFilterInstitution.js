@@ -74,7 +74,7 @@ const Backdrop = (props) => {
     </div>
   ) : null;
 };
-export default backdrop;
+export default Backdrop;
 
 {
   /* Fourth FormControl
