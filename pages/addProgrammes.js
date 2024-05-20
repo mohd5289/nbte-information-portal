@@ -218,6 +218,20 @@ export default function AddProgrammes({ institutions, programmes }) {
       }
     }
   };
+  const formatExpirationDate = (yearOfExpiration) => {
+    // Create the date object
+    const date = new Date(yearOfExpiration, 9, 1);
+
+    // Extract the year, month, and day
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-indexed
+    const day = String(date.getDate()).padStart(2, "0");
+
+    // Format the date as yyyy-mm-dd
+    const formattedDate = `${year}-${month}-${day}`;
+
+    return formattedDate;
+  };
   const handleAddProgram = () => {
     // console.log(yearGranted);
     let expDate = null;
@@ -249,8 +263,10 @@ export default function AddProgrammes({ institutions, programmes }) {
 
     expDate = new Date(yearOfExpiration, 9, 1);
     // expirationDate = expirationDate.toLocaleDateString("en-GB");
-    setExpirationDate(expDate.toLocaleDateString("en-GB"));
-    const formattedExpirationDate = expDate.toLocaleDateString("en-GB");
+    const formattedExpirationDate = formatExpirationDate(yearOfExpiration);
+    console.log(formattedExpirationDate);
+    setExpirationDate(formattedExpirationDate);
+
     const newProgram = {
       institutionName,
       name: programName,
@@ -260,7 +276,7 @@ export default function AddProgrammes({ institutions, programmes }) {
       faculty,
       yearApproved,
       yearGrantedInterimOrAccreditation: yearGranted,
-      expirationDate: expDate,
+      expirationDate: formattedExpirationDate,
     };
     const savedInstitution =
       localStorage.getItem("savedInstitution") || institutionName;
