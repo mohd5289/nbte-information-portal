@@ -26,7 +26,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { styled } from "@mui/system";
 
 const CustomButton = styled(Button)({
-  backgroundColor: "primary.main",
+  backgroundColor: "transparent",
   "&:hover": {
     backgroundColor: "green",
   },
