@@ -88,13 +88,13 @@ export default function SelectFilterInstitution() {
         position="absolute"
         sx={{
           top: {
-            xs: "80%", // Small screens
+            xs: "90%", // Small screens
             sm: "70%", // Medium screens
             md: "60%", // Large screens
             lg: "50%", // Extra-large screens
           },
           left: {
-            xs: "42%", // Small screens
+            xs: "38%", // Small screens
             sm: "42%", // Medium screens
             md: "47%", // Large screens
             lg: "47%", // Extra-large screens
