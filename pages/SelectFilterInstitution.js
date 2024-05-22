@@ -86,11 +86,23 @@ export default function SelectFilterInstitution() {
         justifyContent="center"
         alignItems="center"
         position="absolute"
-        top="50%"
-        left="47%"
+        sx={{
+          top: {
+            xs: "80%", // Small screens
+            sm: "70%", // Medium screens
+            md: "60%", // Large screens
+            lg: "50%", // Extra-large screens
+          },
+          left: {
+            xs: "42%", // Small screens
+            sm: "42%", // Medium screens
+            md: "47%", // Large screens
+            lg: "47%", // Extra-large screens
+          },
+        }}
         width="100px"
         height="100px"
-        zIndex="600"
+        zIndex="400"
         mt={2}
       >
         <CustomButton
