@@ -148,7 +148,7 @@ export default function ProgrammeSearchResult({ institutionsAndProgrammes }) {
         transition={{ duration: 0.5 }}
       >
         <Layout>
-          <div className="flex flex-col border-[6px]  border-gray-300  shadow-md mx-5 lg:mx-40 md:mx-20 sm:mx-10 my-10 font-roboto">
+          <div className="flex flex-col border-[6px]  border-gray-300  shadow-md mx-5 lg:mx-40 md:mx-20 sm:mx-10 my-10 font-serif">
             <h2 className="text-4xl font-bold pl-2">{programName}</h2>
             {programme_name_starts_with !== "none" && (
               <h2 className="text-4xl  pl-2">

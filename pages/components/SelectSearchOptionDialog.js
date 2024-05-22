@@ -25,7 +25,10 @@ export default function SelectSearchOptionDialog(props) {
     // setCurrentDepartment(department);
     // setCurrentSubDepartment(subdepartment);
   };
-  const moveToSearchInstitutionPage = (department, subdepartment) => {
+  const moveToSearchInstitutionByProgrammesPage = (
+    department,
+    subdepartment
+  ) => {
     props.setOpen(false);
     router.push({
       pathname: "/searchInstitutionsByProgrammes",
@@ -94,7 +97,10 @@ export default function SelectSearchOptionDialog(props) {
               <button
                 className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 my-2 mx-auto"
                 onClick={() =>
-                  moveToSearchPage(props.department, props.subdepartment)
+                  moveToSearchInstitutionByProgrammesPage(
+                    props.department,
+                    props.subdepartment
+                  )
                 }
               >
                 Search Programmes
@@ -113,10 +119,7 @@ export default function SelectSearchOptionDialog(props) {
               <button
                 className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 my-2 mx-auto"
                 onClick={() =>
-                  moveToSearchInstitutionPage(
-                    props.department,
-                    props.subdepartment
-                  )
+                  moveToSearchPage(props.department, props.subdepartment)
                 }
               >
                 Search Specific Institution
