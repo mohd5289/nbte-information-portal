@@ -61,7 +61,7 @@ export default function SelectFilterInstitution() {
   };
   return (
     <div
-      className="bg-cover bg-center z-6000 relative"
+      className="bg-cover bg-center z-6000 relative font-serif"
       style={{ backgroundImage: `url(${LIGHT_NBTE})` }}
       onClick={() => {
         console.log("Hello");

@@ -137,7 +137,7 @@ export default function SearchInstitutionsByProgrammes({ programmes }) {
   };
   return (
     <div
-      className="bg-cover bg-center z-6000"
+      className="bg-cover bg-center z-6000 font-serif"
       style={{ backgroundImage: `url(${LIGHT_NBTE})` }}
       onClick={() => {
         console.log("Hello");
