@@ -70,7 +70,9 @@ const Backdrop = (props) => {
           </Select>
         </FormControl>
         {/* Third FormControl */}
-        <FormControl sx={{ minWidth: 120, width: 360, marginTop: 2 }}>
+        <FormControl
+          sx={{ minWidth: 120, width: 360, marginTop: 2, marginBottom: 10 }}
+        >
           <InputLabel
             htmlFor="number-of-streams-select"
             style={{ color: "white" }}
