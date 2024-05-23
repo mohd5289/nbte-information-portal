@@ -17,7 +17,7 @@ import Link from "next/link";
 import RingLoader from "react-spinners/RingLoader";
 import Image from "next/image";
 import { FaSearch } from "react-icons/fa";
-import LIGHT_NBTE from "./light_nbte.png";
+import NBTEHQ from "./NBTE HQ 3.jpg";
 // import Backdrop from "./components/Backdrop";
 import Backdrop from "./components/BackdropFilterInstitution";
 // import { useHistory } from "react-router-dom";
@@ -62,7 +62,7 @@ export default function SelectFilterInstitution() {
   return (
     <div
       className="bg-cover bg-center z-6000 relative font-serif"
-      style={{ backgroundImage: `url(${LIGHT_NBTE})` }}
+      style={{ backgroundImage: `url(${NBTEHQ})` }}
       onClick={() => {
         console.log("Hello");
       }}
@@ -79,7 +79,7 @@ export default function SelectFilterInstitution() {
         onOwnershipChange={handleOwnershipChange}
         onZoneChange={handleSelectedZoneChange}
       />
-      <Image src={LIGHT_NBTE} priority className="h-[100vh]" />
+      <Image src={NBTEHQ} priority className="h-[100vh]" />
 
       <Box
         display="flex"
