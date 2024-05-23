@@ -79,7 +79,7 @@ export default function SelectSearchOptionDialog(props) {
               exit={{ x: -500, opacity: 0 }}
               className="text-2xl font-bold"
             >
-              Please select the available actions for {props.department}s
+              Please select one of the available actions for {props.department}s
               {props.subdepartment ? ` (${props.subdepartment})` : ""}:
             </motion.h3>
 
