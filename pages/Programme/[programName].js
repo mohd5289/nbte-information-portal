@@ -231,6 +231,9 @@ export default function ProgrammeSearchResult({ institutionsAndProgrammes }) {
                         Expiration Date
                       </th>
                     </tr>
+                  </thead>
+                  <tbody>
+                    {" "}
                     {filteredProgrammes
                       .slice(
                         (currentPage - 1) * itemsPerPage,
@@ -254,9 +257,6 @@ export default function ProgrammeSearchResult({ institutionsAndProgrammes }) {
                           </React.Fragment>
                         );
                       })}
-                  </thead>
-                  <tbody>
-                    {" "}
                     {filteredProgrammes.length === 0 ? (
                       <tr>
                         <td colSpan="6" className="text-center">
