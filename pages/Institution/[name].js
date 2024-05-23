@@ -78,16 +78,22 @@ export default function InstitutionDetails({
                 <table className="min-w-full bg-white border border-gray-300">
                   <thead className="bg-green-600">
                     <tr>
-                      <th className="py-2 px-4 text-center border">S/N</th>
-                      <th className="py-2 px-4 border ">Programme Name</th>
-                      <th className="py-2 px-4 border ">Year Granted</th>
-                      <th className="py-2 px-4 text-right border">
+                      <th className="lg:py-2 lg:px-4 px-1 py-1 text-center lg:text-lg border text-xs">
+                        S/N
+                      </th>
+                      <th className="lg:py-2 lg:px-4 px-1 py-1 border lg:text-lg text-xs">
+                        Programme Name
+                      </th>
+                      <th className="lg:py-2 lg:px-4 px-1 py-1 border lg:text-lg text-xs">
+                        Year Granted
+                      </th>
+                      <th className="lg:py-2 lg:px-4 px-1 py-1 text-right lg:text-lg border text-xs">
                         Accreditation Status
                       </th>
-                      <th className="py-2 px-4 text-right border ">
+                      <th className="lg:py-2 lg:px-4 px-1 py-1 text-right lg:text-lg border text-xs">
                         Approved Streams
                       </th>
-                      <th className="py-2 px-4 text-right border ">
+                      <th className="lg:py-2 lg:px-4 px-1 py-1 text-right lg:text-lg border text-xs">
                         Expiration Date
                       </th>
                     </tr>
@@ -111,22 +117,22 @@ export default function InstitutionDetails({
                                   : ""
                               }`}
                             >
-                              <td className="py-2 px-4 text-center border text-xs">
+                              <td className="text-center border lg:text-lg text-xs">
                                 {programIndex + 1}
                               </td>
-                              <td className="py-2 px-4 border text-xs whitespace-nowrap">
+                              <td className="py-2 px-4 lg:text-lg border text-xs">
                                 {program.name}
                               </td>
-                              <td className="py-2 px-4 border text-xs">
+                              <td className="py-2 px-4 lg:text-lg border text-xs">
                                 {program.yearGrantedInterimOrAccreditation}
                               </td>
-                              <td className="py-2 px-4 text-right border text-xs">
+                              <td className="py-2 px-4 lg:text-lg text-right border text-xs">
                                 {program.accreditationStatus}
                               </td>
-                              <td className="py-2 px-4 text-right border text-xs">
+                              <td className="py-2 px-4 lg:text-lg text-right border text-xs">
                                 {program.approvedStream}
                               </td>
-                              <td className="py-2 px-4 text-right w-1/6 whitespace-nowrap border text-xs">
+                              <td className="py-2 px-4 lg:text-lg text-right w-1/6 whitespace-nowrap border text-xs">
                                 {formatDate(program.expirationDate)}
                               </td>
                             </tr>
