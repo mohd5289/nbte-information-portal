@@ -4,7 +4,7 @@ import Illustration from "./illustration2.jpg";
 import Image from "next/image";
 import { Menu, MenuItem } from "@mui/material";
 import { useRouter } from "next/router";
-import NBTEHQ from "./NBTE HQ 3.jpg";
+import NBTE from "./NBTE HQ 3.jpg";
 import Slider from "react-slick";
 import { Carousel, Slide } from "@mui/lab";
 import { motion, AnimatePresence } from "framer-motion";
@@ -198,7 +198,7 @@ const Section = () => {
         </div>
         <div className="relative xl:absolute xl:flex w-80 h-80 xl:w-[800px] l:w-[400px] xl:h-[330px]  right-10 hidden sm:block md:w-64 md:h-64 m-auto md:hidden">
           <Image
-            src={NBTEHQ}
+            src={NBTE}
             className="rounded-md"
             layout="fill"
             objectFit="cover"
