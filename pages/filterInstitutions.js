@@ -19,13 +19,12 @@ export default function FilterInstitutions({ institutions, allinstitutions }) {
   console.log(institutions);
   const institutionNames = institutions.map((institution) => institution.name);
 
-  const filledinstitutions = allinstitutions.filter((institution) => {
-    const lowerCaseInstitutionNames = institutionNames.map((name) =>
-      name.toLowerCase()
-    );
-
-    lowerCaseInstitutionNames.includes(institution.name.toLowerCase());
-  });
+  const lowerCaseInstitutionNames = institutionNames.map((name) =>
+    name.toLowerCase()
+  );
+  const filledinstitutions = allinstitutions.filter((institution) =>
+    lowerCaseInstitutionNames.includes(institution.name.toLowerCase())
+  );
 
   const [count, setCount] = useState(0);
   const { number } = useSpring({
