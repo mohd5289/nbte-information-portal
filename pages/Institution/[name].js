@@ -15,7 +15,7 @@ export default function InstitutionDetails({
   const router = useRouter();
   const { query } = router;
   const { department, subdepartment } = query ?? props;
-
+  // console.log(department);
   const formatDate = (expirationDate) => {
     const date = new Date(expirationDate);
     const day = String(date.getDate()).padStart(2, "0"); // Ensure two digits
@@ -170,13 +170,33 @@ export default function InstitutionDetails({
 
 export async function getServerSideProps(context) {
   const { name } = context.query; // Assuming the name is passed as a query parameter
+  let apiUrl = "";
 
   try {
-    const response = await axios.get(
-      `https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/search_institution_by_name?name=${name}`
-    );
+    switch (context.query.department) {
+      case "Monotechnic":
+        apiUrl = `https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/search_monotechnic_institution_by_name?name=${name}`;
+        break;
+      case "Technical College":
+        apiUrl = `https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/search_technical_colleges_institution_by_name?name=${name}`;
+        break;
+      case "IEI":
+        apiUrl = `https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/search_ieis_institution_by_name?name=${name}`;
+        break;
+      case "VEI":
+        apiUrl = `https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/search_veis_institution_by_name?name=${name}`;
+        break;
+      case "Polytechnic":
+        apiUrl = `https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/search_institution_by_name?name=${name}`;
+      default:
+        apiUrl = `https://warm-brook-98900-a7ef17680d47.herokuapp.com/api/search_institution_by_name?name=${name}`;
+        break;
+    }
+
+    const response = await axios.get(apiUrl);
+
     const { institution, programmes, allInstitution } = response.data;
-    console.log({ institution, programmes, allInstitution });
+    // console.log({ institution, programmes, allInstitution });
     return {
       props: {
         institution,
