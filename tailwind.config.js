@@ -22,4 +22,11 @@ module.exports = {
       backgroundColor: ["hover"],
     },
   },
+  webpack: (config) => {
+    config.module.rules.push({
+      test: /\.pdf$/,
+      use: "file-loader",
+    });
+    return config;
+  },
 };

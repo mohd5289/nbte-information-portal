@@ -10,7 +10,19 @@ const nextConfig = {
     largePageDataBytes: 128 * 100000,
   },
   optimizeFonts: true,
-
+  webpack: {
+    configure: {
+      module: {
+        rules: [
+          {
+            test: /pdf\.worker\.js$/,
+            use: "file-loader",
+            type: "javascript/auto",
+          },
+        ],
+      },
+    },
+  },
   fonts: [
     {
       family: "Roboto",

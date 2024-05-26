@@ -9,6 +9,7 @@ import Slider from "react-slick";
 import { Carousel, Slide } from "@mui/lab";
 import { motion, AnimatePresence } from "framer-motion";
 import SelectSearchOptionDialog from "./SelectSearchOptionDialog";
+import NSQFDialog from "./NSQFDialog";
 
 const Section = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -18,6 +19,7 @@ const Section = () => {
   const [open, setOpen] = useState(false);
   const [currentDepartment, setCurrentDepartment] = useState("");
   const [currentSubDepartment, setCurrentSubDepartment] = useState("");
+  const [openNSQF, setNSQFOpen] = useState(false);
 
   const handleMouseEnter = () => {
     setIsMenuOpen(true);
@@ -57,6 +59,11 @@ const Section = () => {
     setCurrentDepartment(department);
     setCurrentSubDepartment(subdepartment);
   };
+  const openNSQFDialog = (department, subdepartment) => {
+    setNSQFOpen(true);
+    setCurrentDepartment(department);
+    setCurrentSubDepartment(subdepartment);
+  };
   const moveToInstitutionsPage = () => {
     router.push("/Institutions");
   };
@@ -89,6 +96,13 @@ const Section = () => {
           subdepartment={currentSubDepartment}
         />
       </AnimatePresence>
+
+      <NSQFDialog
+        setOpen={setNSQFOpen}
+        open={openNSQF}
+        department={currentDepartment}
+        subdepartment={currentSubDepartment}
+      />
       <h2 className="font-roboto text-3xl font-bold m-4">
         GATEWAY TO TVET IN NIGERIA
       </h2>
@@ -192,6 +206,7 @@ const Section = () => {
           <div
             className="intent transition-transform transform hover:translate-x-4"
             // onClick={() => moveToSearchPage("NSQF")}
+            onClick={() => openNSQFDialog("NSQF", "")}
           >
             <h2 className="font-roboto text-xl">NSQF</h2>
           </div>
