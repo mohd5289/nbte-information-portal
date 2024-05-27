@@ -52,7 +52,7 @@ export default function NSQFDialog(props) {
   const moveToNSQFPage = (department, subdepartment) => {
     props.setOpen(false);
     router.push({
-      pathname: "/NSQF",
+      pathname: "/NSQF.pdf",
       query: { department, subdepartment },
     });
   };
