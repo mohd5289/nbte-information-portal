@@ -147,7 +147,7 @@ export default function Search({ institutions }) {
           // Update institutionSuggestions state
           const inputValue = newInputValue.trim().toLowerCase();
           const filteredSuggestions = institutionSuggestions.filter(
-            (suggestion) => suggestion.toLowerCase().startsWith(inputValue)
+            (suggestion) => suggestion.toLowerCase().includes(inputValue)
           );
           setInstitutionSuggestions(filteredSuggestions);
         }}

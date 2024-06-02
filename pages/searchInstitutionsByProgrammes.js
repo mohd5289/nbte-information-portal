@@ -168,7 +168,7 @@ export default function SearchInstitutionsByProgrammes({ programmes }) {
           // Update institutionSuggestions state
           const inputValue = newInputValue.trim().toLowerCase();
           const filteredSuggestions = programSuggestions.filter((suggestion) =>
-            suggestion.toLowerCase().startsWith(inputValue)
+            suggestion.toLowerCase().includes(inputValue)
           );
           setProgramSuggestions(filteredSuggestions);
         }}
